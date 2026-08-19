@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 72" role="img" aria-labelledby="title desc">
+  <title id="title">Strategy Dot Zero</title>
+  <desc id="desc">Strategy Dot Zero case-study wordmark</desc>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 22h18l11 14-11 14H17L6 36 17 22Z" stroke="#2f3a94" stroke-width="3"/>
+    <circle cx="17" cy="22" r="4" fill="#8ccb70" stroke="#fdfdff" stroke-width="2"/>
+    <circle cx="46" cy="36" r="4" fill="#2f3a94" stroke="#fdfdff" stroke-width="2"/>
+    <circle cx="17" cy="50" r="4" fill="#8ccb70" stroke="#fdfdff" stroke-width="2"/>
+  </g>
+  <text x="66" y="31" fill="#151515" font-family="Google Sans, DM Sans, Arial, sans-serif" font-size="22" font-weight="600" letter-spacing="0">strategy</text>
+  <text x="66" y="52" fill="#5f6470" font-family="Google Sans, DM Sans, Arial, sans-serif" font-size="18" font-weight="400" letter-spacing="0">dot zero</text>
+</svg>

@@ -1,3 +1,4 @@
+import { BlogPreviewSection } from "@/components/sections/blog-preview-section";
 import { ClientLogosSection } from "@/components/sections/client-logos-section";
 import { HeroSection } from "@/components/sections/hero-section";
 import { SelectedProjectsSection } from "@/components/sections/selected-projects-section";
@@ -10,6 +11,7 @@ export default function Home() {
       <HeroSection />
       <ClientLogosSection />
       <SelectedProjectsSection />
+      <BlogPreviewSection />
       <TestimonialsSection />
       <SiteFooter />
     </main>

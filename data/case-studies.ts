@@ -13,6 +13,7 @@ type Decision = {
   issue: string;
   decision: string;
   result: string;
+  tradeoff?: string;
 };
 
 type BeforeAfter = {
@@ -22,8 +23,17 @@ type BeforeAfter = {
   afterItems: string[];
 };
 
+export type CaseStudyMedia = {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  label?: string;
+};
+
 type FinalMoment = StoryCard & {
   tags: string[];
+  media?: CaseStudyMedia[];
 };
 
 type ImpactPoint = {
@@ -33,6 +43,7 @@ type ImpactPoint = {
 
 export type CaseStudy = {
   project: SelectedProject;
+  heroMedia?: CaseStudyMedia;
   headline: string;
   deck: string;
   problem: string;
@@ -70,6 +81,281 @@ function bindProject({ projectId, ...story }: CaseStudyDraft): CaseStudy {
 }
 
 export const caseStudies: CaseStudy[] = [
+  bindProject({
+    projectId: "strategy-dot-zero-change-impact",
+    heroMedia: {
+      src: "/case-studies/strategy-dot-zero-change-impact/project-plan-change-impact.webp",
+      alt: "Strategy Dot Zero project plan showing the Change impact module",
+      width: 2048,
+      height: 1304,
+      label: "Project plan entry point",
+    },
+    headline:
+      "Turning a forgotten register into an active workflow for organisational change.",
+    deck:
+      "The module sits inside Strategy Dot Zero's project planning workflow. It helps project and program managers describe the change created by a project, while PMO teams can see readiness and overlapping impact across the organisation.",
+    problem:
+      "The previous feature was little more than a standalone table. A project manager could record a change, but there was no useful relationship between that change, the people affected, preparation actions, reporting periods, or the wider portfolio. Records were easy to create and just as easy to forget.",
+    outcome:
+      "An approved end-to-end model connecting project planning with stakeholder readiness, action reporting, and organisation-wide PMO oversight.",
+    storyIntro:
+      "The brief looked small, but the model touched two very different levels of the product. Project teams needed a practical way to define and manage one change. PMO teams needed those records to combine into a trustworthy view of pressure across the portfolio. I treated the work as a relationship-design problem, not a screen refresh.",
+    snapshot: [
+      {
+        label: "Delivery",
+        value: "One week from first draft through iteration and final approval.",
+      },
+      {
+        label: "Core model",
+        value: "The change itself became the organising object.",
+      },
+      {
+        label: "Connected flow",
+        value: "Assessment, timing, actions, reporting, and PMO visibility.",
+      },
+      {
+        label: "Enterprise view",
+        value: "A cross-project map of impact by business unit and month.",
+      },
+    ],
+    frictions: [
+      {
+        title: "The old feature stopped at data entry",
+        description:
+          "A static row could describe an impact, but it did not help teams prepare for it, report against it, or use it in later planning decisions.",
+      },
+      {
+        title: "A business-unit-first model told the wrong story",
+        description:
+          "Business pressure pushed the design toward selecting an affected unit first. In testing, that framing felt administrative and hid the actual change people needed to understand.",
+      },
+      {
+        title: "Timing lacked readiness and accountability",
+        description:
+          "Knowing when a group might be affected was not enough. Teams also needed actions, owners, dates, and a simple reporting rhythm to keep preparation moving.",
+      },
+      {
+        title: "PMO could not see cumulative impact",
+        description:
+          "One project record provided limited value on its own. Portfolio teams needed to compare where several projects were affecting the same groups at the same time.",
+      },
+    ],
+    process: [
+      {
+        phase: "01",
+        title: "Place the feature inside project planning",
+        description:
+          "Mapped where change impact belongs in the draft-to-baseline project plan and how it relates to deliverables, benefits, risks, and governance review.",
+      },
+      {
+        phase: "02",
+        title: "Reconstruct the end-to-end workflow",
+        description:
+          "Reduced the PRD to four questions: what is changing, who is affected and when, what will we do, and where are impacts overlapping across the organisation.",
+      },
+      {
+        phase: "03",
+        title: "Make the change the core object",
+        description:
+          "Structured each record around a named organisational change, then linked deliverables, categories, impact level, stakeholders, timing, and actions to it.",
+      },
+      {
+        phase: "04",
+        title: "Prototype the project-team workflow",
+        description:
+          "Designed the profile, stakeholder timing, change actions, and tracking states as a compact sequence that project and program managers could maintain.",
+      },
+      {
+        phase: "05",
+        title: "Validate the framing with users",
+        description:
+          "Compared the change-centred model with the proposed business-unit-first approach. Users related more easily to the change and could explain its impact with less prompting.",
+      },
+      {
+        phase: "06",
+        title: "Extend the same model to PMO",
+        description:
+          "Rolled project records into a register and timeline so portfolio teams could scan severity, overlap, action health, and the detail behind each signal.",
+      },
+    ],
+    decisions: [
+      {
+        issue: "The model needed a meaningful starting point.",
+        decision:
+          "Anchored the experience on the actual organisational change, then captured affected business units and stakeholders inside that change profile.",
+        result:
+          "Users could describe cause and consequence as one story, instead of starting with an administrative unit and reconstructing the meaning later.",
+        tradeoff:
+          "Business-unit data still remained essential, but it became a relationship to the change rather than the identity of the record.",
+      },
+      {
+        issue: "One large form would make a small feature feel heavy.",
+        decision:
+          "Separated the workflow into Impact Profile, Stakeholders and Timing, and Change Actions, with a distinct tracking mode after setup.",
+        result:
+          "Each view answered one plain question and gave project managers a clear next step without hiding the overall relationship.",
+        tradeoff:
+          "The workflow added navigation, so the section labels and progression had to stay simple and predictable.",
+      },
+      {
+        issue: "A plan without reporting would become another static record.",
+        decision:
+          "Kept recurring reporting in scope and tied the overall change status to action-level updates using On track, Alert, and Off track states.",
+        result:
+          "Change impact became something teams could monitor over time, not a form completed only for project approval.",
+        tradeoff:
+          "Reporting adds a recurring responsibility, so the interaction was intentionally short and focused on status plus a concise comment.",
+      },
+      {
+        issue: "PMO needed more than another enterprise register.",
+        decision:
+          "Paired the register with an Impact Timeline and an Action Timeline, organised by stakeholder or business unit across months.",
+        result:
+          "Portfolio teams could spot where multiple projects were creating pressure, then open the change or action behind the signal.",
+        tradeoff:
+          "The map depends on consistent project-level reporting, so the register remained available for verification and follow-up.",
+      },
+    ],
+    beforeAfter: {
+      beforeTitle: "Before: a record people could forget",
+      beforeItems: [
+        "Change impact existed as an isolated table.",
+        "Business units were captured without a clear change narrative.",
+        "No preparation actions or reporting rhythm followed the assessment.",
+        "PMO had no useful view of overlapping organisational pressure.",
+      ],
+      afterTitle: "After: a connected operating workflow",
+      afterItems: [
+        "Every record starts with a named organisational change.",
+        "Stakeholders, business units, impact level, and timing stay connected.",
+        "Actions, owners, dates, and reporting states turn assessment into follow-through.",
+        "PMO can compare impact and planned actions across projects and months.",
+      ],
+    },
+    finalMoments: [
+      {
+        title: "Define the change profile",
+        description:
+          "A focused assessment captures the named change, linked deliverables, category, impact level, and expected period before deeper planning begins.",
+        tags: ["Project manager", "Assessment"],
+        media: [
+          {
+            src: "/case-studies/strategy-dot-zero-change-impact/change-profile-form.webp",
+            alt: "Change impact form for naming and assessing an organisational change",
+            width: 1600,
+            height: 1736,
+            label: "Impact profile",
+          },
+        ],
+      },
+      {
+        title: "Map stakeholders and timing",
+        description:
+          "Project teams connect each change to affected business units, explain the impact, and define when the effect starts, peaks, and ends.",
+        tags: ["Stakeholders", "Timing"],
+        media: [
+          {
+            src: "/case-studies/strategy-dot-zero-change-impact/stakeholder-timing.webp",
+            alt: "Stakeholders and timing screen listing impacted business units and impact levels",
+            width: 1440,
+            height: 900,
+            label: "Stakeholders and timing",
+          },
+        ],
+      },
+      {
+        title: "Plan preparedness actions",
+        description:
+          "Actions turn a high-level impact into practical preparation, with target groups, owners, dates, and status kept close to the change profile.",
+        tags: ["Readiness", "Ownership"],
+        media: [
+          {
+            src: "/case-studies/strategy-dot-zero-change-impact/change-actions.webp",
+            alt: "Change actions screen showing preparedness actions and their status",
+            width: 1440,
+            height: 900,
+            label: "Change actions",
+          },
+        ],
+      },
+      {
+        title: "Track and report change health",
+        description:
+          "The tracking view combines action-level health into a readable overall state, while short reporting-period updates preserve accountability without creating another long form.",
+        tags: ["Reporting", "Status model"],
+        media: [
+          {
+            src: "/case-studies/strategy-dot-zero-change-impact/action-tracking.webp",
+            alt: "Change impact tracking screen with On track, Alert, and Off track action states",
+            width: 1440,
+            height: 900,
+            label: "Tracking overview",
+          },
+          {
+            src: "/case-studies/strategy-dot-zero-change-impact/action-reporting.webp",
+            alt: "Reporting modal for updating change action status by reporting period",
+            width: 1600,
+            height: 1736,
+            label: "Reporting-period update",
+          },
+        ],
+      },
+      {
+        title: "See cumulative organisational impact",
+        description:
+          "The PMO view shifts from individual project records to a month-by-month impact map, making concurrent pressure on business units visible and explorable.",
+        tags: ["PMO", "Portfolio view"],
+        media: [
+          {
+            src: "/case-studies/strategy-dot-zero-change-impact/impact-map.webp",
+            alt: "Organisation-wide change impact map by business unit and month",
+            width: 1440,
+            height: 900,
+            label: "Impact timeline",
+          },
+        ],
+      },
+      {
+        title: "Keep the portfolio auditable",
+        description:
+          "A companion register preserves the complete record for filtering and review, while the map remains the faster surface for pattern recognition.",
+        tags: ["Register", "Governance"],
+        media: [
+          {
+            src: "/case-studies/strategy-dot-zero-change-impact/change-register.webp",
+            alt: "PMO change impact register with project, business unit, timing, impact, and status fields",
+            width: 1440,
+            height: 900,
+            label: "Change impact register",
+          },
+        ],
+      },
+    ],
+    impact: [
+      {
+        label: "Operational value",
+        value:
+          "The feature moved from a static record to a workflow teams could assess, prepare for, and report against.",
+      },
+      {
+        label: "User clarity",
+        value:
+          "The change-centred structure tested more clearly than the proposed business-unit-first model.",
+      },
+      {
+        label: "PMO visibility",
+        value:
+          "Project-level assessments now roll into a view of overlapping impact across groups and months.",
+      },
+      {
+        label: "Accountability",
+        value:
+          "Actions and reporting states connect anticipated impact to the work required to manage it.",
+      },
+    ],
+    reflection:
+      "The most important design move was choosing the right unit of thought. Change impact is not a list of business units; it is a story about what is changing, who will feel it, when it will happen, and what the organisation will do in response.",
+  }),
   bindProject({
     projectId: "dubai-holding-destination-system",
     headline:
@@ -222,151 +508,199 @@ export const caseStudies: CaseStudy[] = [
   bindProject({
     projectId: "dhda-service-journeys",
     headline:
-      "Making high-trust government service journeys easier to understand and complete.",
+      "Designing a living map of health policy, with a governed workspace behind it.",
     deck:
-      "The experience needed to support people through important decisions without making the service feel cold, dense, or bureaucratic.",
+      "The platform helped policy teams explore relationships across health domains, population cohorts, pressures, social determinants, and operating models, while PMO teams could safely create, verify, approve, and publish the data behind the visual landscape.",
     problem:
-      "The service flow asked users to provide information, understand eligibility, and make decisions in moments where clarity mattered. The challenge was to reduce uncertainty without oversimplifying the policy and accessibility requirements behind the service.",
+      "Health policy information was not missing. It was fragmented across frameworks, reports, datasets, cohorts, and teams. Senior stakeholders needed to see how pressures, domains, services, and population groups connected, but the existing mental model was built for documentation rather than exploration. AI could help surface patterns, but only if provenance, human control, and review were visible from the start.",
     outcome:
-      "A structured service journey with clearer language, stronger hierarchy, accessible interaction patterns, and decision support that helped users move forward with more confidence.",
+      "A two-sided product model: an Explore experience for understanding the health landscape, and a PMO-facing management hub for maintaining the content lifecycle behind it. The MVP translated a complex ontology into a navigable interface, introduced visible AI trust cues, and was demonstrated to senior government executives as the foundation for phased expansion.",
     storyIntro:
-      "This case study is about trust. The users were not failing because they were careless. They were hesitating because the interface asked them to interpret too much at once. I focused on making each step feel more answerable.",
+      "The project became a systems navigation problem. I had to make a national health ecosystem feel explorable without flattening its complexity, and then design the operational layer that kept the visible experience accurate, governed, and publication-ready.",
     snapshot: [
       {
-        label: "Core challenge",
-        value: "Reduce hesitation in a high-trust public service flow.",
+        label: "3 sections",
+        value:
+          "Explore, AI insight, and management flows scoped and designed end-to-end.",
       },
       {
-        label: "Primary shift",
-        value: "From dense task screens to guided decision moments.",
+        label: "4 systems",
+        value:
+          "Operating environment, operating model, core health system, and cohort/domain layers connected into one product model.",
       },
       {
-        label: "NDA-safe outcome",
-        value: "More scannable forms, clearer guidance, and better accessibility coverage.",
+        label: "9+ cohorts",
+        value:
+          "Population cohorts and social determinants mapped across the landscape.",
+      },
+      {
+        label: "MVP",
+        value:
+          "Demonstrated to senior government executives with a phased roadmap for expansion.",
       },
     ],
     frictions: [
       {
-        title: "Users had to decode policy language",
+        title: "The system was too large to hold in one view",
         description:
-          "Important guidance was accurate, but it often read like internal language rather than user-facing help.",
+          "Health policy decisions touched children, First Nations communities, aged populations, disability, service tiers, determinants, and global benchmarks. Each area had its own language and data shape.",
       },
       {
-        title: "Decision points were buried",
+        title: "People asked for better reports, but needed better navigation",
         description:
-          "People could complete fields, but it was not always clear why a question mattered or what would happen next.",
+          "Stakeholders rarely struggled because information was unavailable. They struggled because relationships were invisible, context was hard to maintain, and the system was not designed for exploration.",
       },
       {
-        title: "Accessibility needed to be native",
+        title: "AI had to earn confidence in a high-consequence domain",
         description:
-          "The flow had to work cleanly for keyboard, screen reader, and low-vision users from the start.",
+          "Generative AI could support insight generation, but senior users needed to know what was verified, what was generated, and where each piece of information came from.",
+      },
+      {
+        title: "The visual front end needed operational control behind it",
+        description:
+          "The Explore experience could stay simple only if PMO teams had a governed way to populate domains, invite collaborators, preview changes, approve content, and publish safely.",
       },
     ],
     process: [
       {
         phase: "01",
-        title: "Map the service moments",
+        title: "Frame the concept and trust philosophy",
         description:
-          "Separated eligibility, evidence, review, and submission moments so each step had a clear job.",
+          "Shaped the initial value proposition, executive story, AI trust principles, and high-level interaction model so three entities could align around the same product direction.",
       },
       {
         phase: "02",
-        title: "Rewrite for action",
+        title: "Run stakeholder and story workshops",
         description:
-          "Turned dense instructions into plain-language prompts, labels, and confirmation states.",
+          "Facilitated workshops with policy teams, analysts, domain specialists, and executive stakeholders, translating latent needs into user stories, PRDs, and prioritized features.",
       },
       {
         phase: "03",
-        title: "Design accessible patterns",
+        title: "Translate ontology into product structure",
         description:
-          "Built repeatable form, summary, error, and support patterns with visible keyboard and reading order in mind.",
+          "Worked with ontology architects to turn the four-system health model, domain tiers, cohorts, and STEEPLEO pressure framework into navigation users could reason through.",
       },
       {
         phase: "04",
-        title: "Test the hierarchy",
+        title: "Design the Explore interaction model",
         description:
-          "Reviewed each screen by asking whether the next action, reason, and consequence were visible without extra explanation.",
+          "Designed the exploratory flow across system, cohort, domain, and pressure, including the AI trust layer, life-course toggles, domain drill-downs, and scenario simulation concepts.",
+      },
+      {
+        phase: "05",
+        title: "Build the management hub workflow",
+        description:
+          "Designed and integrated the PMO hub with a small team, covering domain data entry, upload/manual/AI methods, preview, approval, and publishing into Explore.",
       },
     ],
     decisions: [
       {
-        issue: "The service asked for information before earning confidence.",
+        issue: "The product needed two mental models, not one.",
         decision:
-          "Added short context blocks before complex questions and kept help close to the field it explained.",
+          "Separated the public Explore experience from the PMO management experience. End users see approved landscape insight; PMO teams manage the lifecycle behind it.",
         result:
-          "Users could understand why information was needed without leaving the step.",
+          "Explore stayed calm and visual, while the operational complexity of data entry, assignments, approvals, and publishing lived where it belonged.",
       },
       {
-        issue: "Long forms felt like one continuous obligation.",
+        issue: "The ontology could not stay hidden in a backend model.",
         decision:
-          "Grouped inputs into smaller service moments with progress, review, and save-state cues.",
+          "Used the system architecture itself as the interaction model: system of systems, cohort, domain, pressure, threat or opportunity, and impact.",
         result:
-          "The flow felt more manageable and easier to resume.",
+          "The interface helped users feel the structure of the landscape instead of forcing them to read a taxonomy before they could explore.",
       },
       {
-        issue: "Errors risked sounding punitive.",
+        issue: "AI needed to feel useful without becoming the authority.",
         decision:
-          "Used specific, human error messages that described the fix instead of only naming the mistake.",
+          "Placed AI beside upload and manual entry as one content method, and paired generated outputs with visible source, confidence, and human review cues.",
         result:
-          "Recovery became part of the journey rather than a dead end.",
+          "Generated content became a draft source to inspect, not an unexplained answer the organisation had to trust blindly.",
+      },
+      {
+        issue: "Back-office editing had to connect to the public view.",
+        decision:
+          "Made Preview Explore View a core step before approval, so PMO teams could see how domain content would appear in the visual landscape.",
+        result:
+          "The workflow closed the gap between content operations and user experience, making publication feel deliberate and reviewable.",
       },
     ],
     beforeAfter: {
-      beforeTitle: "Before: accurate but effortful",
+      beforeTitle: "Before: fragmented policy visibility",
       beforeItems: [
-        "Instructions competed with form fields.",
-        "Next steps were not always obvious.",
-        "Support content felt separate from the task.",
+        "Reports, frameworks, datasets, and domain knowledge lived in separate places.",
+        "Relationships between cohorts, pressures, services, and outcomes were hard to see.",
+        "AI-generated insight risked feeling opaque without visible provenance.",
+        "Updating the landscape depended on manual handoffs and unclear governance.",
       ],
-      afterTitle: "After: guided and answerable",
+      afterTitle: "After: explorable and governable",
       afterItems: [
-        "Each step had one clear purpose.",
-        "Help appeared near the moment of need.",
-        "Review states made submission feel safer.",
+        "A visual Explore layer made the health system easier to navigate.",
+        "The ontology became a product model users could move through.",
+        "Verified information and AI-generated content had separate trust cues.",
+        "The PMO hub gave teams a clear path to edit, preview, approve, and publish.",
       ],
     },
     finalMoments: [
       {
-        title: "Guided eligibility step",
+        title: "Landscape visualization",
         description:
-          "A clearer opening sequence that helped users understand whether they were in the right service path.",
-        tags: ["Eligibility", "Plain language"],
+          "A visual front door that showed the health ecosystem as a connected landscape rather than another report.",
+        tags: ["Explore", "System view"],
       },
       {
-        title: "Accessible form system",
+        title: "Cohort and domain drill-down",
         description:
-          "Input, error, helper, review, and confirmation patterns designed as one connected service grammar.",
-        tags: ["Forms", "WCAG-aware"],
+          "A navigable path from system overview into cohorts, health domains, pressures, and domain-level context.",
+        tags: ["Cohorts", "Domains"],
       },
       {
-        title: "Review before submit",
+        title: "AI trust layer",
         description:
-          "A calm summary screen that made submission feel deliberate, reversible, and trustworthy.",
-        tags: ["Review", "Trust"],
+          "A visible grammar for separating verified source material from generated insight, with AI treated as a reviewed draft source.",
+        tags: ["Provenance", "Human review"],
       },
       {
-        title: "Decision support copy",
+        title: "PMO management hub",
         description:
-          "Short contextual messages that explained consequences without overwhelming the main task.",
-        tags: ["Content UX", "Confidence"],
+          "A management-only workspace with dashboard, configuration, AI settings, landscape management, content management, and reports library.",
+        tags: ["Manage", "Governance"],
+      },
+      {
+        title: "Domain workspace template",
+        description:
+          "A structured editor mirroring the public domain detail view, with tabs for vision, profile, policies, budget, stakeholders, research, pressures, source notes, and AI drafts.",
+        tags: ["Content model", "Templates"],
+      },
+      {
+        title: "Approval and publishing lifecycle",
+        description:
+          "A governed flow from selecting a domain to choosing an entry method, editing, collaborating, previewing Explore, approving, and publishing approved data.",
+        tags: ["Workflow", "Publishing"],
       },
     ],
     impact: [
       {
-        label: "Usability",
-        value: "Reduced the number of moments where users had to guess what a question meant.",
-      },
-      {
-        label: "Accessibility",
-        value: "Kept keyboard, reading order, focus, and error recovery visible in the design system.",
+        label: "Strategic clarity",
+        value:
+          "Shifted the work from a data display problem into a systems navigation problem that senior stakeholders could understand quickly.",
       },
       {
         label: "Trust",
-        value: "Made the service feel more supportive without hiding necessary detail.",
+        value:
+          "Made verified information, AI-generated content, source context, and human review visible in the interface instead of hiding trust in documentation.",
+      },
+      {
+        label: "Governance",
+        value:
+          "Gave PMO teams a structured operating layer for domain ownership, content entry, preview, approval, and publication.",
+      },
+      {
+        label: "Scalability",
+        value:
+          "Created a product model that could expand into natural-language policy exploration, cross-cohort navigation, scenario forecasting, and global benchmarking.",
       },
     ],
     reflection:
-      "Good public service UX is often quiet. The strongest work was in making the service feel less like a document and more like a steady conversation.",
+      "The biggest lesson was that complex systems become easier to use when the structure is not hidden. Once the ontology became the interaction model, the product stopped feeling like a dashboard and started feeling like a map.",
   }),
   bindProject({
     projectId: "national-projects-command-view",

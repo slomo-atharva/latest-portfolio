@@ -32,6 +32,14 @@ export const footerCopy = {
       href: "#work",
     },
     {
+      label: "Writing",
+      href: "/blog",
+    },
+    {
+      label: "About",
+      href: "/about",
+    },
+    {
       label: "Praise",
       href: "#praise",
     },

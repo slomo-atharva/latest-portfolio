@@ -24,7 +24,7 @@ export async function generateMetadata({
 
   if (!caseStudy) {
     return {
-      title: "Case study not found | Siddhant",
+      title: "Case study not found | Akshay",
     };
   }
 

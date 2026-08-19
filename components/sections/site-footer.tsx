@@ -136,7 +136,7 @@ export function SiteFooter({ homeAnchors = false }: SiteFooterProps) {
           </nav>
 
           <p className="text-sm font-light leading-6 text-[rgb(255_255_255_/_0.58)] sm:text-right">
-            &copy; {year} Siddhant. {footerCopy.signature}
+            &copy; {year} Akshay. {footerCopy.signature}
           </p>
         </div>
       </div>

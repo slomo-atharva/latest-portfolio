@@ -2,6 +2,7 @@
 
 import type { CSSProperties } from "react";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import {
   AnimatePresence,
   motion,
@@ -21,15 +22,84 @@ const logoMaskStyle = {
   maskSize: "contain",
 } satisfies CSSProperties;
 
+const HOME_PATH = "/";
+const LOADER_DURATION_MS = 1450;
+const LOADER_HIDE_DELAY_MS = 120;
+const REDUCED_LOADER_DURATION_MS = 450;
+const REDUCED_LOADER_HIDE_DELAY_MS = 60;
+const SCROLL_RESET_RETRY_DELAY_MS = LOADER_DURATION_MS + LOADER_HIDE_DELAY_MS;
+const SCROLL_RESTORATION_RESUME_DELAY_MS = SCROLL_RESET_RETRY_DELAY_MS + 500;
+
+function isReloadNavigation() {
+  const [navigationEntry] = window.performance.getEntriesByType(
+    "navigation",
+  ) as PerformanceNavigationTiming[];
+
+  return navigationEntry?.type === "reload";
+}
+
 export function SiteLoader() {
+  const pathname = usePathname();
+  const [initialPathname] = useState(pathname);
+  const shouldShowLoader =
+    initialPathname === HOME_PATH &&
+    pathname === HOME_PATH;
   const prefersReducedMotion = useReducedMotion();
   const progress = useMotionValue(0);
   const fillHeight = useTransform(progress, (latest) => `${latest}%`);
   const [displayedProgress, setDisplayedProgress] = useState(0);
-  const [isVisible, setIsVisible] = useState(true);
+  const [hasCompleted, setHasCompleted] = useState(false);
+  const isVisible = shouldShowLoader && !hasCompleted;
 
   useEffect(() => {
-    if (!isVisible) {
+    if (!shouldShowLoader || !isReloadNavigation()) {
+      return;
+    }
+
+    let previousScrollRestoration: History["scrollRestoration"] | undefined;
+
+    if ("scrollRestoration" in window.history) {
+      previousScrollRestoration = window.history.scrollRestoration;
+      window.history.scrollRestoration = "manual";
+    }
+
+    if (window.location.search || window.location.hash) {
+      window.history.replaceState(null, "", HOME_PATH);
+    }
+
+    const resetHomeScroll = () => {
+      window.scrollTo(0, 0);
+      document
+        .querySelector<HTMLElement>(".landing-scroll-experience")
+        ?.scrollTo(0, 0);
+    };
+
+    resetHomeScroll();
+
+    const resetFrame = window.requestAnimationFrame(resetHomeScroll);
+    const resetRetryTimer = window.setTimeout(
+      resetHomeScroll,
+      SCROLL_RESET_RETRY_DELAY_MS,
+    );
+    const restoreTimer = window.setTimeout(() => {
+      if (previousScrollRestoration) {
+        window.history.scrollRestoration = previousScrollRestoration;
+      }
+    }, SCROLL_RESTORATION_RESUME_DELAY_MS);
+
+    return () => {
+      window.cancelAnimationFrame(resetFrame);
+      window.clearTimeout(resetRetryTimer);
+      window.clearTimeout(restoreTimer);
+
+      if (previousScrollRestoration) {
+        window.history.scrollRestoration = previousScrollRestoration;
+      }
+    };
+  }, [shouldShowLoader]);
+
+  useEffect(() => {
+    if (!shouldShowLoader || !isVisible) {
       return;
     }
 
@@ -39,13 +109,21 @@ export function SiteLoader() {
     return () => {
       document.body.style.overflow = previousOverflow;
     };
-  }, [isVisible]);
+  }, [isVisible, shouldShowLoader]);
 
   useEffect(() => {
+    if (!shouldShowLoader || !isVisible) {
+      return;
+    }
+
     let animationFrame: number | undefined;
     let hideTimer: number | undefined;
-    const duration = prefersReducedMotion ? 800 : 3450;
-    const hideDelay = prefersReducedMotion ? 120 : 360;
+    const duration = prefersReducedMotion
+      ? REDUCED_LOADER_DURATION_MS
+      : LOADER_DURATION_MS;
+    const hideDelay = prefersReducedMotion
+      ? REDUCED_LOADER_HIDE_DELAY_MS
+      : LOADER_HIDE_DELAY_MS;
     const startedAt = window.performance.now();
 
     const updateProgress = (latest: number) => {
@@ -63,7 +141,7 @@ export function SiteLoader() {
       updateProgress(latest);
 
       if (elapsed >= duration) {
-        hideTimer = window.setTimeout(() => setIsVisible(false), hideDelay);
+        hideTimer = window.setTimeout(() => setHasCompleted(true), hideDelay);
         return;
       }
 
@@ -81,7 +159,7 @@ export function SiteLoader() {
         window.clearTimeout(hideTimer);
       }
     };
-  }, [prefersReducedMotion, progress]);
+  }, [isVisible, prefersReducedMotion, progress, shouldShowLoader]);
 
   return (
     <AnimatePresence>
@@ -96,7 +174,7 @@ export function SiteLoader() {
           }}
           initial={{ opacity: 1 }}
           transition={{
-            duration: prefersReducedMotion ? 0.16 : 0.46,
+            duration: prefersReducedMotion ? 0.12 : 0.28,
             ease: [0.22, 1, 0.36, 1],
           }}
         >

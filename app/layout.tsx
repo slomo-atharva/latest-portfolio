@@ -31,9 +31,18 @@ const dmSans = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Siddhant | Product Designer",
+  title: "Akshay | Product Designer",
   description:
     "A product designer building thoughtful consumer experiences with polished motion and sharp visual systems.",
+  icons: {
+    icon: [
+      {
+        url: "/aa-logo-favicon.svg",
+        sizes: "any",
+        type: "image/svg+xml",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
