@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Analytics } from "@vercel/analytics/next";
 import { SiteLoader } from "@/components/ui/site-loader";
 import "./globals.css";
 
@@ -55,6 +56,7 @@ export default function RootLayout({
       <body className={`${dmSans.variable} antialiased`}>
         <SiteLoader />
         {children}
+        <Analytics />
       </body>
     </html>
   );
