@@ -31,7 +31,7 @@ export default async function BlogPage() {
           </div>
 
           {posts.length > 0 ? (
-            <div className="mt-1 max-w-4xl">
+            <div className="mt-10">
               <WritingFeed posts={posts} />
             </div>
           ) : (

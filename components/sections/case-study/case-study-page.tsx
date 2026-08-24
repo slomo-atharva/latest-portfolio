@@ -167,68 +167,68 @@ type SectionSpec = {
 const sectionSpecs: SectionSpec[] = [
   {
     id: "hero",
-    name: "Hero",
-    intent: "Make the project understandable in 10 seconds.",
+    name: "Overview",
+    intent: "The project in ten seconds.",
     weight: "high",
   },
   {
     id: "context",
-    name: "Context",
-    intent: "Explain what the product is, without jargon.",
+    name: "What it is",
+    intent: "The product, and where this work sits inside it.",
     weight: "medium",
   },
   {
     id: "problem",
-    name: "Problem",
-    intent: "Show the real product problem, not just the UI task.",
+    name: "The problem",
+    intent: "What was actually broken, underneath the interface.",
     weight: "high",
   },
   {
     id: "users",
-    name: "Users & Needs",
-    intent: "Prove multi-persona thinking.",
+    name: "Who it's for",
+    intent: "The people involved, and what each of them needs.",
     weight: "medium",
   },
   {
     id: "approach",
-    name: "Approach",
-    intent: "Role, constraints, and process kept compact.",
+    name: "How I worked",
+    intent: "Role, constraints, and the path through the problem.",
     weight: "low",
   },
   {
     id: "research",
-    name: "Research",
-    intent: "Show how the domain and workflow were understood.",
+    name: "Understanding it",
+    intent: "How the domain and the workflow were learned.",
     weight: "medium",
   },
   {
     id: "ia",
-    name: "Information Architecture",
-    intent: "Show how the product/system was structured.",
+    name: "How it's structured",
+    intent: "The model underneath the screens.",
     weight: "medium",
   },
   {
     id: "decisions",
-    name: "Key Decisions",
-    intent: "Show thinking, not just screens.",
+    name: "Key decisions",
+    intent: "The calls that shaped the product, and what each one cost.",
     weight: "high",
   },
   {
     id: "solution",
-    name: "Final Solution",
-    intent: "Show polished screens with focused annotations.",
+    name: "The work",
+    intent: "The moments that carry the experience.",
     weight: "high",
   },
   {
     id: "impact",
-    name: "Impact",
-    intent: "Connect design to outcomes.",
+    name: "What changed",
+    intent: "Where the design made a measurable difference.",
     weight: "high",
   },
   {
     id: "reflection",
-    name: "Reflection",
-    intent: "Show maturity and self-awareness.",
+    name: "Looking back",
+    intent: "What I would keep, and what I would change.",
     weight: "low",
   },
 ];
@@ -238,6 +238,11 @@ const collaborationByProject: Record<string, string[]> = {
     "Product and business stakeholder alignment",
     "Design manager review and iteration",
     "Project manager and PMO workflow validation",
+  ],
+  "strategy-dot-zero-ai-project-extraction": [
+    "AI and platform engineering on extraction limits",
+    "PMO and implementation teams on onboarding reality",
+    "Product and commercial alignment on the seat model",
   ],
   "dubai-holding-destination-system": [
     "Operations alignment",
@@ -268,6 +273,12 @@ const constraintsByProject: Record<string, string[]> = {
     "Multi-persona permissions and views",
     "Business pressure for a business-unit-first model",
   ],
+  "strategy-dot-zero-ai-project-extraction": [
+    "Client documents in any format or template",
+    "A live register of record, so no destructive automation",
+    "Multi-persona permissions across PMO and project managers",
+    "AI access licensed per seat",
+  ],
   "dubai-holding-destination-system": [
     "Sensitive operational context",
     "Multi-team ownership",
@@ -294,6 +305,8 @@ const constraintsByProject: Record<string, string[]> = {
 const platformByProject: Record<string, string> = {
   "strategy-dot-zero-change-impact":
     "Web, enterprise planning and PMO oversight",
+  "strategy-dot-zero-ai-project-extraction":
+    "Web, enterprise onboarding and portfolio migration",
   "dubai-holding-destination-system": "Web, destination operations",
   "dhda-service-journeys": "Web, Explore and PMO management hub",
   "national-projects-command-view": "Web, executive command view",
@@ -304,11 +317,14 @@ const domainByProject: Record<string, string> = {
   "strategy-dot-zero-change-impact":
     "Portfolio governance, organisational change, enterprise planning",
   "dhda-service-journeys": "Healthcare, policy systems, enterprise AI",
+  "strategy-dot-zero-ai-project-extraction":
+    "Portfolio governance, enterprise onboarding, applied AI",
 };
 
 const timelineByProject: Record<string, string> = {
   "strategy-dot-zero-change-impact": "One-week design sprint",
   "dhda-service-journeys": "Concept pitch to MVP roadmap",
+  "strategy-dot-zero-ai-project-extraction": "Concept through approved MVP flow",
 };
 
 const visualRoleByProject: Record<string, string> = {
@@ -316,18 +332,24 @@ const visualRoleByProject: Record<string, string> = {
     "Product Designer for PMO and executive product experiences",
   "dhda-service-journeys":
     "Lead design strategy, product UX, information architecture, UX/UI",
+  "strategy-dot-zero-ai-project-extraction":
+    "Product Designer for the agent workflow, review experience, and information architecture",
 };
 
 const visualPlatformByProject: Record<string, string> = {
   "strategy-dot-zero-change-impact":
     "Web, project planning and organisation-wide impact oversight",
   "dhda-service-journeys": "Web, visual exploration layer and management hub",
+  "strategy-dot-zero-ai-project-extraction":
+    "Web, PMO bulk migration and project-manager refinement",
 };
 
 const heroImpactByProject: Record<string, string> = {
   "strategy-dot-zero-change-impact":
     "A static register became a connected workflow for assessment, readiness, reporting, and portfolio visibility.",
   "dhda-service-journeys": "MVP demonstrated to senior government executives",
+  "strategy-dot-zero-ai-project-extraction":
+    "Manual back-end migration became a reviewed product flow, with nothing reaching the register unverified.",
 };
 
 const productModelDescriptionsByProject: Record<string, string[]> = {
@@ -340,6 +362,11 @@ const productModelDescriptionsByProject: Record<string, string[]> = {
     "Public-facing visual model for exploring systems, cohorts, domains, and pressures.",
     "PMO-facing workspace for creating, previewing, approving, and publishing domain data.",
     "Visible provenance layer separating verified source content from reviewed AI drafts.",
+  ],
+  "strategy-dot-zero-ai-project-extraction": [
+    "Upload documents in any format; the agent parses and asks only what it needs.",
+    "Readiness scoring, field confidence, and duplicate checks aim the review.",
+    "Verified projects commit into the live plan, charter, and registers.",
   ],
 };
 
@@ -360,6 +387,14 @@ const researchMethodsByProject: Record<string, string[]> = {
     "AI trust model",
     "PRD authoring",
   ],
+  "strategy-dot-zero-ai-project-extraction": [
+    "Onboarding journey audit",
+    "Client document sampling",
+    "Target-model mapping",
+    "Persona and permission mapping",
+    "Agent conversation prototyping",
+    "Review-flow validation",
+  ],
 };
 
 const iaModelByProject: Record<string, string[]> = {
@@ -377,6 +412,15 @@ const iaModelByProject: Record<string, string[]> = {
     "Cohorts and Determinants",
     "Global Health",
     "Health Domains",
+  ],
+  "strategy-dot-zero-ai-project-extraction": [
+    "Project register (entry point)",
+    "Extraction workspace",
+    "Clarifying questions",
+    "Extracted projects and proposals",
+    "Project detail and verification",
+    "Duplicate resolution",
+    "Commit to register",
   ],
 };
 
@@ -420,6 +464,26 @@ const impactMetricsByProject: Record<string, ImpactMetricCard[]> = {
       category: "business",
     },
   ],
+  "strategy-dot-zero-ai-project-extraction": [
+    {
+      value: "Any format",
+      label:
+        "plans, spreadsheets, and status reports mapped onto one project model",
+      category: "user",
+    },
+    {
+      value: "2",
+      label:
+        "operating altitudes served by one engine: PMO migration and PM refinement",
+      category: "business",
+    },
+    {
+      value: "0",
+      label:
+        "projects reach the live register without an explicit human save",
+      category: "business",
+    },
+  ],
 };
 
 const reflectionDetailsByProject: Record<
@@ -440,6 +504,12 @@ const reflectionDetailsByProject: Record<
       "I would bring version history, source confidence, and audit trail interactions into the earliest prototypes, because governance is part of the user experience in this kind of product.",
     howApproachChanged:
       "I now start complex system products by finding the durable information model first. Once that structure is clear, screens become a way to reveal the system rather than decorate it.",
+  },
+  "strategy-dot-zero-ai-project-extraction": {
+    whatIdImprove:
+      "I would test the review queue against a real migration batch: a hundred or more projects with genuine duplicates and inconsistent stage names. Triage, filtering, and bulk action are where this design will come under the most pressure, and a clean demo batch flatters it.",
+    howApproachChanged:
+      "I now design the disagreement path before the happy path on anything generative. Deciding where a person overrides the model shaped the readiness score, the duplicate banner, and the commit step far more than the extraction itself did.",
   },
 };
 
@@ -486,6 +556,50 @@ const personasByProject: Record<string, PersonaCard[]> = {
       ],
       designImplication:
         "The summary layer had to reveal severity, timing, and status first, with project detail available only when a follow-up was needed.",
+    },
+  ],
+  "strategy-dot-zero-ai-project-extraction": [
+    {
+      personaName: "PMO leads running the migration",
+      type: "admin",
+      goals: [
+        "Move an existing portfolio into the platform without manual re-keying",
+        "Hand project managers a usable starting point they will accept",
+      ],
+      painPoints: [
+        "Back-end migration by the delivery team did not scale past the first client",
+        "No way to tell a near-complete extraction from a shell record",
+      ],
+      designImplication:
+        "The PMO surface had to behave like a queue: readiness on the card, accept and reject in place, and assignment without opening every project.",
+    },
+    {
+      personaName: "Project managers receiving the work",
+      type: "primary",
+      goals: [
+        "Confirm an assigned plan matches how the project actually runs",
+        "Start executing without rebuilding the plan from scratch",
+      ],
+      painPoints: [
+        "Bulk-imported projects arrived without their input",
+        "Corrections meant editing a record someone else generated",
+      ],
+      designImplication:
+        "Verification had to happen inside the same structure the work continues in — charter, plan, and registers — rather than in a separate import screen.",
+    },
+    {
+      personaName: "Implementation and onboarding consultants",
+      type: "secondary",
+      goals: [
+        "Shorten the gap between a signed client and a working portfolio",
+        "Stop absorbing data entry as an unbilled service cost",
+      ],
+      painPoints: [
+        "Migration fell to the delivery team by default",
+        "Every client's document set needed bespoke handling",
+      ],
+      designImplication:
+        "The flow had to absorb format variation on the client's side, so onboarding effort could move from re-keying to configuration.",
     },
   ],
   "dubai-holding-destination-system": [
@@ -613,7 +727,7 @@ const personasByProject: Record<string, PersonaCard[]> = {
 };
 
 const fieldLabelText: Record<string, string> = {
-  annotations: "Annotations",
+  annotations: "Why this matters",
   before_state: "Before state",
   business_position: "Business position",
   collaborated_on: "Collaborated on",
@@ -756,7 +870,7 @@ function buildStructuredCaseStudy(caseStudy: CaseStudy): StructuredCaseStudy {
       rolePermissionMap: personas,
       iaBeforeAfter: caseStudy.beforeAfter,
     },
-    decisions: caseStudy.decisions.slice(0, 4).map((decision) => ({
+    decisions: caseStudy.decisions.slice(0, 6).map((decision) => ({
       title: decision.issue,
       problem: decision.issue,
       designChoice: decision.decision,
@@ -766,7 +880,7 @@ function buildStructuredCaseStudy(caseStudy: CaseStudy): StructuredCaseStudy {
         "The first read stayed focused, while deeper context remained available for review.",
     })),
     solution: {
-      screens: caseStudy.finalMoments.slice(0, 6).map((moment) => ({
+      screens: caseStudy.finalMoments.slice(0, 8).map((moment) => ({
         screenName: moment.title,
         media: moment.media ?? [],
         annotations: [
@@ -897,6 +1011,27 @@ function HeroSection({
             <p className="mt-8 max-w-3xl text-lg font-light leading-8 text-[var(--case-ink-soft)] sm:text-xl sm:leading-9">
               {structured.hero.valueProposition}
             </p>
+
+            {structured.impact.metrics.length > 0 ? (
+              <dl className="mt-9 max-w-3xl overflow-hidden rounded-[8px] border border-[var(--case-line)] shadow-[var(--case-shadow-soft)]">
+                <div aria-hidden="true" className={`h-1 ${tone.softFill}`} />
+                <div className="grid gap-px bg-[var(--case-line-soft)] sm:grid-cols-3">
+                  {structured.impact.metrics.slice(0, 3).map((metric) => (
+                    <div
+                      className="bg-[var(--case-surface)] p-5"
+                      key={`${metric.value}-${metric.label}`}
+                    >
+                      <dt className="text-2xl font-medium leading-none tracking-normal text-[var(--case-ink)] sm:text-[1.75rem]">
+                        {metric.value}
+                      </dt>
+                      <dd className="mt-3 text-xs font-light leading-5 text-[var(--case-ink-soft)]">
+                        {metric.label}
+                      </dd>
+                    </div>
+                  ))}
+                </div>
+              </dl>
+            ) : null}
           </div>
 
           <aside className={`${caseCardChrome} relative isolate overflow-hidden p-0`}>

@@ -51,10 +51,10 @@ function ProjectCard({ project }: { project: ShowcaseProject }) {
 
   return (
     <article
-      className={`group relative flex h-full min-h-[31rem] flex-col overflow-hidden rounded-[8px] border backdrop-blur-xl transition duration-500 ${
+      className={`group relative flex h-full min-h-[31rem] flex-col overflow-hidden rounded-[8px] border transition duration-500 ease-out ${
         isActive
-          ? "cursor-pointer border-[rgb(226_232_240_/_0.8)] bg-[rgb(255_255_255_/_0.7)] shadow-[0_18px_56px_rgb(15_23_42_/_0.08)] hover:-translate-y-1 hover:shadow-[0_24px_68px_rgb(15_23_42_/_0.13)] focus-within:ring-2 focus-within:ring-[var(--blue)] focus-within:ring-offset-4 focus-within:ring-offset-[var(--paper)]"
-          : "cursor-default border-[rgb(203_213_225_/_0.88)] bg-[rgb(241_245_249_/_0.68)] shadow-[0_14px_40px_rgb(71_85_105_/_0.06)]"
+          ? "cursor-pointer border-[rgb(226_232_240_/_0.9)] bg-[var(--paper-bright)] shadow-[0_1px_2px_rgb(15_23_42_/_0.04),0_18px_50px_rgb(15_23_42_/_0.07)] hover:-translate-y-1.5 hover:border-[rgb(203_213_225_/_0.9)] hover:shadow-[0_1px_2px_rgb(15_23_42_/_0.05),0_30px_70px_rgb(15_23_42_/_0.13)] focus-within:ring-2 focus-within:ring-[var(--blue)] focus-within:ring-offset-4 focus-within:ring-offset-[var(--paper)]"
+          : "cursor-default border-[rgb(226_232_240_/_0.8)] bg-[rgb(248_250_252_/_0.7)] shadow-[0_1px_2px_rgb(15_23_42_/_0.03)]"
       }`}
     >
       {isActive ? (
@@ -72,26 +72,30 @@ function ProjectCard({ project }: { project: ShowcaseProject }) {
       <ProjectVisual project={project} />
 
       <div className="flex flex-1 flex-col p-5 sm:p-6">
-        <div className="flex items-center justify-between gap-4 text-xs font-medium text-[var(--muted)]">
+        <div className="flex items-center gap-2.5 text-xs font-medium text-[var(--muted)]">
           <span>{project.category}</span>
+          <span
+            aria-hidden="true"
+            className="h-1 w-1 flex-none rounded-full bg-[rgb(148_163_184_/_0.7)]"
+          />
           <span>{isActive ? project.year : "Coming soon"}</span>
         </div>
 
         <h3
-          className="mt-5 text-2xl font-semibold leading-[1.02] tracking-normal text-[var(--ink)]"
+          className="mt-4 text-[1.55rem] font-semibold leading-[1.1] tracking-normal text-[var(--ink)] sm:text-[1.7rem]"
           id={titleId}
         >
           {project.title}
         </h3>
 
-        <p className="mt-4 text-sm font-light leading-7 text-[var(--ink-soft)]">
+        <p className="mt-3.5 text-sm font-light leading-7 text-[var(--ink-soft)]">
           {project.summary}
         </p>
 
         <ul className="mt-5 flex flex-wrap gap-2">
           {project.scope.map((item) => (
             <li
-              className="rounded-full border border-[rgb(226_232_240_/_0.72)] bg-[rgb(248_250_252_/_0.76)] px-2.5 py-1 text-[0.72rem] font-normal leading-5 text-[var(--ink-soft)]"
+              className="rounded-full border border-[rgb(226_232_240_/_0.9)] bg-[rgb(248_250_252_/_0.8)] px-2.5 py-1 text-[0.72rem] font-normal leading-5 text-[var(--ink-soft)] transition duration-500 group-hover:border-[rgb(203_213_225_/_0.9)]"
               key={item}
             >
               {item}
@@ -99,31 +103,29 @@ function ProjectCard({ project }: { project: ShowcaseProject }) {
           ))}
         </ul>
 
-        <div className="mt-auto flex items-center justify-between gap-4 pt-7">
-          <p className="text-xs font-light leading-5 text-[var(--muted)]">
-            {isActive ? project.role : "Write-up coming soon"}
-          </p>
-          <span
-            className={`grid h-9 w-9 flex-none place-items-center rounded-[8px] ${
-              isActive
-                ? tone.marker
-                : "bg-[rgb(203_213_225)] text-[var(--muted)]"
-            } ${
-              isActive
-                ? "transition duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-                : ""
-            }`}
-          >
-            {isActive ? (
-              <ArrowUpRight
-                aria-hidden="true"
-                className="h-4 w-4"
-                strokeWidth={2.3}
-              />
-            ) : (
-              <Clock3 aria-hidden="true" className="h-4 w-4" strokeWidth={2.3} />
-            )}
-          </span>
+        <div className="mt-auto pt-7">
+          <div className="flex items-center justify-between gap-4 border-t border-[rgb(226_232_240_/_0.8)] pt-5">
+            <p className="text-xs font-light leading-5 text-[var(--muted)]">
+              {isActive ? project.role : "Write-up coming soon"}
+            </p>
+            <span
+              className={`grid h-9 w-9 flex-none place-items-center rounded-full transition duration-500 ${
+                isActive
+                  ? `${tone.marker} group-hover:scale-105`
+                  : "bg-[rgb(226_232_240)] text-[var(--muted)]"
+              }`}
+            >
+              {isActive ? (
+                <ArrowUpRight
+                  aria-hidden="true"
+                  className="h-4 w-4 transition duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                  strokeWidth={2.3}
+                />
+              ) : (
+                <Clock3 aria-hidden="true" className="h-4 w-4" strokeWidth={2.3} />
+              )}
+            </span>
+          </div>
         </div>
       </div>
     </article>
@@ -136,89 +138,73 @@ function ProjectVisual({ project }: { project: ShowcaseProject }) {
 
   return (
     <div
-      className={`relative isolate flex h-[15.75rem] min-h-[15.75rem] overflow-hidden border-b border-[rgb(226_232_240_/_0.72)] p-5 sm:h-[16.25rem] sm:min-h-[16.25rem] sm:p-7 ${
+      className={`relative isolate flex h-[13.75rem] min-h-[13.75rem] flex-col justify-between overflow-hidden border-b p-5 sm:h-[14.75rem] sm:min-h-[14.75rem] sm:p-6 ${
         isActive
-          ? tone.canvas
-          : "bg-[linear-gradient(135deg,rgb(241_245_249_/_0.94),rgb(248_250_252_/_0.9)_48%,rgb(226_232_240_/_0.76))]"
+          ? `border-[rgb(226_232_240_/_0.72)] ${tone.canvas}`
+          : "border-[rgb(226_232_240_/_0.8)] bg-[linear-gradient(140deg,rgb(241_245_249_/_0.92),rgb(248_250_252_/_0.86))]"
       }`}
     >
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgb(20_20_22_/_0.06)_1px,transparent_1px),linear-gradient(0deg,rgb(20_20_22_/_0.045)_1px,transparent_1px)] bg-[length:34px_34px]"
+        className="hero-dot-grid absolute inset-0 -z-10 opacity-50"
       />
       <div
         aria-hidden="true"
-        className={`absolute inset-y-0 right-0 -z-10 w-2/5 ${
-          isActive
-            ? tone.wash
-            : "bg-[linear-gradient(90deg,transparent,rgb(100_116_139_/_0.08))]"
-        }`}
+        className="absolute -right-20 -top-24 -z-10 h-56 w-56 rounded-full bg-[rgb(255_255_255_/_0.62)] opacity-70 blur-3xl transition duration-700 group-hover:opacity-100"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 bottom-0 -z-10 h-24 bg-[linear-gradient(180deg,transparent,rgb(255_255_255_/_0.46))]"
       />
 
-      <div className="relative flex h-full w-full flex-col justify-between">
-        <div className="flex items-start justify-between gap-5">
-          <div className="flex h-[5.5rem] min-w-0 max-w-[72%] flex-col gap-3 overflow-hidden">
-            <span className="truncate text-xs font-medium uppercase tracking-normal text-[var(--muted)]">
-              {project.client}
-            </span>
-            {isActive ? (
-              <Image
-                alt={`${project.client} logo`}
-                className={`max-w-full object-contain opacity-[0.88] mix-blend-multiply transition duration-300 group-hover:opacity-100 ${project.logo.className}`}
-                height={project.logo.height}
-                sizes="(min-width: 1280px) 190px, (min-width: 768px) 210px, 170px"
-                src={project.logo.src}
-                width={project.logo.width}
-              />
-            ) : (
-              <span className="text-sm font-normal text-[var(--muted)]">
-                I’ll write about it soon.
-              </span>
-            )}
-          </div>
-
-          <span
-            className={`grid h-9 w-9 flex-none place-items-center rounded-[8px] ${
-              isActive
-                ? `shadow-[0_10px_24px_rgb(15_23_42_/_0.12)] ${tone.marker}`
-                : "bg-[rgb(203_213_225)] text-[var(--muted)]"
-            }`}
-          >
-            {isActive ? (
-              <Sparkle
-                aria-hidden="true"
-                className="h-4 w-4"
-                strokeWidth={2.35}
-              />
-            ) : (
-              <Clock3 aria-hidden="true" className="h-4 w-4" strokeWidth={2.35} />
-            )}
-          </span>
-        </div>
-
-        <div className="grid gap-3">
-          <div
-            aria-hidden="true"
-            className={`h-2.5 rounded-full ${
-              isActive
-                ? `shadow-[0_10px_26px_rgb(15_23_42_/_0.09)] ${tone.rail}`
-                : "bg-[rgb(203_213_225_/_0.88)]"
-            }`}
+      <div className="flex min-w-0 flex-col gap-3.5">
+        <span className="truncate text-[0.68rem] font-medium uppercase tracking-[0.08em] text-[var(--muted)]">
+          {project.client}
+        </span>
+        {isActive ? (
+          <Image
+            alt={`${project.client} logo`}
+            className={`max-w-full object-contain opacity-90 mix-blend-multiply transition duration-500 group-hover:opacity-100 ${project.logo.className}`}
+            height={project.logo.height}
+            sizes="(min-width: 1280px) 190px, (min-width: 768px) 210px, 170px"
+            src={project.logo.src}
+            width={project.logo.width}
           />
-          <div className="grid grid-cols-[1.2fr_0.8fr_1fr] gap-3">
-            {[0, 1, 2].map((item) => (
-              <span
-                aria-hidden="true"
-                className={`h-16 rounded-[8px] border backdrop-blur-sm ${
-                  isActive
-                    ? "border-[rgb(255_255_255_/_0.7)] bg-[rgb(255_255_255_/_0.38)] shadow-[inset_0_1px_0_rgb(255_255_255_/_0.54)] transition duration-300 group-hover:-translate-y-0.5"
-                    : "border-[rgb(203_213_225_/_0.8)] bg-[rgb(226_232_240_/_0.42)]"
-                }`}
-                key={item}
-              />
-            ))}
-          </div>
-        </div>
+        ) : (
+          <span className="text-sm font-normal text-[var(--muted)]">
+            I’ll write about it soon.
+          </span>
+        )}
+      </div>
+
+      <div className="grid gap-3.5">
+        <div
+          aria-hidden="true"
+          className={`h-1 rounded-full ${
+            isActive ? tone.rail : "bg-[rgb(203_213_225_/_0.8)]"
+          }`}
+        />
+        <ul className="flex flex-wrap gap-1.5">
+          {isActive ? (
+            project.highlights.map((highlight) => (
+              <li
+                className="inline-flex items-center gap-1.5 rounded-full border border-[rgb(255_255_255_/_0.8)] bg-[rgb(255_255_255_/_0.62)] px-2.5 py-1 text-[0.7rem] font-medium leading-5 text-[var(--ink-soft)] shadow-[0_1px_2px_rgb(15_23_42_/_0.04)] backdrop-blur-sm"
+                key={highlight}
+              >
+                <span
+                  aria-hidden="true"
+                  className={`h-1.5 w-1.5 flex-none rounded-full ${tone.marker}`}
+                />
+                {highlight}
+              </li>
+            ))
+          ) : (
+            <li className="inline-flex items-center gap-1.5 rounded-full border border-[rgb(226_232_240_/_0.9)] bg-[rgb(255_255_255_/_0.58)] px-2.5 py-1 text-[0.7rem] font-medium leading-5 text-[var(--muted)]">
+              <Clock3 aria-hidden="true" className="h-3 w-3" strokeWidth={2.35} />
+              Write-up in progress
+            </li>
+          )}
+        </ul>
       </div>
     </div>
   );

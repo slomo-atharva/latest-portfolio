@@ -6,7 +6,6 @@ import {
   Check,
   CircleDot,
   Compass,
-  Layers3,
   Sparkle,
 } from "lucide-react";
 import {
@@ -16,10 +15,11 @@ import {
   aboutIntro,
   aboutPrinciples,
   type AboutCapability,
-  type AboutExperience,
   type AboutFact,
+  type AboutRole,
   type AboutPrinciple,
 } from "@/data/about";
+import { clientLogos } from "@/data/clients";
 
 const panelClass =
   "rounded-[8px] border border-[rgb(226_232_240_/_0.82)] bg-[rgb(255_255_255_/_0.72)] shadow-[0_18px_56px_rgb(15_23_42_/_0.07)] backdrop-blur-xl";
@@ -37,11 +37,11 @@ export function AboutMeSection() {
       <div className="hero-dot-grid absolute inset-0 -z-20 opacity-[0.14]" />
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 top-0 -z-10 h-[34rem] bg-[radial-gradient(circle_at_80%_20%,rgb(223_238_255_/_0.72),transparent_32%),radial-gradient(circle_at_18%_18%,rgb(245_215_234_/_0.38),transparent_26%),linear-gradient(180deg,rgb(253_253_255_/_0.94),rgb(251_252_254_/_0))]"
+        className="absolute inset-x-0 top-0 -z-10 h-[38rem] bg-[radial-gradient(58rem_30rem_at_76%_0%,rgb(223_238_255_/_0.55),transparent_62%),radial-gradient(46rem_26rem_at_10%_2%,rgb(245_215_234_/_0.26),transparent_60%),linear-gradient(180deg,rgb(253_253_255_/_0.9),rgb(251_252_254_/_0))]"
       />
 
       <div className="mx-auto max-w-6xl">
-        <div className="grid min-h-[calc(100svh-5rem)] items-start gap-9 py-12 sm:py-14 lg:grid-cols-[1.02fr_0.98fr] lg:gap-14">
+        <div className="grid items-start gap-10 py-10 sm:py-12 lg:grid-cols-[1.02fr_0.98fr] lg:gap-14">
           <div className="max-w-3xl">
             <p className="inline-flex items-center gap-2 rounded-full border border-[rgb(226_232_240_/_0.86)] bg-[rgb(255_255_255_/_0.78)] px-3 py-1.5 text-xs font-medium text-[var(--muted)] shadow-[0_10px_28px_rgb(15_23_42_/_0.06)]">
               <Sparkle
@@ -132,9 +132,9 @@ export function AboutMeSection() {
             {aboutIntro.current}
           </SectionIntro>
 
-          <div className={`${panelClass} divide-y divide-[rgb(226_232_240_/_0.76)] overflow-hidden`}>
-            {aboutExperience.map((item) => (
-              <ExperienceRow item={item} key={item.label} />
+          <div className="grid gap-5">
+            {aboutExperience.map((role) => (
+              <RoleCard key={role.id} role={role} />
             ))}
           </div>
         </section>
@@ -184,47 +184,40 @@ function ProfilePanel() {
         </span>
       </div>
 
-      <div className="relative min-h-[14rem] overflow-hidden border-b border-[rgb(226_232_240_/_0.78)] px-5 py-5 sm:px-6">
+      <div className="relative isolate overflow-hidden border-b border-[rgb(226_232_240_/_0.78)] px-5 py-6 sm:px-6">
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-[linear-gradient(90deg,rgb(20_20_22_/_0.055)_1px,transparent_1px),linear-gradient(0deg,rgb(20_20_22_/_0.04)_1px,transparent_1px)] bg-[length:32px_32px]"
+          className="hero-dot-grid absolute inset-0 -z-10 opacity-40"
         />
         <div
           aria-hidden="true"
-          className="absolute inset-y-0 right-0 w-1/2 bg-[linear-gradient(90deg,transparent,rgb(223_238_255_/_0.6))]"
+          className="absolute inset-0 -z-10 bg-[linear-gradient(135deg,rgb(223_238_255_/_0.46),transparent_48%,rgb(245_215_234_/_0.3))]"
         />
 
-        <div className="relative z-10 flex h-full min-h-[12rem] flex-col justify-between">
-          <div className="flex items-start justify-between gap-5">
-            <div className="grid h-16 w-24 place-items-center rounded-[8px] border border-[rgb(226_232_240_/_0.8)] bg-[rgb(255_255_255_/_0.72)] shadow-[0_14px_34px_rgb(15_23_42_/_0.08)] backdrop-blur-md">
-              <Image
-                alt="AA logo"
-                className="h-9 w-auto opacity-80"
-                height={490}
-                priority
-                src="/aa-logo.svg"
-                width={682}
-              />
-            </div>
-            <div className="text-right">
-              <p className={eyebrowClass}>Mode</p>
-              <p className="mt-2 text-sm font-medium leading-6 text-[var(--ink)]">
-                Strategy to UI
-              </p>
-            </div>
-          </div>
-
-          <div className="grid gap-3">
-            <div className="grid grid-cols-[0.72fr_1.28fr] gap-3">
-              <VisualTile label="Research" />
-              <VisualTile label="Structure" featured />
-            </div>
-            <div className="grid grid-cols-[1.18fr_0.82fr] gap-3">
-              <VisualTile label="Prototype" featured />
-              <VisualTile label="Ship" />
-            </div>
-          </div>
+        <div className="flex items-center justify-between gap-4">
+          <p className={eyebrowClass}>Worked with</p>
+          <span className="text-xs font-light leading-5 text-[var(--muted)]">
+            Government &amp; enterprise
+          </span>
         </div>
+
+        <ul className="mt-6 grid grid-cols-2 items-center gap-x-5 gap-y-5 sm:grid-cols-3">
+          {clientLogos.map((client) => (
+            <li
+              className="flex h-9 items-center justify-center"
+              key={client.name}
+            >
+              <Image
+                alt={`${client.name} logo`}
+                className="h-auto max-h-9 w-auto max-w-full object-contain opacity-[0.82] mix-blend-multiply"
+                height={client.height}
+                sizes="140px"
+                src={client.src}
+                width={client.width}
+              />
+            </li>
+          ))}
+        </ul>
       </div>
 
       <dl className="divide-y divide-[rgb(226_232_240_/_0.76)]">
@@ -233,32 +226,6 @@ function ProfilePanel() {
         ))}
       </dl>
     </aside>
-  );
-}
-
-function VisualTile({
-  featured = false,
-  label,
-}: {
-  featured?: boolean;
-  label: string;
-}) {
-  return (
-    <div
-      className={`flex h-14 items-center justify-between gap-3 rounded-[8px] border px-4 text-sm font-medium shadow-[inset_0_1px_0_rgb(255_255_255_/_0.56)] ${
-        featured
-          ? "border-[rgb(109_74_255_/_0.24)] bg-[rgb(255_255_255_/_0.66)] text-[var(--ink)]"
-          : "border-[rgb(226_232_240_/_0.72)] bg-[rgb(255_255_255_/_0.42)] text-[var(--ink-soft)]"
-      }`}
-    >
-      <span>{label}</span>
-      <span
-        aria-hidden="true"
-        className={`h-2.5 w-2.5 rounded-full ${
-          featured ? "bg-[var(--purple)]" : "bg-[rgb(112_112_120_/_0.42)]"
-        }`}
-      />
-    </div>
   );
 }
 
@@ -317,56 +284,148 @@ function CapabilityRow({
   index: number;
 }) {
   return (
-    <article className="grid gap-5 p-5 sm:grid-cols-[3.5rem_1fr] sm:p-6 lg:grid-cols-[3.5rem_0.95fr_1.05fr]">
-      <div className="flex items-center gap-3 sm:block">
-        <span className="grid h-10 w-10 place-items-center rounded-[8px] bg-[var(--note-mint)] text-[#336d48]">
-          <Layers3 aria-hidden="true" className="h-4 w-4" strokeWidth={2.35} />
-        </span>
-        <p className="text-sm font-medium leading-6 text-[var(--muted)] sm:mt-4">
-          {String(index + 1).padStart(2, "0")}
-        </p>
-      </div>
+    <article className="grid gap-4 p-5 sm:grid-cols-[3rem_1fr] sm:gap-5 sm:p-6">
+      <span className="grid h-10 w-10 place-items-center rounded-[8px] bg-[var(--note-mint)] text-sm font-medium text-[#336d48]">
+        {String(index + 1).padStart(2, "0")}
+      </span>
 
-      <div>
+      <div className="min-w-0">
         <h3 className="text-xl font-medium leading-7 tracking-normal text-[var(--ink)]">
           {capability.title}
         </h3>
-        <p className="mt-3 text-sm font-light leading-7 text-[var(--ink-soft)] sm:text-base sm:leading-8">
+        <p className="mt-3 max-w-2xl text-sm font-light leading-7 text-[var(--ink-soft)] sm:text-base sm:leading-8">
           {capability.description}
         </p>
-      </div>
 
-      <ul className="flex flex-wrap gap-2 lg:justify-end">
-        {capability.points.map((point) => (
-          <li
-            className="inline-flex h-9 items-center gap-2 rounded-full border border-[rgb(226_232_240_/_0.78)] bg-[rgb(248_250_252_/_0.72)] px-3 text-sm font-normal text-[var(--ink)]"
-            key={point}
-          >
-            <Check
-              aria-hidden="true"
-              className="h-3.5 w-3.5 flex-none text-[var(--purple)]"
-              strokeWidth={2.35}
-            />
-            {point}
-          </li>
-        ))}
-      </ul>
+        <ul className="mt-4 flex flex-wrap gap-2">
+          {capability.points.map((point) => (
+            <li
+              className="inline-flex items-center gap-1.5 rounded-full border border-[rgb(226_232_240_/_0.9)] bg-[rgb(248_250_252_/_0.8)] px-2.5 py-1 text-xs font-normal leading-5 text-[var(--ink-soft)]"
+              key={point}
+            >
+              <Check
+                aria-hidden="true"
+                className="h-3 w-3 flex-none text-[var(--purple)]"
+                strokeWidth={2.6}
+              />
+              {point}
+            </li>
+          ))}
+        </ul>
+      </div>
     </article>
   );
 }
 
-function ExperienceRow({ item }: { item: AboutExperience }) {
+function RoleCard({ role }: { role: AboutRole }) {
   return (
-    <article className="grid gap-4 p-5 sm:grid-cols-[7rem_1fr] sm:p-6">
-      <p className={eyebrowClass}>{item.label}</p>
-      <div>
-        <h3 className="text-xl font-medium leading-7 tracking-normal text-[var(--ink)]">
-          {item.title}
-        </h3>
-        <p className="mt-3 text-sm font-light leading-7 text-[var(--ink-soft)] sm:text-base sm:leading-8">
-          {item.description}
-        </p>
-      </div>
+    <article className={`${panelClass} overflow-hidden`}>
+      <header className="flex flex-wrap items-start justify-between gap-x-6 gap-y-3 border-b border-[rgb(226_232_240_/_0.78)] bg-[rgb(248_250_252_/_0.6)] p-5 sm:p-6">
+        <div className="min-w-0">
+          {role.isCurrent ? (
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-[rgb(51_109_72_/_0.24)] bg-[var(--note-mint)] px-2.5 py-1 text-[0.68rem] font-medium uppercase tracking-[0.08em] text-[#336d48]">
+              <span
+                aria-hidden="true"
+                className="h-1.5 w-1.5 rounded-full bg-[#336d48]"
+              />
+              Now
+            </span>
+          ) : null}
+
+          <h3
+            className={`text-xl font-medium leading-7 tracking-normal text-[var(--ink)] sm:text-2xl ${
+              role.isCurrent ? "mt-3" : ""
+            }`}
+          >
+            {role.title}
+          </h3>
+          <p className="mt-1.5 flex flex-wrap items-center gap-2 text-sm font-light text-[var(--ink-soft)]">
+            <span className="font-medium text-[var(--ink)]">{role.company}</span>
+            <span
+              aria-hidden="true"
+              className="h-1 w-1 flex-none rounded-full bg-[rgb(148_163_184_/_0.7)]"
+            />
+            {role.employmentType}
+          </p>
+        </div>
+
+        <div className="sm:text-right">
+          <p className="text-sm font-medium leading-6 text-[var(--ink)]">
+            {role.period}
+          </p>
+          <p className="mt-0.5 text-xs font-light leading-5 text-[var(--muted)]">
+            {role.duration}
+          </p>
+        </div>
+      </header>
+
+      <ul className="divide-y divide-[rgb(226_232_240_/_0.7)]">
+        {role.engagements.map((engagement) => (
+          <li className="p-5 sm:p-6" key={engagement.client}>
+            <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <h4 className="flex items-center gap-2.5 text-base font-medium leading-6 text-[var(--ink)]">
+                <span
+                  aria-hidden="true"
+                  className="h-1.5 w-1.5 flex-none rounded-full bg-[var(--purple)]"
+                />
+                {engagement.client}
+              </h4>
+              {engagement.context ? (
+                <span className="text-xs font-light leading-5 text-[var(--muted)]">
+                  {engagement.context}
+                </span>
+              ) : null}
+            </div>
+
+            <p className="mt-2.5 max-w-3xl pl-4 text-sm font-light leading-7 text-[var(--ink-soft)]">
+              {engagement.description}
+            </p>
+
+            {engagement.metrics ? (
+              <ul className="mt-3.5 flex flex-wrap gap-2 pl-4">
+                {engagement.metrics.map((metric) => (
+                  <li
+                    className="rounded-full border border-[rgb(33_58_143_/_0.18)] bg-[rgb(223_238_255_/_0.6)] px-2.5 py-1 text-xs font-medium leading-5 text-[var(--blue)]"
+                    key={metric}
+                  >
+                    {metric}
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </li>
+        ))}
+      </ul>
+
+      {role.sideProject || role.skills ? (
+        <div className="grid gap-4 border-t border-[rgb(226_232_240_/_0.78)] bg-[rgb(248_250_252_/_0.5)] p-5 sm:p-6">
+          {role.sideProject ? (
+            <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
+              <p className={eyebrowClass}>Side project</p>
+              <p className="text-sm font-medium text-[var(--ink)]">
+                {role.sideProject.name}
+              </p>
+              <p className="text-sm font-light text-[var(--ink-soft)]">
+                {role.sideProject.description}
+              </p>
+            </div>
+          ) : null}
+
+          {role.skills ? (
+            <div className="flex flex-wrap items-center gap-2">
+              <p className={`${eyebrowClass} mr-1`}>Key skills</p>
+              {role.skills.map((skill) => (
+                <span
+                  className="rounded-full border border-[rgb(226_232_240_/_0.9)] bg-[var(--paper-bright)] px-2.5 py-1 text-xs font-normal leading-5 text-[var(--ink-soft)]"
+                  key={skill}
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          ) : null}
+        </div>
+      ) : null}
     </article>
   );
 }

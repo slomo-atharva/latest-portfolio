@@ -10,10 +10,27 @@ export type AboutCapability = {
   points: string[];
 };
 
-export type AboutExperience = {
-  label: string;
-  title: string;
+export type AboutEngagement = {
+  client: string;
+  context?: string;
   description: string;
+  metrics?: string[];
+};
+
+export type AboutRole = {
+  id: string;
+  title: string;
+  company: string;
+  employmentType: string;
+  period: string;
+  duration: string;
+  isCurrent?: boolean;
+  engagements: AboutEngagement[];
+  skills?: string[];
+  sideProject?: {
+    name: string;
+    description: string;
+  };
 };
 
 export type AboutPrinciple = {
@@ -80,24 +97,86 @@ export const aboutCapabilities: AboutCapability[] = [
   },
 ];
 
-export const aboutExperience: AboutExperience[] = [
+export const aboutExperience: AboutRole[] = [
   {
-    label: "Now",
-    title: "Designing AI and strategic experiences at Gravity One",
-    description:
-      "Working on product ideas where strategy, user experience, and execution need to come together quickly and clearly.",
+    id: "gravity-one",
+    title: "Product Designer",
+    company: "Gravity One",
+    employmentType: "Full-time",
+    period: "Jan 2026 — Present",
+    duration: "8 months",
+    isCurrent: true,
+    engagements: [
+      {
+        client: "Tasama",
+        context: "Public Investment Fund, Saudi Arabia",
+        description:
+          "Multi-persona enterprise execution platform for project, program, portfolio, PMO, and executive teams. Translated fragmented governance, planning, and delivery workflows into role-based workspaces, AI-assisted planning tools, and structured registers.",
+      },
+      {
+        client: "ADEO GPT",
+        context: "Abu Dhabi Executive Office",
+        description:
+          "Secure enterprise AI ecosystem that replaced public LLM use with an air-gapped system. Delivered department-specific GPTs, project workspaces, knowledge-base management, and a verified prompt library.",
+        metrics: ["12+ departments", "~400 daily users", "3× response accuracy"],
+      },
+      {
+        client: "Australian Department of Health",
+        description:
+          "Two-phase national health strategy platform. Designed an interactive landscape model for navigating complex health ecosystems, then an AI-assisted workspace that removed Excel and developer bottlenecks, with human-in-the-loop controls throughout.",
+        metrics: ["Content turnaround: 6 months → weeks"],
+      },
+      {
+        client: "Dubai Holding Real Estate",
+        description:
+          "Performance scorecards and reporting workflows built for C-suite review. Layered navigation gives executives KPI health, initiative tracking, and risk visibility with no onboarding required.",
+        metrics: ["10+ subsidiaries"],
+      },
+      {
+        client: "SDZ Orchestrate",
+        description:
+          "AI-assisted strategy onboarding platform that replaced months of manual consulting. Organisations model their ecosystem, define operating structures, and build strategy foundations through guided AI workflows.",
+      },
+    ],
+    skills: [
+      "UX",
+      "Product Design",
+      "Research",
+      "Figma",
+      "Artificial Intelligence",
+      "Business Analysis",
+    ],
+    sideProject: {
+      name: "NiftyAI",
+      description: "Autonomous stock analysis agent.",
+    },
   },
   {
-    label: "Recent work",
-    title: "Government, healthcare, destination, and enterprise products",
-    description:
-      "Projects include a health policy landscape, national initiatives command view, destination experience system, and business services workflow suite.",
-  },
-  {
-    label: "How I fit in",
-    title: "Between product thinking and hands-on interface craft",
-    description:
-      "I can help with the early messy thinking, the structure behind the product, and the final screen-level detail.",
+    id: "tandemloop-technologies",
+    title: "UI UX Designer",
+    company: "Tandemloop Technologies",
+    employmentType: "Full-time",
+    period: "Jan 2024 — Sep 2025",
+    duration: "1 year 9 months",
+    engagements: [
+      {
+        client: "StrategyDotZero",
+        description:
+          "Rebuilt the executive dashboard from a cluttered Power BI layout into a progressive-disclosure interface, so critical metrics, risks, and actions surface on first load.",
+        metrics: ["3 enterprise clients migrated in the launch quarter"],
+      },
+      {
+        client: "Curio Capital",
+        description:
+          "Fractional real estate investment platform for high-net-worth and institutional investors. Delivered digital KYC, real-time portfolio dashboards, and direct investor-to-manager communication.",
+        metrics: ["Onboarding: days → under 4 hours"],
+      },
+      {
+        client: "Zone CRM & Minutes of Meeting",
+        description:
+          "Design improvements across CRM, meeting management, and investment products, focused on usability, workflow optimisation, UI consistency, and feature enhancements.",
+      },
+    ],
   },
 ];
 

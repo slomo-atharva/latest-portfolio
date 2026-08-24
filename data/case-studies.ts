@@ -357,6 +357,244 @@ export const caseStudies: CaseStudy[] = [
       "The most important design move was choosing the right unit of thought. Change impact is not a list of business units; it is a story about what is changing, who will feel it, when it will happen, and what the organisation will do in response.",
   }),
   bindProject({
+    projectId: "strategy-dot-zero-ai-project-extraction",
+    headline:
+      "An agent that turns whatever a new client already has — plans, spreadsheets, status reports — into structured projects a person can check before they go live.",
+    deck:
+      "The module sits at the first mile of Strategy Dot Zero onboarding. It lets PMO teams move an organisation's existing portfolio into the platform by uploading the documents they already keep, then reviewing what the agent found before anything reaches the live register.",
+    problem:
+      "Strategy Dot Zero can only align work to strategy once the work is actually in it. But a new government client arrives with hundreds of projects already running across divisions, branches, and units, tracked in plans, spreadsheets, and status decks that follow no shared template. Until now there were two options and neither held. Ask the client to skip migration and start fresh, which no project manager accepts because it means running their work in two places. Or have our own team key every project in from the back end, which does not survive the second client.",
+    outcome:
+      "An approved end-to-end agent flow that reads unstructured client documents, maps them onto the real Strategy Dot Zero project model, checks them against the live register for duplicates, scores how ready each plan is, and commits only what a person has verified.",
+    storyIntro:
+      "The brief sounded like a parsing problem. It was a trust problem. Extraction is easy to demo and hard to trust, and this data was going to become the operating record for a government portfolio. So most of the design work was not about what the agent could pull out of a document. It was about where a person gets to disagree with it, and how quickly they can.",
+    snapshot: [
+      {
+        label: "Where it sits",
+        value:
+          "The first mile of client onboarding, before a single project exists in the platform.",
+      },
+      {
+        label: "Core rule",
+        value: "Extraction produces a draft. Only a person sends it to the register.",
+      },
+      {
+        label: "Readiness",
+        value:
+          "A data readiness score tied to how much of the mandatory model was actually found.",
+      },
+      {
+        label: "Two altitudes",
+        value: "One engine serving PMO bulk migration and PM-level refinement.",
+      },
+    ],
+    frictions: [
+      {
+        title: "Migration was the hidden blocker in every onboarding",
+        description:
+          "Onboarding already ran for months of consulting to model how a client organisation works. The existing project backlog was treated as data entry afterwards, so it fell to our own delivery team or quietly never happened at all.",
+      },
+      {
+        title: "Every client's documents looked different",
+        description:
+          "A plan could arrive as a PDF, a spreadsheet export, or a status deck, with column names and stage labels that only made sense inside that organisation. No fixed import template could be assumed.",
+      },
+      {
+        title: "A confident extraction is not a correct one",
+        description:
+          "The agent would always return something. Without a visible measure of how much of the model it actually filled, a PMO had no way to separate a near-complete plan from a shell with a title on it.",
+      },
+      {
+        title: "Bulk migration invites duplicates",
+        description:
+          "Large portfolios repeat themselves across divisions and delivery partners. Importing at volume risked quietly creating a second copy of a project the register already held.",
+      },
+      {
+        title: "The person importing is not the person who knows",
+        description:
+          "A PMO lead can migrate a hundred projects but cannot vouch for any single one. The project manager who could was standing outside the flow entirely.",
+      },
+    ],
+    process: [
+      {
+        phase: "01",
+        title: "Map the gap in onboarding",
+        description:
+          "Traced the client journey from signed contract to first usable portfolio and found the migration step had no product surface at all, only a services workaround.",
+      },
+      {
+        phase: "02",
+        title: "Model the target, not the source",
+        description:
+          "Started from the Strategy Dot Zero plan, charter, and registers, then worked backwards to define what any document would have to yield in order to fill them.",
+      },
+      {
+        phase: "03",
+        title: "Design the agent as a colleague",
+        description:
+          "Shaped the flow as a short exchange: parse first, then ask only the questions that genuinely change the output, and let the user skip every one of them.",
+      },
+      {
+        phase: "04",
+        title: "Make completeness visible",
+        description:
+          "Introduced data readiness and field-level confidence so review effort could be aimed at the weakest projects instead of spread evenly across the batch.",
+      },
+      {
+        phase: "05",
+        title: "Design the disagreement",
+        description:
+          "Built the review surface around reject, edit, and verify at field level, with an explicit commit step standing between the draft and the live register.",
+      },
+      {
+        phase: "06",
+        title: "Extend the engine to two altitudes",
+        description:
+          "Adapted the same flow for PMO bulk migration and for a project manager refining the two or three projects they actually own.",
+      },
+    ],
+    decisions: [
+      {
+        issue:
+          "Generated data could not be allowed to become the record of truth by default.",
+        decision:
+          "Made extraction produce a draft that lives outside the register until a person explicitly saves it, with reject and edit available at field level.",
+        result:
+          "Nothing enters a government portfolio that a human has not looked at, which is what made the feature approvable in the first place.",
+        tradeoff:
+          "It adds a review step to every project, so the rest of the design had to make that review fast rather than exhaustive.",
+      },
+      {
+        issue:
+          "Users needed to know how far to trust an extracted project before opening it.",
+        decision:
+          "Scored data readiness on mandatory-field coverage, surfaced it on the project card, and kept per-field confidence inside the detail view.",
+        result:
+          "A PMO can triage a batch at a glance and spend review time on the projects that are genuinely thin.",
+        tradeoff:
+          "The score is only as meaningful as the client's mandatory-field configuration, so it reads as readiness to baseline rather than as accuracy.",
+      },
+      {
+        issue: "A confident wrong answer was worse than a question.",
+        decision:
+          "Let the agent pause mid-extraction and ask a short, numbered set of clarifying questions, each one skippable.",
+        result:
+          "The agent could improve its own input instead of guessing, and the user stayed in control of how much effort to spend on a given batch.",
+        tradeoff:
+          "Questions interrupt an otherwise hands-off flow, so they were capped and made skippable rather than blocking.",
+      },
+      {
+        issue: "Bulk import into a live register risked silent duplication.",
+        decision:
+          "Flagged likely duplicates with a match strength and linked straight through to the existing record, opened alongside the queue rather than in place of it.",
+        result:
+          "The system raises the suspicion and the person makes the call, without losing their position in the review.",
+        tradeoff:
+          "It refuses to merge automatically, so near-identical projects still cost a human decision. For a register of record that is the safer failure.",
+      },
+      {
+        issue:
+          "The people best placed to verify a plan were not the people running the import.",
+        decision:
+          "Designed one engine at two altitudes: PMO bulk extraction and assignment, and project-manager refinement of an assigned project.",
+        result:
+          "Migration can begin immediately at the PMO level while accuracy improves later, in the hands of whoever actually owns the project.",
+        tradeoff:
+          "Because AI access is licensed per seat, most clients start with PMO-only extraction. The quality gap between a bulk import and a PM-refined plan became the clearest argument for extending seats.",
+      },
+    ],
+    beforeAfter: {
+      beforeTitle: "Before: migration happened outside the product",
+      beforeItems: [
+        "New clients either abandoned their history or ran projects in two places.",
+        "Existing portfolios were keyed in by hand by the implementation team.",
+        "Document formats varied per client, so nothing could be repeated.",
+        "Thin records and duplicates were discovered after they reached the register.",
+      ],
+      afterTitle: "After: migration is a reviewed product flow",
+      afterItems: [
+        "Clients upload the documents they already keep, in whatever shape they exist.",
+        "The agent maps them onto the real project plan, charter, and registers.",
+        "Readiness and confidence show where review effort is needed.",
+        "Only human-verified projects are committed to the live register.",
+      ],
+    },
+    finalMoments: [
+      {
+        title: "Start where the portfolio already lives",
+        description:
+          "The flow begins inside the project register itself, so migration reads as a normal register action rather than a separate tool bolted on beside the product.",
+        tags: ["Entry point", "PMO"],
+      },
+      {
+        title: "Say what to extract",
+        description:
+          "One surface accepts documents in whatever shape the client keeps them, with an optional prompt for when the user wants to narrow what the agent should look for.",
+        tags: ["Upload", "Any format"],
+      },
+      {
+        title: "Let the agent ask before it guesses",
+        description:
+          "While parsing, the agent raises a short numbered set of questions and makes each one skippable, so a thin source can be improved without blocking the run.",
+        tags: ["Clarification", "Skippable"],
+      },
+      {
+        title: "Review the batch, not the paperwork",
+        description:
+          "Extracted projects arrive as cards carrying readiness, ownership, and stage, with accept and reject moving work out of the queue before anyone opens a detail view.",
+        tags: ["Data readiness", "Triage"],
+      },
+      {
+        title: "Resolve duplicates against the live register",
+        description:
+          "A suspected duplicate is stated with its match strength and a link into the existing record, leaving the judgement with the person who can actually make it.",
+        tags: ["Duplicates", "Human decision"],
+      },
+      {
+        title: "Open the plan and disagree with it",
+        description:
+          "The detail view mirrors the real structure across charter, plan, manage, report, and govern, so verification happens in the same shape the work will continue in.",
+        tags: ["Human in the loop", "Field level"],
+      },
+      {
+        title: "See exactly what was and was not found",
+        description:
+          "An extraction summary separates mandatory from optional fields and reports section coverage and average confidence before anything is committed to the register.",
+        tags: ["Coverage", "Confidence"],
+      },
+      {
+        title: "Take the proposals, or leave them",
+        description:
+          "Suggested proposals sit in their own tab, so an expansion idea never quietly contaminates the migration the client actually asked for.",
+        tags: ["Proposals", "Optional"],
+      },
+    ],
+    impact: [
+      {
+        label: "Onboarding",
+        value:
+          "Removed the manual back-end migration standing between a signed client and a usable portfolio.",
+      },
+      {
+        label: "Trust",
+        value:
+          "Made readiness, confidence, and duplicates visible so review effort could be aimed rather than spread.",
+      },
+      {
+        label: "Governance",
+        value:
+          "Kept an explicit human commit step between generated content and the register of record.",
+      },
+      {
+        label: "Commercial",
+        value:
+          "Created a concrete reason to extend AI access to project managers instead of stopping at the PMO.",
+      },
+    ],
+    reflection:
+      "The instinct with an extraction agent is to make it look certain. The more useful move was designing where it admits doubt: the questions it asks, the fields it marks low confidence, the duplicate it refuses to merge on your behalf. Certainty is cheap to render and expensive to be wrong about. Visible doubt is what let a government client point this at their own register.",
+  }),
+  bindProject({
     projectId: "dubai-holding-destination-system",
     headline:
       "Turning a complex destination operation into a calmer experience system.",

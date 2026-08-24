@@ -43,7 +43,7 @@ export async function BlogPreviewSection() {
         </div>
 
         {posts.length > 0 ? (
-          <div className="mt-1">
+          <div className="mt-8">
             <WritingFeed compact posts={posts} />
           </div>
         ) : (
