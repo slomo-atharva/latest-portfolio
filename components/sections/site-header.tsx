@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 import { heroCopy } from "@/data/hero";
 
 const navLinkClass =
@@ -9,13 +8,11 @@ const navLinkClass =
 type SiteHeaderProps = {
   logoHref?: string;
   sectionHrefPrefix?: string;
-  showHomeLink?: boolean;
 };
 
 export function SiteHeader({
   logoHref = "#top",
   sectionHrefPrefix = "",
-  showHomeLink = false,
 }: SiteHeaderProps) {
   const sectionHref = (hash: string) => `${sectionHrefPrefix}${hash}`;
 
@@ -36,20 +33,6 @@ export function SiteHeader({
             width={682}
           />
         </Link>
-
-        {showHomeLink ? (
-          <Link
-            className="group inline-flex h-9 items-center gap-1.5 rounded-[6px] px-1 text-sm font-medium leading-none text-[var(--ink-soft)] transition duration-300 hover:-translate-x-0.5 hover:text-[var(--ink)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--blue)] focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--paper)]"
-            href="/#top"
-          >
-            <ArrowLeft
-              aria-hidden="true"
-              className="h-4 w-4 transition duration-300 group-hover:-translate-x-0.5"
-              strokeWidth={2.3}
-            />
-            Home
-          </Link>
-        ) : null}
       </div>
 
       <nav

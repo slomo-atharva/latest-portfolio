@@ -595,6 +595,229 @@ export const caseStudies: CaseStudy[] = [
       "The instinct with an extraction agent is to make it look certain. The more useful move was designing where it admits doubt: the questions it asks, the fields it marks low confidence, the duplicate it refuses to merge on your behalf. Certainty is cheap to render and expensive to be wrong about. Visible doubt is what let a government client point this at their own register.",
   }),
   bindProject({
+    projectId: "strategy-dot-zero-dependency-module",
+    headline:
+      "Turning a private list of predecessors into a two-sided agreement, so the project you depend on actually knows you depend on it.",
+    deck:
+      "The module sits inside the Strategy Dot Zero project plan and the wider portfolio register. A project manager requests what they need from another project, that project's owner reviews and accepts, and the requesting side then stays updated from the provider's own status reporting.",
+    problem:
+      "Dependencies were recorded, not managed. A project manager could open a register and note that their work depended on another project, but the entry never left their own screen. The manager who owned that other project was never told, never asked, and never agreed. There was no status, no stage, no progress, so there was no way to see whether the thing being waited on was on track or already slipping. A dependency could also only point at an entire project, even when what was actually needed was a single deliverable inside it. When the record drifted from reality, a delay could be traced everywhere except back to the dependency that caused it.",
+    outcome:
+      "A two-sided dependency workflow: a Get register for what a project needs, a Give register for what it owes, an approval step between them, and live status that flows from the provider's project status report into the dependent project's view.",
+    storyIntro:
+      "The existing feature looked like a table problem. It was a relationship problem. One side had written something down and the other side had never been asked, so the register quietly aged into a list of assumptions. Most of the design work went into turning a note into an agreement, and then keeping that agreement honest as plans moved.",
+    snapshot: [
+      {
+        label: "Core shift",
+        value:
+          "A dependency stopped being a note and became an agreement between two projects.",
+      },
+      {
+        label: "Two registers",
+        value: "Get for what a project needs, Give for what it owes.",
+      },
+      {
+        label: "Granularity",
+        value: "Depend on a whole project, or on one end product inside it.",
+      },
+      {
+        label: "Live status",
+        value:
+          "Progress follows the provider's status report, with manual override.",
+      },
+    ],
+    frictions: [
+      {
+        title: "The other side never knew",
+        description:
+          "A dependency was logged for the requesting manager's own visibility. The project being depended on held no record of it, so nobody could confirm it, plan around it, or push back on it.",
+      },
+      {
+        title: "A ledger cannot tell you something is wrong",
+        description:
+          "The register listed predecessors and successors as static text. It could not show whether the work being waited on was on track, under strain, or already late.",
+      },
+      {
+        title: "Whole projects were too coarse a unit",
+        description:
+          "Teams rarely wait on an entire project. They wait on one deliverable inside it, but the model only allowed the project as a whole to be named.",
+      },
+      {
+        title: "The digital status drifted from the real one",
+        description:
+          "Because nothing refreshed, the register described the plan as it was written rather than as it stood. A slipped dependency stayed invisible until it had already done damage.",
+      },
+      {
+        title: "Delays could not be traced back",
+        description:
+          "When a project went off track, the dependency behind it was rarely identifiable in the record, so the same failure was free to repeat itself next quarter.",
+      },
+    ],
+    process: [
+      {
+        phase: "01",
+        title: "Separate the two sides of a dependency",
+        description:
+          "Split one shared ledger into what a project needs and what it owes, so each manager works from a register that matches their own responsibility.",
+      },
+      {
+        phase: "02",
+        title: "Model the request as a conversation",
+        description:
+          "Defined the states a dependency moves through: requested, approved or rejected, active, complete, and revoked, with each state owned by a specific side.",
+      },
+      {
+        phase: "03",
+        title: "Choose the unit of dependency",
+        description:
+          "Allowed a request to point at a whole project or a single end product, so the record matches what teams are genuinely waiting on.",
+      },
+      {
+        phase: "04",
+        title: "Connect status to existing reporting",
+        description:
+          "Tied the dependent view to the provider's project status report, so keeping it current is a by-product of reporting the provider already does.",
+      },
+      {
+        phase: "05",
+        title: "Design the decision surface",
+        description:
+          "Built one drawer carrying the request, both projects, the direction of the ask, and the decision, so accepting or rejecting is a judgement rather than a guess.",
+      },
+      {
+        phase: "06",
+        title: "Handle the awkward states",
+        description:
+          "Worked through rejection, revocation, and manual override, so the workflow stays honest when plans change after a request has been sent.",
+      },
+    ],
+    decisions: [
+      {
+        issue: "A dependency recorded by one side is only ever an assumption.",
+        decision:
+          "Made every dependency a request the providing project must explicitly accept, with Get and Give registers giving each side its own view of the same record.",
+        result:
+          "Both managers work from one agreement, and the project being depended on can plan for the commitment instead of discovering it late.",
+        tradeoff:
+          "It introduces an approval step where there was none, so the request form stayed short and the whole decision was kept to a single drawer.",
+      },
+      {
+        issue: "Status that has to be maintained separately will not be maintained.",
+        decision:
+          "Fed the dependent view from the provider's existing project status report rather than asking anyone to update a second place.",
+        result:
+          "The dependency stays current as a by-product of reporting the provider already does, which is what keeps the digital record close to the real one.",
+        tradeoff:
+          "It ties dependency accuracy to reporting discipline, so a manual override with a comment was added for the cases where the report lags reality.",
+      },
+      {
+        issue: "Teams rarely wait on an entire project.",
+        decision:
+          "Let a request target either the whole project or a specific end product inside it.",
+        result:
+          "The record names what is actually being waited on, which makes both the commitment and any delay far easier to reason about.",
+        tradeoff:
+          "It adds a selection step to the request, so the dependent item sits directly beside the dependency name rather than buried deeper in the form.",
+      },
+      {
+        issue: "A rejection with no reason only moves the confusion.",
+        decision:
+          "Required a reason on rejection and kept it visible on the record afterwards.",
+        result:
+          "The requesting manager learns what to change instead of resubmitting the same request, and the history explains itself months later.",
+        tradeoff:
+          "It slows the reject path slightly, which is the right trade when the alternative is an unexplained blocker.",
+      },
+      {
+        issue: "Plans change after a request has been sent.",
+        decision:
+          "Gave the requester a revoke path while approval is still pending, kept visually separate from the provider's reject.",
+        result:
+          "A dependency that is no longer needed can be withdrawn cleanly instead of sitting pending or being silently ignored.",
+        tradeoff:
+          "Two ways to end a pending request needed obvious separation, so revoke lives in its own bordered panel and only on the requester's view.",
+      },
+    ],
+    beforeAfter: {
+      beforeTitle: "Before: a private ledger",
+      beforeItems: [
+        "A dependency existed only on the requesting manager's screen.",
+        "The project being depended on was never notified or asked to agree.",
+        "Entries were static text with no status, stage, or progress.",
+        "A dependency could only point at a whole project.",
+      ],
+      afterTitle: "After: a two-sided agreement",
+      afterItems: [
+        "Every dependency is requested, reviewed, and explicitly accepted.",
+        "Get and Give registers give each side the view matching their responsibility.",
+        "Status flows from the provider's reporting, with override and comment.",
+        "A request can target a whole project or one end product inside it.",
+      ],
+    },
+    finalMoments: [
+      {
+        title: "See what the project is waiting on",
+        description:
+          "The Get register lists everything this project needs from elsewhere, carrying provider, type, owner, required date, business impact, and current status in the row itself.",
+        tags: ["Get register", "Requesting side"],
+      },
+      {
+        title: "See what the project owes",
+        description:
+          "The Give register mirrors it from the other side, so a manager can see every commitment other projects are counting on and act on the ones still awaiting a decision.",
+        tags: ["Give register", "Providing side"],
+      },
+      {
+        title: "Request only what is actually needed",
+        description:
+          "A compact drawer captures the dependency, the specific item it points at, the provider, what is needed, the required date, and the business impact of not getting it.",
+        tags: ["Request", "End product"],
+      },
+      {
+        title: "Decide with the context attached",
+        description:
+          "The approval drawer shows both projects, the direction of the request, and the detail behind it, so accepting or rejecting is a judgement rather than a guess.",
+        tags: ["Approval", "Two-sided"],
+      },
+      {
+        title: "Say why, not just no",
+        description:
+          "A rejection captures its reason and keeps it on the record, so the requesting manager knows what to change rather than resubmitting the same ask.",
+        tags: ["Rejection", "Reasoning"],
+      },
+      {
+        title: "Withdraw cleanly when plans change",
+        description:
+          "While a request is still pending, the requester can revoke it from their own view, kept deliberately separate from the provider's reject so the two are never confused.",
+        tags: ["Revoke", "Requester"],
+      },
+    ],
+    impact: [
+      {
+        label: "Visibility",
+        value:
+          "The project being depended on now knows the commitment exists and can plan around it.",
+      },
+      {
+        label: "Accuracy",
+        value:
+          "Dependency status follows the provider's real reporting instead of a note written once and left alone.",
+      },
+      {
+        label: "Precision",
+        value:
+          "Dependencies point at the deliverable actually being waited on, not just the project surrounding it.",
+      },
+      {
+        label: "Traceability",
+        value:
+          "A delayed project can be traced back to the dependency that caused it, so the same failure is less likely to repeat.",
+      },
+    ],
+    reflection:
+      "The old register was not failing because it looked dated. It was failing because it only ever had one author. Once the same record had two sides, an explicit acceptance, and a status drawn from work someone was already doing, most of the confusion disappeared without much new interface. The harder discipline was resisting the urge to model every possible predecessor and successor relationship, and instead making one relationship genuinely trustworthy.",
+  }),
+  bindProject({
     projectId: "dubai-holding-destination-system",
     headline:
       "Turning a complex destination operation into a calmer experience system.",

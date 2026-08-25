@@ -39,12 +39,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <main className="min-h-svh bg-[var(--paper-bright)]" id="top">
-      <SiteHeader logoHref="/#top" sectionHrefPrefix="/" showHomeLink />
+      <SiteHeader logoHref="/#top" sectionHrefPrefix="/" />
 
       <article className="bg-[var(--paper-bright)] px-5 pb-16 pt-24 text-[var(--ink)] sm:px-8 sm:pb-20 sm:pt-28 lg:px-12">
         <div className="mx-auto max-w-[44rem] py-8 sm:py-10">
           <Link
-            className="group inline-flex h-10 items-center gap-2 rounded-[8px] px-1 text-sm font-medium text-[var(--ink-soft)] transition duration-300 hover:-translate-x-0.5 hover:text-[var(--ink)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--blue)] focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--paper)]"
+            className="group inline-flex h-10 items-center gap-2 rounded-full bg-[rgb(241_245_249_/_0.9)] pl-3 pr-4 text-sm font-medium leading-none text-[var(--ink)] transition duration-300 hover:bg-[rgb(226_232_240_/_0.9)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--blue)] focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--paper-bright)]"
             href="/blog"
           >
             <ArrowLeft aria-hidden="true" className="h-4 w-4 transition duration-300 group-hover:-translate-x-0.5" strokeWidth={2.3} />

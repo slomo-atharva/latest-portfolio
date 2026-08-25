@@ -14,7 +14,7 @@ export default async function BlogPage() {
 
   return (
     <main className="min-h-svh bg-[var(--paper-bright)]" id="top">
-      <SiteHeader logoHref="/#top" sectionHrefPrefix="/" showHomeLink />
+      <SiteHeader logoHref="/#top" sectionHrefPrefix="/" />
 
       <section className="bg-[var(--paper-bright)] px-5 pb-16 pt-24 text-[var(--ink)] sm:px-8 sm:pb-20 sm:pt-28 lg:px-12">
         <div className="mx-auto max-w-6xl">

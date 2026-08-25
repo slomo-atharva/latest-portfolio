@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { caseStudies, getCaseStudyById } from "@/data/case-studies";
 import { CaseStudyPage } from "@/components/sections/case-study/case-study-page";
 import { SiteFooter } from "@/components/sections/site-footer";
+import { isUnlocked } from "@/lib/case-access";
 
 type CaseStudyRouteProps = {
   params: Promise<{
@@ -42,9 +43,12 @@ export default async function Page({ params }: CaseStudyRouteProps) {
     notFound();
   }
 
+  // Read on the server so the gated sections are never sent to the browser.
+  const unlocked = await isUnlocked();
+
   return (
     <>
-      <CaseStudyPage caseStudy={caseStudy} />
+      <CaseStudyPage caseStudy={caseStudy} locked={!unlocked} />
       <SiteFooter homeAnchors />
     </>
   );

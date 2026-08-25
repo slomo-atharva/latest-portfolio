@@ -28,9 +28,11 @@ import {
   type ProjectToneStyle,
 } from "@/lib/project-tones";
 import { CaseStudyNavigator } from "./case-study-navigator";
+import { CaseStudyLock } from "./case-study-lock";
 
 type CaseStudyPageProps = {
   caseStudy: CaseStudy;
+  locked?: boolean;
 };
 
 type VisualWeight = "high" | "medium" | "low";
@@ -244,6 +246,11 @@ const collaborationByProject: Record<string, string[]> = {
     "PMO and implementation teams on onboarding reality",
     "Product and commercial alignment on the seat model",
   ],
+  "strategy-dot-zero-dependency-module": [
+    "Project and program manager workflow validation",
+    "Business analysis on the dependency model",
+    "Status reporting and PSR alignment",
+  ],
   "dubai-holding-destination-system": [
     "Operations alignment",
     "Partner handoff model",
@@ -279,6 +286,12 @@ const constraintsByProject: Record<string, string[]> = {
     "Multi-persona permissions across PMO and project managers",
     "AI access licensed per seat",
   ],
+  "strategy-dot-zero-dependency-module": [
+    "Two project managers with separate ownership",
+    "Status must come from existing reporting, not a second update",
+    "Legacy register behaviour already in daily use",
+    "Approval crossing project boundaries",
+  ],
   "dubai-holding-destination-system": [
     "Sensitive operational context",
     "Multi-team ownership",
@@ -307,6 +320,8 @@ const platformByProject: Record<string, string> = {
     "Web, enterprise planning and PMO oversight",
   "strategy-dot-zero-ai-project-extraction":
     "Web, enterprise onboarding and portfolio migration",
+  "strategy-dot-zero-dependency-module":
+    "Web, enterprise project planning and portfolio delivery",
   "dubai-holding-destination-system": "Web, destination operations",
   "dhda-service-journeys": "Web, Explore and PMO management hub",
   "national-projects-command-view": "Web, executive command view",
@@ -319,12 +334,16 @@ const domainByProject: Record<string, string> = {
   "dhda-service-journeys": "Healthcare, policy systems, enterprise AI",
   "strategy-dot-zero-ai-project-extraction":
     "Portfolio governance, enterprise onboarding, applied AI",
+  "strategy-dot-zero-dependency-module":
+    "Portfolio governance, delivery planning, cross-project dependencies",
 };
 
 const timelineByProject: Record<string, string> = {
   "strategy-dot-zero-change-impact": "One-week design sprint",
   "dhda-service-journeys": "Concept pitch to MVP roadmap",
   "strategy-dot-zero-ai-project-extraction": "Concept through approved MVP flow",
+  "strategy-dot-zero-dependency-module":
+    "Concept through approved module design",
 };
 
 const visualRoleByProject: Record<string, string> = {
@@ -334,6 +353,8 @@ const visualRoleByProject: Record<string, string> = {
     "Lead design strategy, product UX, information architecture, UX/UI",
   "strategy-dot-zero-ai-project-extraction":
     "Product Designer for the agent workflow, review experience, and information architecture",
+  "strategy-dot-zero-dependency-module":
+    "Product Designer for the dependency model, registers, and approval workflow",
 };
 
 const visualPlatformByProject: Record<string, string> = {
@@ -342,6 +363,8 @@ const visualPlatformByProject: Record<string, string> = {
   "dhda-service-journeys": "Web, visual exploration layer and management hub",
   "strategy-dot-zero-ai-project-extraction":
     "Web, PMO bulk migration and project-manager refinement",
+  "strategy-dot-zero-dependency-module":
+    "Web, project plan and portfolio dependency registers",
 };
 
 const heroImpactByProject: Record<string, string> = {
@@ -350,6 +373,8 @@ const heroImpactByProject: Record<string, string> = {
   "dhda-service-journeys": "MVP demonstrated to senior government executives",
   "strategy-dot-zero-ai-project-extraction":
     "Manual back-end migration became a reviewed product flow, with nothing reaching the register unverified.",
+  "strategy-dot-zero-dependency-module":
+    "A one-sided ledger became a two-sided agreement, with live status flowing from the provider's own reporting.",
 };
 
 const productModelDescriptionsByProject: Record<string, string[]> = {
@@ -367,6 +392,11 @@ const productModelDescriptionsByProject: Record<string, string[]> = {
     "Upload documents in any format; the agent parses and asks only what it needs.",
     "Readiness scoring, field confidence, and duplicate checks aim the review.",
     "Verified projects commit into the live plan, charter, and registers.",
+  ],
+  "strategy-dot-zero-dependency-module": [
+    "Two registers: what a project needs, and what it owes to others.",
+    "Request, review, accept, reject, or revoke across project boundaries.",
+    "Progress that follows the provider's status report, with override.",
   ],
 };
 
@@ -395,6 +425,14 @@ const researchMethodsByProject: Record<string, string[]> = {
     "Agent conversation prototyping",
     "Review-flow validation",
   ],
+  "strategy-dot-zero-dependency-module": [
+    "Existing register audit",
+    "Dependency scenario mapping",
+    "Cross-persona workflow modelling",
+    "Status reporting alignment",
+    "Approval state modelling",
+    "Interaction prototyping",
+  ],
 };
 
 const iaModelByProject: Record<string, string[]> = {
@@ -421,6 +459,15 @@ const iaModelByProject: Record<string, string[]> = {
     "Project detail and verification",
     "Duplicate resolution",
     "Commit to register",
+  ],
+  "strategy-dot-zero-dependency-module": [
+    "Project plan (dependency entry point)",
+    "Get register — what this project needs",
+    "Give register — what this project owes",
+    "Request drawer",
+    "Approval, rejection, and revoke",
+    "Live status from project status report",
+    "Portfolio dependency view",
   ],
 };
 
@@ -484,6 +531,26 @@ const impactMetricsByProject: Record<string, ImpactMetricCard[]> = {
       category: "business",
     },
   ],
+  "strategy-dot-zero-dependency-module": [
+    {
+      value: "Two-sided",
+      label:
+        "every dependency is accepted by the providing project, not logged by one side",
+      category: "business",
+    },
+    {
+      value: "2 levels",
+      label:
+        "a dependency can point at a whole project or a single end product",
+      category: "user",
+    },
+    {
+      value: "0",
+      label:
+        "second places to update — status follows the provider's existing report",
+      category: "team",
+    },
+  ],
 };
 
 const reflectionDetailsByProject: Record<
@@ -510,6 +577,12 @@ const reflectionDetailsByProject: Record<
       "I would test the review queue against a real migration batch: a hundred or more projects with genuine duplicates and inconsistent stage names. Triage, filtering, and bulk action are where this design will come under the most pressure, and a clean demo batch flatters it.",
     howApproachChanged:
       "I now design the disagreement path before the happy path on anything generative. Deciding where a person overrides the model shaped the readiness score, the duplicate banner, and the commit step far more than the extraction itself did.",
+  },
+  "strategy-dot-zero-dependency-module": {
+    whatIdImprove:
+      "I would pressure-test the registers against a portfolio carrying hundreds of live dependencies. Filtering, bulk triage, and chains where one dependency sits behind another are where this design will strain, and a short demo register flatters it.",
+    howApproachChanged:
+      "I now ask who else is implied by a record before designing the screen for it. This looked like a table problem until I asked who the second author was, and that one question reshaped the entire module.",
   },
 };
 
@@ -556,6 +629,50 @@ const personasByProject: Record<string, PersonaCard[]> = {
       ],
       designImplication:
         "The summary layer had to reveal severity, timing, and status first, with project detail available only when a follow-up was needed.",
+    },
+  ],
+  "strategy-dot-zero-dependency-module": [
+    {
+      personaName: "Requesting project managers",
+      type: "primary",
+      goals: [
+        "Record what the project is genuinely waiting on",
+        "See whether the work they depend on is actually on track",
+      ],
+      painPoints: [
+        "The dependency lived only on their own screen",
+        "No status, so a slip stayed invisible until it caused damage",
+      ],
+      designImplication:
+        "The Get register had to carry status, stage, and business impact in the row itself, so risk is visible without opening anything.",
+    },
+    {
+      personaName: "Providing project managers",
+      type: "secondary",
+      goals: [
+        "Know what other projects are counting on them for",
+        "Accept, reject, or update commitments deliberately",
+      ],
+      painPoints: [
+        "Commitments were recorded about their project without their knowledge",
+        "No surface existed for reviewing or responding to a request",
+      ],
+      designImplication:
+        "The Give register and approval drawer had to make an incoming request reviewable in one place, with the reason for a rejection captured rather than assumed.",
+    },
+    {
+      personaName: "PMO and portfolio teams",
+      type: "admin",
+      goals: [
+        "See where delivery risk is concentrated across dependencies",
+        "Trace a delayed project back to its actual cause",
+      ],
+      painPoints: [
+        "Cross-project relationships were invisible at portfolio level",
+        "Off-track work could not be linked to the dependency behind it",
+      ],
+      designImplication:
+        "Dependency records had to stay consistent and queryable across projects rather than living inside a single plan.",
     },
   ],
   "strategy-dot-zero-ai-project-extraction": [
@@ -762,14 +879,12 @@ const fieldLabelText: Record<string, string> = {
 };
 
 const caseCardChrome =
-  "rounded-[8px] border border-[var(--case-line)] bg-[var(--case-surface)] shadow-[var(--case-shadow-soft)]";
-const caseInsetChrome =
-  "rounded-[8px] border border-[var(--case-line-soft)] bg-[var(--case-surface-muted)]";
+  "rounded-[10px] bg-[var(--case-surface)] shadow-[0_1px_2px_rgb(24_32_43_/_0.05),0_10px_30px_rgb(24_32_43_/_0.06)]";
+const caseInsetChrome = "rounded-[10px] bg-[var(--case-surface-muted)]";
 const caseEyebrow =
   "text-[0.68rem] font-medium uppercase tracking-normal text-[var(--case-muted)]";
-const caseFineRule = "border-[var(--case-line-soft)]";
 
-export function CaseStudyPage({ caseStudy }: CaseStudyPageProps) {
+export function CaseStudyPage({ caseStudy, locked = false }: CaseStudyPageProps) {
   const structured = buildStructuredCaseStudy(caseStudy);
   const { project } = caseStudy;
   const tone = projectToneStyles[project.tone];
@@ -781,20 +896,32 @@ export function CaseStudyPage({ caseStudy }: CaseStudyPageProps) {
 
       <div className="px-5 pb-16 sm:px-8 sm:pb-20 xl:px-8 2xl:px-10">
         <div className="mx-auto grid max-w-[92rem] gap-10 xl:grid-cols-[13rem_minmax(0,1fr)] xl:gap-0 2xl:grid-cols-[15rem_minmax(0,1fr)]">
-          <CaseStudyNavigator sectionSpecs={sectionSpecs} />
+          <CaseStudyNavigator
+            sectionSpecs={locked ? sectionSpecs.slice(0, 2) : sectionSpecs}
+          />
 
           <div className="min-w-0 xl:px-8 2xl:px-10">
             <ContextSection structured={structured} />
-            <ProblemSection structured={structured} tone={tone} />
-            <UsersSection structured={structured} tone={tone} />
-            <ApproachSection structured={structured} tone={tone} />
-            <ResearchSection structured={structured} tone={tone} />
-            <InformationArchitectureSection structured={structured} tone={tone} />
-            <DecisionSection structured={structured} tone={tone} />
-            <SolutionSection structured={structured} tone={tone} />
-            <ImpactSection structured={structured} tone={tone} />
-            <ReflectionSection structured={structured} tone={tone} />
-            <CaseStudyClose />
+
+            {locked ? (
+              <CaseStudyLock
+                sections={sectionSpecs.slice(2).map((spec) => spec.name)}
+                tone={tone}
+              />
+            ) : (
+              <>
+                <ProblemSection structured={structured} tone={tone} />
+                <UsersSection structured={structured} tone={tone} />
+                <ApproachSection structured={structured} tone={tone} />
+                <ResearchSection structured={structured} tone={tone} />
+                <InformationArchitectureSection structured={structured} tone={tone} />
+                <DecisionSection structured={structured} tone={tone} />
+                <SolutionSection structured={structured} tone={tone} />
+                <ImpactSection structured={structured} tone={tone} />
+                <ReflectionSection structured={structured} tone={tone} />
+                <CaseStudyClose />
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -913,35 +1040,21 @@ function CaseStudyHeader() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-[var(--case-line)] bg-[rgb(251_252_254_/_0.86)] px-5 py-3 backdrop-blur-xl sm:px-8 lg:px-12">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-5">
-        <div className="flex items-center gap-2 sm:gap-3">
-          <Link
-            aria-label="Go to portfolio home"
-            className="inline-flex items-center transition duration-300 hover:translate-x-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--blue)] focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--case-paper)]"
-            href="/#top"
-          >
-            <Image
-              alt={heroCopy.logoAlt}
-              className="h-8 w-auto sm:h-9"
-              height={490}
-              loading="eager"
-              priority
-              src="/aa-logo.svg"
-              width={682}
-            />
-          </Link>
-
-          <Link
-            className="group inline-flex h-9 items-center gap-1.5 rounded-[6px] px-1 text-sm font-medium leading-none text-[var(--case-ink-soft)] transition duration-300 hover:-translate-x-0.5 hover:text-[var(--case-ink)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--blue)] focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--case-paper)]"
-            href="/#top"
-          >
-            <ArrowLeft
-              aria-hidden="true"
-              className="h-4 w-4 transition duration-300 group-hover:-translate-x-0.5"
-              strokeWidth={2.3}
-            />
-            Home
-          </Link>
-        </div>
+        <Link
+          aria-label="Go to portfolio home"
+          className="inline-flex items-center transition duration-300 hover:translate-x-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--blue)] focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--case-paper)]"
+          href="/#top"
+        >
+          <Image
+            alt={heroCopy.logoAlt}
+            className="h-8 w-auto sm:h-9"
+            height={490}
+            loading="eager"
+            priority
+            src="/aa-logo.svg"
+            width={682}
+          />
+        </Link>
 
         <nav aria-label="Case study navigation" className="flex items-center gap-4">
           <Link
@@ -984,6 +1097,18 @@ function HeroSection({
       />
 
       <div className="mx-auto max-w-7xl">
+        <Link
+          className="group mb-10 inline-flex h-10 items-center gap-2 rounded-full bg-[var(--case-surface-muted)] pl-3 pr-4 text-sm font-medium leading-none text-[var(--case-ink)] transition duration-300 hover:bg-[var(--case-line-soft)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--blue)] focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--case-paper)]"
+          href="/#work"
+        >
+          <ArrowLeft
+            aria-hidden="true"
+            className="h-4 w-4 transition duration-300 group-hover:-translate-x-0.5"
+            strokeWidth={2.3}
+          />
+          All work
+        </Link>
+
         <div className="grid gap-10 lg:grid-cols-[minmax(0,0.98fr)_minmax(20rem,0.52fr)] lg:items-start">
           <div>
             <div className="flex flex-wrap items-center gap-3 text-[0.68rem] font-medium uppercase tracking-normal text-[var(--case-muted)]">
@@ -1013,14 +1138,16 @@ function HeroSection({
             </p>
 
             {structured.impact.metrics.length > 0 ? (
-              <dl className="mt-9 max-w-3xl overflow-hidden rounded-[8px] border border-[var(--case-line)] shadow-[var(--case-shadow-soft)]">
-                <div aria-hidden="true" className={`h-1 ${tone.softFill}`} />
-                <div className="grid gap-px bg-[var(--case-line-soft)] sm:grid-cols-3">
+              <dl className="mt-9 grid max-w-3xl gap-3 sm:grid-cols-3">
                   {structured.impact.metrics.slice(0, 3).map((metric) => (
                     <div
-                      className="bg-[var(--case-surface)] p-5"
+                      className={`${caseCardChrome} relative isolate overflow-hidden p-5`}
                       key={`${metric.value}-${metric.label}`}
                     >
+                      <span
+                        aria-hidden="true"
+                        className={`absolute inset-x-0 top-0 h-1 ${tone.softFill}`}
+                      />
                       <dt className="text-2xl font-medium leading-none tracking-normal text-[var(--case-ink)] sm:text-[1.75rem]">
                         {metric.value}
                       </dt>
@@ -1029,7 +1156,6 @@ function HeroSection({
                       </dd>
                     </div>
                   ))}
-                </div>
               </dl>
             ) : null}
           </div>
@@ -1039,14 +1165,14 @@ function HeroSection({
               aria-hidden="true"
               className={`absolute inset-x-0 top-0 h-1 ${tone.softFill}`}
             />
-            <div className="flex items-start justify-between gap-5 border-b border-[var(--case-line-soft)] bg-[var(--case-surface-muted)] p-5 sm:p-6">
+            <div className="flex items-start justify-between gap-5 bg-[var(--case-surface-muted)] p-5 sm:p-6">
               <div>
                 <p className={caseEyebrow}>Project brief</p>
                 <p className="mt-2 text-sm font-light leading-6 text-[var(--case-ink-soft)]">
                   A compact read for role, scope, and context.
                 </p>
               </div>
-              <div className="grid h-16 w-44 max-w-[42vw] shrink-0 place-items-center overflow-hidden rounded-[8px] border border-[var(--case-line)] bg-[var(--case-surface)] px-3 py-2">
+              <div className="grid h-16 w-44 max-w-[42vw] shrink-0 place-items-center overflow-hidden rounded-[8px] bg-[var(--case-surface)] px-3 py-2 shadow-[0_1px_2px_rgb(24_32_43_/_0.05)]">
                 <Image
                   alt={`${project.client} logo`}
                   className="block h-auto max-h-10 w-full object-contain mix-blend-multiply"
@@ -1059,7 +1185,7 @@ function HeroSection({
               </div>
             </div>
 
-            <div className="divide-y divide-[var(--case-line-soft)] px-5 sm:px-6">
+            <div className="grid gap-3 px-5 py-5 sm:px-6">
               <HeroBriefRow label="Role" value={structured.hero.role} />
               <HeroBriefRow label="Timeline" value={structured.hero.timeline} />
               <HeroBriefRow label="Platform" value={structured.hero.platform} />
@@ -1093,7 +1219,7 @@ function HeroSection({
 function HeroBriefRow({ label, value }: { label: string; value: string }) {
   if (!value || value === "NOT SUPPLIED YET") return null;
   return (
-    <div className="grid gap-2 py-4 sm:grid-cols-[6.5rem_minmax(0,1fr)]">
+    <div className="grid gap-1 sm:grid-cols-[6.5rem_minmax(0,1fr)] sm:gap-2">
       <p className="text-[0.65rem] font-medium uppercase tracking-normal text-[var(--case-muted)]">
         {label}
       </p>
@@ -1130,7 +1256,7 @@ function HeroVisual({
   return (
     <div className={`${caseCardChrome} relative isolate overflow-hidden`}>
       <div className="grid gap-0 lg:grid-cols-[0.35fr_0.65fr]">
-        <aside className="border-b border-[var(--case-line)] bg-[var(--case-surface-muted)] p-6 lg:border-b-0 lg:border-r">
+        <aside className="bg-[var(--case-surface-muted)] p-6">
           <Image
             alt={`${project.client} logo`}
             className={`max-w-full object-contain mix-blend-multiply ${project.logo.className}`}
@@ -1150,10 +1276,10 @@ function HeroVisual({
             <p className={caseEyebrow}>Signals</p>
           </div>
 
-          <div className="mt-4 divide-y divide-[var(--case-line-soft)] border-y border-[var(--case-line-soft)]">
+          <div className="mt-4 grid gap-3">
             {structured.hero.impactMetrics.map((metric, index) => (
               <div
-                className="grid grid-cols-[2rem_1fr] gap-3 py-4"
+                className="grid grid-cols-[2rem_1fr] gap-3 rounded-[8px] bg-[var(--case-surface)] px-3 py-3"
                 key={metric}
               >
                 <p className={`text-xs font-medium ${index === 0 ? tone.accentText : "text-[var(--case-muted)]"}`}>
@@ -1168,7 +1294,7 @@ function HeroVisual({
         </aside>
 
         <div className="p-6 sm:p-8">
-          <div className="flex items-center justify-between gap-4 border-b border-[var(--case-line-soft)] pb-4">
+          <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <Route
                 aria-hidden="true"
@@ -1182,17 +1308,17 @@ function HeroVisual({
             <span className={`h-2 w-2 rounded-full ${tone.softFill}`} />
           </div>
 
-          <div className="mt-6 grid gap-0 divide-y divide-[var(--case-line-soft)] border-y border-[var(--case-line-soft)]">
+          <div className="mt-6 grid gap-3">
             {structured.context.modules.map((module, index) => (
               <div
-                className="grid gap-4 py-4 sm:grid-cols-[2.75rem_minmax(0,1fr)]"
+                className="grid gap-4 rounded-[8px] bg-[var(--case-surface-muted)] p-4 sm:grid-cols-[2.75rem_minmax(0,1fr)]"
                 key={module}
               >
                 <span
-                  className={`grid h-9 w-9 place-items-center rounded-full border text-xs font-medium ${
+                  className={`grid h-9 w-9 place-items-center rounded-full text-xs font-medium ${
                     index === 1
-                      ? `${tone.softFill} ${tone.accentText} ${tone.border}`
-                      : "border-[var(--case-line)] bg-[var(--case-surface)] text-[var(--case-muted)]"
+                      ? `${tone.softFill} ${tone.accentText}`
+                      : "bg-[var(--case-surface)] text-[var(--case-muted)]"
                   }`}
                 >
                   {index + 1}
@@ -1311,7 +1437,7 @@ function ProductScreenHero({
       </div>
 
       <div className="grid lg:grid-cols-[1.12fr_0.88fr]">
-        <div className="border-b border-[var(--case-line-soft)] p-5 sm:p-6 lg:border-b-0 lg:border-r">
+        <div className="bg-[var(--case-surface-muted)] p-5 sm:p-6">
           <p className={caseEyebrow}>Connected product model</p>
           <ol className="mt-5 grid gap-3 sm:grid-cols-3">
             {structured.context.modules.map((module, index) => (
@@ -1367,7 +1493,7 @@ function ContextSection({ structured }: { structured: StructuredCaseStudy }) {
         />
       </div>
 
-      <div className="mt-8 rounded-[8px] border border-[var(--case-line)] bg-[var(--case-surface)] p-5 sm:p-6">
+      <div className={`${caseCardChrome} mt-8 p-5 sm:p-6`}>
         <div className="flex items-center gap-2">
           <Layers3
             aria-hidden="true"
@@ -1378,12 +1504,15 @@ function ContextSection({ structured }: { structured: StructuredCaseStudy }) {
             <FieldName value="modules" />
           </p>
         </div>
-        <ul className="mt-5 grid gap-0 divide-y divide-[var(--case-line-soft)] border-y border-[var(--case-line-soft)] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-          {structured.context.modules.map((module) => (
+        <ul className="mt-5 grid gap-3 sm:grid-cols-3">
+          {structured.context.modules.map((module, index) => (
             <li
-              className="px-0 py-4 text-sm font-medium leading-6 text-[var(--case-ink)] sm:px-4 sm:first:pl-0"
+              className="rounded-[8px] bg-[var(--case-surface-muted)] px-4 py-4 text-sm font-medium leading-6 text-[var(--case-ink)]"
               key={module}
             >
+              <span className="mb-2 block text-[0.65rem] font-medium text-[var(--case-muted)]">
+                {String(index + 1).padStart(2, "0")}
+              </span>
               {module}
             </li>
           ))}
@@ -1490,7 +1619,7 @@ function ApproachSection({
         <ListPanel icon={<FileText aria-hidden="true" className={`h-4 w-4 ${tone.accentText}`} strokeWidth={2.35} />} label="constraints" items={structured.approach.constraints} />
       </div>
 
-      <div className="mt-10 border-t border-[var(--case-line)] pt-8">
+      <div className="mt-12">
         <p className={caseEyebrow}>
           <FieldName value="process_steps" />
         </p>
@@ -1544,7 +1673,7 @@ function ResearchSection({
         <ul className="mt-4 flex flex-wrap gap-2">
           {structured.research.methods.map((method) => (
             <li
-              className="rounded-full border border-[var(--case-line)] bg-[var(--case-surface)] px-4 py-2 text-xs font-medium text-[var(--case-ink-soft)]"
+              className="rounded-full bg-[var(--case-surface-muted)] px-4 py-2 text-xs font-medium text-[var(--case-ink-soft)]"
               key={method}
             >
               {method}
@@ -1553,30 +1682,29 @@ function ResearchSection({
         </ul>
       </div>
 
-      <div className={`${caseCardChrome} mt-8 overflow-hidden`}>
-        <div className="grid grid-cols-1 border-b border-[var(--case-line)] bg-[var(--case-surface-muted)] px-5 text-[0.68rem] font-medium uppercase tracking-normal text-[var(--case-muted)] md:grid-cols-3">
-          <span className="py-4 pr-4">
+      <div className="mt-8 grid gap-3">
+        <div className="hidden grid-cols-3 gap-6 px-5 text-[0.68rem] font-medium uppercase tracking-normal text-[var(--case-muted)] md:grid">
+          <span>
             <FieldName value="need" />
           </span>
-          <span className="hidden py-4 pr-4 md:block">
+          <span>
             <FieldName value="pain_point" />
           </span>
-          <span className="hidden py-4 md:block">
+          <span>
             <FieldName value="design_opportunity" />
           </span>
         </div>
-        <div className="divide-y divide-[var(--case-line-soft)] px-5">
-          {structured.research.synthesis.map((row) => (
-            <article
-              className="grid gap-3 py-5 md:grid-cols-3 md:gap-6"
-              key={row.need}
-            >
-              <SynthesisCell label="need" value={row.need} />
-              <SynthesisCell label="pain_point" value={row.painPoint} />
-              <SynthesisCell label="design_opportunity" value={row.designOpportunity} />
-            </article>
-          ))}
-        </div>
+
+        {structured.research.synthesis.map((row) => (
+          <article
+            className={`${caseCardChrome} grid gap-3 p-5 md:grid-cols-3 md:gap-6`}
+            key={row.need}
+          >
+            <SynthesisCell label="need" value={row.need} />
+            <SynthesisCell label="pain_point" value={row.painPoint} />
+            <SynthesisCell label="design_opportunity" value={row.designOpportunity} />
+          </article>
+        ))}
       </div>
     </SectionShell>
   );
@@ -1613,12 +1741,17 @@ function InformationArchitectureSection({
                 The first scan answers what this product is and where to go next.
               </p>
             </div>
-            <div className="grid gap-3 border-t border-[var(--case-line)] pt-4 sm:grid-cols-3">
-              {structured.ia.sitemapOrModel.map((node) => (
+            <div className="mt-1 grid gap-2.5 sm:grid-cols-2">
+              {structured.ia.sitemapOrModel.map((node, index) => (
                 <div
-                  className="border-l border-[var(--case-line)] pl-4"
+                  className="flex items-center gap-3 rounded-[8px] bg-[var(--case-surface-muted)] px-4 py-3"
                   key={node}
                 >
+                  <span
+                    className={`text-[0.65rem] font-medium ${index === 0 ? tone.accentText : "text-[var(--case-muted)]"}`}
+                  >
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
                   <p className="text-sm font-medium leading-5 text-[var(--case-ink)]">
                     {node}
                   </p>
@@ -1632,10 +1765,10 @@ function InformationArchitectureSection({
           <p className={caseEyebrow}>
             <FieldName value="role_permission_map" />
           </p>
-          <div className="mt-4 grid gap-0 divide-y divide-[var(--case-line-soft)] border-y border-[var(--case-line)]">
+          <div className="mt-4 grid gap-2.5">
             {structured.ia.rolePermissionMap.map((persona) => (
               <div
-                className="py-4"
+                className="rounded-[8px] bg-[var(--case-surface-muted)] px-4 py-3.5"
                 key={persona.personaName}
               >
                 <div className="flex items-center justify-between gap-3">
@@ -1820,11 +1953,15 @@ function SectionShell({
 
   return (
     <section
-      className={`case-study-snap-section scroll-mt-24 border-t border-[var(--case-line)] ${padding}`}
+      className={`case-study-snap-section scroll-mt-24 ${padding}`}
       id={spec.id}
     >
       <div className="grid gap-8">
-        <header className="border-b border-[var(--case-line)] pb-7">
+        <header>
+          <span
+            aria-hidden="true"
+            className="mb-6 block h-[3px] w-10 rounded-full bg-[var(--case-line)]"
+          />
           <div className="grid gap-4 lg:grid-cols-[minmax(0,0.72fr)_minmax(18rem,0.28fr)] lg:items-end">
             <h2 className="max-w-3xl text-3xl font-medium leading-[1.12] tracking-normal text-[var(--case-ink)] sm:text-4xl lg:text-5xl">
               {spec.name}
@@ -1855,7 +1992,7 @@ function NarrativePanel({
   value: string;
 }) {
   return (
-    <article className="rounded-[8px] border border-[var(--case-line)] bg-[var(--case-surface)] p-5 shadow-[var(--case-shadow-soft)] sm:p-6">
+    <article className={`${caseCardChrome} p-5 sm:p-6`}>
       <p className={caseEyebrow}>
         <FieldName value={eyebrow} />
       </p>
@@ -1949,7 +2086,7 @@ function ListPanel({
 }) {
   return (
     <article className={`${caseCardChrome} p-5 sm:p-6`}>
-      <div className="flex items-center gap-3 border-b border-[var(--case-line-soft)] pb-4">
+      <div className="flex items-center gap-3">
         {icon}
         <p className={caseEyebrow}>
           <FieldName value={label} />
@@ -2000,13 +2137,15 @@ function BeforeAfterPanel({
   const isAfter = variant === "after";
 
   return (
-    <article
-      className={`border-t pt-5 ${
-        isAfter
-          ? "border-[rgb(51_109_72_/_0.34)]"
-          : "border-[rgb(155_71_114_/_0.34)]"
-      }`}
-    >
+    <article className={`${caseInsetChrome} p-5 sm:p-6`}>
+      <span
+        aria-hidden="true"
+        className={`mb-5 block h-[3px] w-10 rounded-full ${
+          isAfter
+            ? "bg-[rgb(51_109_72_/_0.45)]"
+            : "bg-[rgb(155_71_114_/_0.45)]"
+        }`}
+      />
       <p className={caseEyebrow}>
         <FieldName value="ia_before_after" />
       </p>
@@ -2046,10 +2185,10 @@ function DecisionBlockView({
   return (
     <article className={`${caseCardChrome} overflow-hidden`}>
       <div className="grid gap-0 lg:grid-cols-[0.34fr_0.66fr]">
-        <div className={`border-b ${caseFineRule} bg-[linear-gradient(180deg,var(--case-surface-muted),var(--case-surface))] p-6 lg:border-b-0 lg:border-r lg:p-7`}>
+        <div className="bg-[var(--case-surface-muted)] p-6 lg:p-7">
           <div>
             <span
-              className={`grid h-10 w-10 place-items-center rounded-full border text-sm font-medium ${tone.softFill} ${tone.accentText} ${tone.border}`}
+              className={`grid h-10 w-10 place-items-center rounded-full text-sm font-medium ${tone.softFill} ${tone.accentText}`}
             >
               {String(index + 1).padStart(2, "0")}
             </span>
@@ -2062,7 +2201,7 @@ function DecisionBlockView({
           </div>
         </div>
 
-        <div className="grid gap-0 divide-y divide-[var(--case-line-soft)]">
+        <div className="grid gap-px bg-[var(--case-surface-muted)] sm:grid-cols-2">
           <DecisionField label="problem" value={decision.problem} />
           <DecisionField label="design_choice" value={decision.designChoice} />
           <DecisionField label="why_it_worked" value={decision.whyItWorked} />
@@ -2075,7 +2214,7 @@ function DecisionBlockView({
 
 function DecisionField({ label, value }: { label: string; value: string }) {
   return (
-    <div className="p-5 sm:p-6">
+    <div className="bg-[var(--case-surface)] p-5 sm:p-6">
       <p className={caseEyebrow}>
         <FieldName value={label} />
       </p>
@@ -2097,7 +2236,7 @@ function SolutionScreenCard({
 }) {
   return (
     <article className={`${caseCardChrome} flex flex-col overflow-hidden`}>
-      <div className="flex items-center justify-between gap-4 border-b border-[var(--case-line)] px-5 py-5 sm:px-6">
+      <div className="flex items-center justify-between gap-4 px-5 py-5 sm:px-6">
         <div>
           <p className={caseEyebrow}>
             Solution {String(index + 1).padStart(2, "0")}
@@ -2107,7 +2246,7 @@ function SolutionScreenCard({
           </h3>
         </div>
         <span
-          className={`grid h-10 w-10 flex-none place-items-center rounded-[7px] border ${tone.softFill} ${tone.accentText} ${tone.border}`}
+          className={`grid h-10 w-10 flex-none place-items-center rounded-[7px] ${tone.softFill} ${tone.accentText}`}
         >
           <Layers3 aria-hidden="true" className="h-4 w-4" strokeWidth={2.35} />
         </span>
@@ -2117,7 +2256,7 @@ function SolutionScreenCard({
         <SolutionMediaGallery media={screen.media} tone={tone} />
       ) : (
         <div className="relative min-h-72 flex-1 overflow-hidden bg-[var(--case-surface-muted)] p-5 sm:p-6">
-          <div className="relative rounded-[8px] border border-[var(--case-line)] bg-[var(--case-surface)] p-5">
+          <div className="relative rounded-[8px] bg-[var(--case-surface)] p-5 shadow-[0_1px_2px_rgb(24_32_43_/_0.05)]">
           <div className="mt-5 grid grid-cols-[0.72fr_1.28fr] gap-3">
             <div className="grid gap-2">
               {[0, 1, 2, 3].map((item) => (
@@ -2146,7 +2285,7 @@ function SolutionScreenCard({
         </div>
       )}
 
-      <div className="border-t border-[var(--case-line)] p-5 sm:p-6">
+      <div className="p-5 sm:p-6">
         <p className={caseEyebrow}>
           <FieldName value="annotations" />
         </p>
@@ -2287,7 +2426,7 @@ function ReflectionCard({
 
 function CaseStudyClose() {
   return (
-    <section className="border-t border-[var(--case-line)] pt-12">
+    <section className="pt-14">
       <div className={`${caseCardChrome} flex flex-col gap-6 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8`}>
         <div>
           <p className={caseEyebrow}>

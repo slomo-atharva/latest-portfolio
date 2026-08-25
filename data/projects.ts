@@ -49,9 +49,9 @@ export const selectedProjects: SelectedProject[] = [
     tone: "mint",
     logo: {
       src: "/client-logos/strategy-dot-zero.svg",
-      width: 320,
-      height: 72,
-      className: "h-11 w-[12rem] sm:h-12 sm:w-[13rem]",
+      width: 86,
+      height: 16,
+      className: "h-9 w-[12.1rem] sm:h-10 sm:w-[13.5rem]",
     },
   },
   {
@@ -68,9 +68,28 @@ export const selectedProjects: SelectedProject[] = [
     tone: "violet",
     logo: {
       src: "/client-logos/strategy-dot-zero.svg",
-      width: 320,
-      height: 72,
-      className: "h-11 w-[12rem] sm:h-12 sm:w-[13rem]",
+      width: 86,
+      height: 16,
+      className: "h-9 w-[12.1rem] sm:h-10 sm:w-[13.5rem]",
+    },
+  },
+  {
+    id: "strategy-dot-zero-dependency-module",
+    title: "Dependency module",
+    client: "Strategy Dot Zero",
+    category: "Portfolio management",
+    year: "2026",
+    summary:
+      "A two-sided workflow for requesting, agreeing, and tracking what one project needs from another.",
+    role: "Product design, workflow architecture, interaction design",
+    scope: ["Get and Give registers", "Approval workflow", "Live dependency status"],
+    highlights: ["Two-sided agreement", "Status from real reporting"],
+    tone: "rose",
+    logo: {
+      src: "/client-logos/strategy-dot-zero.svg",
+      width: 86,
+      height: 16,
+      className: "h-9 w-[12.1rem] sm:h-10 sm:w-[13.5rem]",
     },
   },
   {
@@ -179,6 +198,10 @@ export const showcaseProjects: ShowcaseProject[] = [
     availability: "active",
   },
   {
+    ...getSelectedProject("strategy-dot-zero-dependency-module"),
+    availability: "active",
+  },
+  {
     id: "strategy-dot-zero-planning-proposal-agents",
     title: "Project planning & proposal agents",
     client: "Strategy Dot Zero",
@@ -187,17 +210,6 @@ export const showcaseProjects: ShowcaseProject[] = [
       "AI-assisted planning and proposal generation for turning early inputs into a stronger starting point.",
     scope: ["Project planning", "Proposal generation", "AI agents"],
     tone: "blue",
-    availability: "comingSoon",
-  },
-  {
-    id: "strategy-dot-zero-dependency-module",
-    title: "Dependency module",
-    client: "Strategy Dot Zero",
-    category: "Portfolio management",
-    summary:
-      "A clearer way to surface, connect, and manage the relationships that shape delivery across projects.",
-    scope: ["Dependencies", "Portfolio visibility", "Delivery planning"],
-    tone: "violet",
     availability: "comingSoon",
   },
   {

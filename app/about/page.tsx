@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <main className="min-h-svh bg-[var(--paper)]" id="top">
-      <SiteHeader logoHref="/#top" sectionHrefPrefix="/" showHomeLink />
+      <SiteHeader logoHref="/#top" sectionHrefPrefix="/" />
       <AboutMeSection />
       <SiteFooter homeAnchors />
     </main>

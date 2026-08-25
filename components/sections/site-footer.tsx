@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowUpRight, Sparkle } from "lucide-react";
 import { footerCopy } from "@/data/footer";
 import { heroCopy } from "@/data/hero";
+import { ContactForm } from "@/components/ui/contact-form";
 
 const footerLinkClass =
   "inline-flex h-9 items-center rounded-[6px] px-1 text-sm font-medium leading-none text-[rgb(255_255_255_/_0.72)] transition duration-300 hover:-translate-y-0.5 hover:text-[var(--paper-bright)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--note-blue)] focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--navy)]";
@@ -62,27 +63,23 @@ export function SiteFooter({ homeAnchors = false }: SiteFooterProps) {
             <p className="mt-4 max-w-xl text-sm font-light leading-7 text-[rgb(255_255_255_/_0.74)] sm:text-base">
               {footerCopy.description}
             </p>
-          </div>
 
-          <div className="flex flex-col justify-between gap-5 lg:items-end lg:pt-1 lg:text-right">
-            <div>
-              <p className="max-w-md text-sm font-light leading-6 text-[rgb(255_255_255_/_0.7)]">
-                {footerCopy.availability}
-              </p>
+            <p className="mt-7 max-w-md text-sm font-light leading-6 text-[rgb(255_255_255_/_0.7)]">
+              {footerCopy.availability}
+            </p>
 
-              <ul className="mt-4 flex flex-wrap gap-2 lg:justify-end">
-                {footerCopy.signals.map((signal) => (
-                  <li
-                    className="rounded-full border border-[rgb(255_255_255_/_0.16)] bg-[rgb(255_255_255_/_0.08)] px-3 py-1.5 text-xs font-normal text-[rgb(255_255_255_/_0.76)]"
-                    key={signal}
-                  >
-                    {signal}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <ul className="mt-4 flex flex-wrap gap-2">
+              {footerCopy.signals.map((signal) => (
+                <li
+                  className="rounded-full border border-[rgb(255_255_255_/_0.16)] bg-[rgb(255_255_255_/_0.08)] px-3 py-1.5 text-xs font-normal text-[rgb(255_255_255_/_0.76)]"
+                  key={signal}
+                >
+                  {signal}
+                </li>
+              ))}
+            </ul>
 
-            <div className="flex flex-wrap gap-3 lg:justify-end">
+            <div className="mt-7 flex flex-wrap gap-3">
               <Link
                 className="group inline-flex h-11 items-center justify-center gap-2 rounded-[8px] border border-[var(--paper-bright)] bg-[var(--paper-bright)] px-4 text-sm font-medium text-[var(--navy)] shadow-[0_18px_44px_rgb(8_10_20_/_0.24)] transition duration-300 hover:-translate-y-0.5 hover:bg-[var(--note-blue)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--note-blue)] focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--navy)]"
                 href={resolveHref(footerCopy.primaryAction.href)}
@@ -103,6 +100,8 @@ export function SiteFooter({ homeAnchors = false }: SiteFooterProps) {
               </Link>
             </div>
           </div>
+
+          <ContactForm />
         </div>
 
         <div className="mt-8 flex flex-col gap-5 border-t border-[rgb(255_255_255_/_0.14)] pt-5 sm:flex-row sm:items-center sm:justify-between">
