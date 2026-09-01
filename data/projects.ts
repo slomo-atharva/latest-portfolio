@@ -93,6 +93,25 @@ export const selectedProjects: SelectedProject[] = [
     },
   },
   {
+    id: "strategy-dot-zero-kpi-management-module",
+    title: "KPI management module",
+    client: "Strategy Dot Zero",
+    category: "Performance management",
+    year: "2026",
+    summary:
+      "A governed workflow for defining a KPI, computing its status from a baselined measure, and reporting it every interval — owned end to end by the PMO.",
+    role: "Product design, workflow architecture, information architecture",
+    scope: ["KPI registers", "KPI profile", "Interval tracking"],
+    highlights: ["Single-owner model", "Alignment spine"],
+    tone: "rose",
+    logo: {
+      src: "/client-logos/strategy-dot-zero.svg",
+      width: 86,
+      height: 16,
+      className: "h-9 w-[12.1rem] sm:h-10 sm:w-[13.5rem]",
+    },
+  },
+  {
     id: "dhda-service-journeys",
     title: "Interactive Health Landscape",
     client: "Australian Department of Health",
@@ -213,15 +232,8 @@ export const showcaseProjects: ShowcaseProject[] = [
     availability: "comingSoon",
   },
   {
-    id: "strategy-dot-zero-kpi-management-module",
-    title: "KPI management module",
-    client: "Strategy Dot Zero",
-    category: "Performance management",
-    summary:
-      "Giving teams one place to define measures, follow performance, and keep progress connected to delivery.",
-    scope: ["KPIs", "Performance", "Progress tracking"],
-    tone: "rose",
-    availability: "comingSoon",
+    ...getSelectedProject("strategy-dot-zero-kpi-management-module"),
+    availability: "active",
   },
   {
     id: "strategy-dot-zero-risk-benefits-modules",

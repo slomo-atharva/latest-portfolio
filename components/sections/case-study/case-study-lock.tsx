@@ -6,6 +6,7 @@ import { ArrowRight, Lock, LoaderCircle } from "lucide-react";
 import type { ProjectToneStyle } from "@/lib/project-tones";
 
 type CaseStudyLockProps = {
+  hasScreens?: boolean;
   sections: string[];
   tone: ProjectToneStyle;
 };
@@ -70,7 +71,11 @@ function LockedShapes() {
   );
 }
 
-export function CaseStudyLock({ sections, tone }: CaseStudyLockProps) {
+export function CaseStudyLock({
+  hasScreens = false,
+  sections,
+  tone,
+}: CaseStudyLockProps) {
   const router = useRouter();
   const [status, setStatus] = useState<"idle" | "checking" | "error">("idle");
   const [error, setError] = useState("");
@@ -139,7 +144,9 @@ export function CaseStudyLock({ sections, tone }: CaseStudyLockProps) {
             </h2>
 
             <p className="mt-3 max-w-xl text-sm font-light leading-7 text-[var(--case-ink-soft)]">
-              The detail stays private under NDA. Ask me for the password.
+              {hasScreens
+                ? "The product screens and the rest of the detail stay private under NDA. Ask me for the password."
+                : "The detail stays private under NDA. Ask me for the password."}
             </p>
 
             <ul className="mt-5 flex flex-wrap gap-1.5">

@@ -818,6 +818,266 @@ export const caseStudies: CaseStudy[] = [
       "The old register was not failing because it looked dated. It was failing because it only ever had one author. Once the same record had two sides, an explicit acceptance, and a status drawn from work someone was already doing, most of the confusion disappeared without much new interface. The harder discipline was resisting the urge to model every possible predecessor and successor relationship, and instead making one relationship genuinely trustworthy.",
   }),
   bindProject({
+    projectId: "strategy-dot-zero-kpi-management-module",
+    headline:
+      "Designing the module that measures the whole organisation, for the one persona licensed to use it.",
+    deck:
+      "KPI management runs across the Strategy Dot Zero platform: four baselined registers, a profile that defines the measure behind each KPI, and a reporting loop that returns every interval. The business scoped the module to the PMO, so the design had to decide how much of an organisation-wide capability could live behind a single persona, and how the rest of the organisation would still be reached.",
+    problem:
+      "KPI management is the module almost every organisation asks for, and it is priced accordingly. That made the first decision commercial rather than editorial: the module would be licensed to the PMO and to nobody else. The difficulty is that a KPI is only meaningful against work someone else owns. Portfolio managers run the portfolios being measured. Project and program managers deliver the work the numbers come from. None of them would hold the module. Underneath that sat the ordinary problems of the domain: KPI vocabulary changes with every organisation, so any fixed taxonomy fits nobody; a KPI definition carries enough fields to become a form people abandon; a status typed into a box is an opinion rather than a measurement, and opinions do not aggregate; and an obligation that returns every reporting interval is forgotten unless the product goes looking for the person.",
+    outcome:
+      "A PMO-owned KPI module: four baselined registers, a four-step profile ending in a defined measure, status computed against interim targets each interval, and an alignment layer linking every KPI to the projects, programs, and portfolios behind it — plus an email bridge that lets an unlicensed portfolio manager still be profiled and still report.",
+    storyIntro:
+      "Most of the design work came down to one question: what happens to the people who are not allowed in? The licence boundary was fixed before design started, so there was no arguing it away. What design could decide was exactly how much of the workflow each persona genuinely needed, where the boundary should fall, and how honest to be about the place where it cuts — a portfolio manager who gets an email instead of a seat.",
+    snapshot: [
+      {
+        label: "Ownership",
+        value:
+          "One persona defines the KPI and reports it, so no approval cycle was needed.",
+      },
+      {
+        label: "Baselined types",
+        value:
+          "Strategic, delivery assurance, client and commercial, and portfolio KPIs.",
+      },
+      {
+        label: "One measure",
+        value:
+          "A single measure per KPI, so status follows from one unambiguous definition.",
+      },
+      {
+        label: "The trade-off",
+        value:
+          "Portfolio managers report by email rather than a seat — a constraint made visible.",
+      },
+    ],
+    frictions: [
+      {
+        title: "The module measures everyone, but one persona holds it",
+        description:
+          "The commercial decision to license KPI management to the PMO alone meant the people who own the underlying work — portfolio, program, and project managers — would never open the module that judges it.",
+      },
+      {
+        title: "Every organisation names its KPIs differently",
+        description:
+          "KPI taxonomy is not standard across sectors or even across entities in the same group. Hard-coding one organisation's language would fit nobody, and shipping no structure at all would leave customers with a blank list and nothing to report against.",
+      },
+      {
+        title: "A KPI definition is long enough to abandon",
+        description:
+          "Dimension, owner, description, dates, alignment, unit, type, polarity, baseline, target, thresholds, aggregation, reporting frequency. Presented as one form, it is the kind of profile that gets started and left at nine percent.",
+      },
+      {
+        title: "A status someone types is an opinion",
+        description:
+          "Without a measure that computes it, on track means whatever the person writing the update believes it means, which makes any roll-up across a register misleading rather than useful.",
+      },
+      {
+        title: "A recurring obligation is forgotten by design",
+        description:
+          "Reporting returns every interval, indefinitely. Relying on someone to remember the cycle guarantees gaps, and a gap in a KPI series is worse than a bad number because nobody can tell what happened.",
+      },
+      {
+        title: "The portfolio manager was the blocker",
+        description:
+          "External portfolios still need their KPIs defined and reported, and the person closest to those numbers is the portfolio manager — the persona the licence explicitly excludes.",
+      },
+    ],
+    process: [
+      {
+        phase: "01",
+        title: "Take the licence boundary as a given",
+        description:
+          "Started from the commercial constraint rather than around it, mapping every persona who touches a KPI and marking which of them would never hold the module.",
+      },
+      {
+        phase: "02",
+        title: "Baseline a KPI taxonomy",
+        description:
+          "Reduced an unbounded space of KPI types to four registers — strategic, delivery assurance, client and commercial, and portfolio — that most organisations can map their own language onto.",
+      },
+      {
+        phase: "03",
+        title: "Separate what a KPI is from how it is measured",
+        description:
+          "Split the definition into context and alignment on one side, and the measure — unit, type, polarity, baseline, target, thresholds, frequency — on the other.",
+      },
+      {
+        phase: "04",
+        title: "Make the profile completable",
+        description:
+          "Designed it as four steps with a progress meter and an explicit count of pending fields, so an unfinished KPI says how unfinished it is instead of failing at submission.",
+      },
+      {
+        phase: "05",
+        title: "Make the interval the unit of work",
+        description:
+          "Built tracking around one reporting interval at a time: due date, actual, interim target, computed status, comment, and evidence, with overdue visible on the record.",
+      },
+      {
+        phase: "06",
+        title: "Design the compromise deliberately",
+        description:
+          "Worked out precisely how much of the workflow a portfolio manager could be given without a licence, what they would lose, and which part of it was worth fighting to keep.",
+      },
+    ],
+    decisions: [
+      {
+        issue:
+          "The business licensed the module to the PMO alone, and design could not argue that away.",
+        decision:
+          "Treated the PMO as both the author and the reporter of every KPI, and removed the approval cycle the workflow would otherwise have carried.",
+        result:
+          "A KPI profile moves from draft to active without waiting on a third party, because the party who would have approved it is the one who wrote it. The state model carries draft, active, and closed rather than a review round trip nobody needed.",
+        tradeoff:
+          "The module can no longer collect anything from the people who own the underlying work, so every outward connection had to become either an alignment link or an email.",
+      },
+      {
+        issue:
+          "KPI vocabulary changes with every organisation, so any fixed taxonomy fits nobody.",
+        decision:
+          "Baselined four KPI registers — strategic, delivery assurance, client and commercial, and portfolio — as the shipped structure, and treated anything beyond them as configuration rather than product.",
+        result:
+          "Customers get a shared structure to report against on day one instead of a blank list, and the four cover the questions most organisations are actually asking of a portfolio.",
+        tradeoff:
+          "An organisation whose language does not map cleanly onto the four has to translate, so the registers stayed sibling tabs over one model rather than four separately designed pages.",
+      },
+      {
+        issue: "A KPI definition carries enough fields to become a form nobody finishes.",
+        decision:
+          "Split the profile into Context, Alignment, Measure, and Related Links, with a completion percentage and an explicit pending-field count visible from every step.",
+        result:
+          "Each step answers a single question — what is this, what does it touch, how is it measured, what backs it up — and an incomplete KPI announces exactly what it is missing rather than failing on submit.",
+        tradeoff:
+          "It adds navigation to what could have been one long page, so the step names stayed plain nouns and the pending count stayed on screen throughout.",
+      },
+      {
+        issue: "A status someone types is an opinion, and opinions do not aggregate.",
+        decision:
+          "Put the definition in the measure — unit, type, polarity, baseline, target, interim targets, thresholds, aggregation, and reporting frequency — so status follows from the numbers, and held the baseline to one measure per KPI.",
+        result:
+          "On track means the same thing on every KPI in the register, which is what makes a portfolio-level roll-up worth reading at all.",
+        tradeoff:
+          "Genuinely multi-measure KPIs are not served by the baseline. That is a deliberate scope call: they are rare enough in practice to be an added feature rather than a cost every customer pays.",
+      },
+      {
+        issue:
+          "An obligation that returns every interval is forgotten unless something goes looking for the person.",
+        decision:
+          "Pushed each reporting interval to the PMO in three places — a notification, an entry in My Actions, and the calendar view — and kept the update itself to a single drawer.",
+        result:
+          "Reporting becomes a short prompted task rather than something remembered, and an interval that has slipped is marked overdue on the record itself rather than only in someone's inbox.",
+        tradeoff:
+          "It adds to the notification load of a persona who already receives plenty, so the drawer was held to actual, status, comment, and evidence, with the rest read-only.",
+      },
+      {
+        issue:
+          "External portfolios need KPIs reported by a portfolio manager who does not hold the module.",
+        decision:
+          "Built an email bridge instead of a seat. The PMO enables tracking, which enables profiling; the portfolio manager receives an email to complete the portfolio profile, and another each reporting cycle to submit the update. Trend and status stay readable as an overview inside their own application.",
+        result:
+          "The portfolio KPI still gets defined by the person closest to it and still gets reported on time, and that manager can see how their own numbers are moving without holding a licence.",
+        tradeoff:
+          "It is plainly a lesser experience than the PMO's — no register, no My Actions, no calendar, no tracking surface. That gap is a commercial constraint rather than a design preference, and keeping the read-only trend inside their own application was the part worth fighting for.",
+      },
+    ],
+    beforeAfter: {
+      beforeTitle: "Before: KPIs sat outside the work they judged",
+      beforeItems: [
+        "KPI definitions lived in decks and spreadsheets, apart from the projects and portfolios they measured.",
+        "Every organisation used its own KPI vocabulary, so there was no shared structure to report against.",
+        "Status was written by whoever prepared the update, against whatever rule they had in mind.",
+        "Reporting depended on someone remembering the cycle had come round again.",
+      ],
+      afterTitle: "After: one governed spine for performance",
+      afterItems: [
+        "Four baselined registers give structure without hard-coding one organisation's language.",
+        "Every KPI carries a defined measure, so status is computed rather than argued.",
+        "Alignment links each KPI to the projects, programs, and portfolios that move it.",
+        "Each interval arrives as a notification, an action, and a calendar entry.",
+      ],
+    },
+    finalMoments: [
+      {
+        title: "Find the KPI in a register that matches the question",
+        description:
+          "Four registers sit side by side — strategic, delivery assurance, client and commercial, and portfolio — with state, computed status, dimension, owner, and last updated carried in the row, so the register reads as a health check rather than an index.",
+        tags: ["Registers", "PMO"],
+      },
+      {
+        title: "Define what the KPI actually is",
+        description:
+          "Context captures the name, dimension, owner, description, period, and whether this is a priority KPI. It is deliberately the shortest step, because it is the one that decides whether the rest of the profile is worth filling in.",
+        tags: ["Profile", "Context"],
+      },
+      {
+        title: "Link it to the work that moves it",
+        description:
+          "Alignment connects the KPI to the entities it depends on, so a strategic objective can be traced down to the projects and portfolios acting on it, and a project profile can point back up at the KPIs it serves.",
+        tags: ["Alignment", "Strategic objectives"],
+      },
+      {
+        title: "Baseline the measure that computes the status",
+        description:
+          "Unit, type, polarity, baseline, target, aggregation, reporting frequency, and thresholds are set once. From then on, status is derived from the numbers instead of chosen from a list by whoever is reporting.",
+        tags: ["Measure", "Thresholds"],
+      },
+      {
+        title: "Attach what backs the definition up",
+        description:
+          "Related links hold the evidence behind the KPI itself — the policy, the contract, the source system — so a definition can be defended months later without reconstructing where the target came from.",
+        tags: ["Evidence", "Governance"],
+      },
+      {
+        title: "Report the interval, not the year",
+        description:
+          "The tracking view breaks performance into intervals with due dates, actuals against interim targets, status, comment, and state, so a KPI is a series of small honest updates rather than one retrospective number.",
+        tags: ["Tracking", "Intervals"],
+      },
+      {
+        title: "Update in one drawer, with evidence",
+        description:
+          "The review drawer carries the actual, the interim target, year-to-date figures, status, a comment, and the links that support the number — short enough to be completed in the moment the notification arrives.",
+        tags: ["Review", "Reporting"],
+      },
+      {
+        title: "Reach the portfolio manager without a seat",
+        description:
+          "The PMO enables tracking for an external portfolio, which triggers an emailed profile request and then an emailed update request each cycle. The manager submits their number and can read the resulting trend in their own application, though not the tracking workflow itself.",
+        tags: ["Portfolio managers", "Trade-off"],
+      },
+    ],
+    impact: [
+      {
+        label: "Ownership",
+        value:
+          "One persona defines and reports every KPI, which removed an approval round trip rather than automating one that was never needed.",
+      },
+      {
+        label: "Structure",
+        value:
+          "Four baselined registers give organisations something to report against immediately, without committing the product to one customer's vocabulary.",
+      },
+      {
+        label: "Comparability",
+        value:
+          "Status is computed from a defined measure, so on track carries the same meaning across a register and can be rolled up honestly.",
+      },
+      {
+        label: "Alignment",
+        value:
+          "A KPI can be linked from a project up to a portfolio, so strategic objectives connect to the delivery that actually moves them.",
+      },
+      {
+        label: "Reach",
+        value:
+          "A portfolio manager outside the licence can still be profiled and can still report, through an email route rather than a seat.",
+      },
+    ],
+    reflection:
+      "The interesting constraint here was not technical. It was commercial: the module that measures the whole organisation was licensed to one part of it. I could not design that away, and pretending otherwise would have produced a workflow quietly assuming permissions nobody had. What worked was drawing the boundary explicitly — deciding what the PMO owns end to end, then designing the smallest honest bridge to the people outside it. The email route for portfolio managers is not the experience I would choose. It is the experience that lets a portfolio KPI exist at all under the licence we were given, and naming it as a trade-off rather than dressing it up as a feature is what kept the rest of the model coherent.",
+  }),
+  bindProject({
     projectId: "dubai-holding-destination-system",
     headline:
       "Turning a complex destination operation into a calmer experience system.",

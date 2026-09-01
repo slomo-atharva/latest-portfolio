@@ -9,6 +9,7 @@ import {
   FileText,
   Layers3,
   ListChecks,
+  Lock,
   Maximize2,
   Network,
   Route,
@@ -236,6 +237,11 @@ const sectionSpecs: SectionSpec[] = [
 ];
 
 const collaborationByProject: Record<string, string[]> = {
+  "strategy-dot-zero-kpi-management-module": [
+    "Product and commercial alignment on the PMO-only licence",
+    "PMO validation of the reporting interval and its prompts",
+    "Business analysis on the KPI and measure model",
+  ],
   "strategy-dot-zero-change-impact": [
     "Product and business stakeholder alignment",
     "Design manager review and iteration",
@@ -274,6 +280,12 @@ const collaborationByProject: Record<string, string[]> = {
 };
 
 const constraintsByProject: Record<string, string[]> = {
+  "strategy-dot-zero-kpi-management-module": [
+    "Module licensed to the PMO persona only",
+    "KPI taxonomy differs with every organisation",
+    "One measure per KPI in the baseline scope",
+    "Portfolio managers reachable only outside the product",
+  ],
   "strategy-dot-zero-change-impact": [
     "One-week delivery window",
     "Legacy MVC product constraints",
@@ -316,6 +328,8 @@ const constraintsByProject: Record<string, string[]> = {
 };
 
 const platformByProject: Record<string, string> = {
+  "strategy-dot-zero-kpi-management-module":
+    "Web, enterprise performance management and PMO reporting",
   "strategy-dot-zero-change-impact":
     "Web, enterprise planning and PMO oversight",
   "strategy-dot-zero-ai-project-extraction":
@@ -329,6 +343,8 @@ const platformByProject: Record<string, string> = {
 };
 
 const domainByProject: Record<string, string> = {
+  "strategy-dot-zero-kpi-management-module":
+    "Portfolio governance, performance management, strategic alignment",
   "strategy-dot-zero-change-impact":
     "Portfolio governance, organisational change, enterprise planning",
   "dhda-service-journeys": "Healthcare, policy systems, enterprise AI",
@@ -339,6 +355,8 @@ const domainByProject: Record<string, string> = {
 };
 
 const timelineByProject: Record<string, string> = {
+  "strategy-dot-zero-kpi-management-module":
+    "Concept through approved module design",
   "strategy-dot-zero-change-impact": "One-week design sprint",
   "dhda-service-journeys": "Concept pitch to MVP roadmap",
   "strategy-dot-zero-ai-project-extraction": "Concept through approved MVP flow",
@@ -347,6 +365,8 @@ const timelineByProject: Record<string, string> = {
 };
 
 const visualRoleByProject: Record<string, string> = {
+  "strategy-dot-zero-kpi-management-module":
+    "Product Designer for the KPI model, profile workflow, and interval tracking",
   "strategy-dot-zero-change-impact":
     "Product Designer for PMO and executive product experiences",
   "dhda-service-journeys":
@@ -358,6 +378,8 @@ const visualRoleByProject: Record<string, string> = {
 };
 
 const visualPlatformByProject: Record<string, string> = {
+  "strategy-dot-zero-kpi-management-module":
+    "Web, PMO KPI registers and interval reporting",
   "strategy-dot-zero-change-impact":
     "Web, project planning and organisation-wide impact oversight",
   "dhda-service-journeys": "Web, visual exploration layer and management hub",
@@ -368,6 +390,8 @@ const visualPlatformByProject: Record<string, string> = {
 };
 
 const heroImpactByProject: Record<string, string> = {
+  "strategy-dot-zero-kpi-management-module":
+    "KPI definition, computed status, and interval reporting owned end to end by one persona, with alignment linking each KPI to the work behind it.",
   "strategy-dot-zero-change-impact":
     "A static register became a connected workflow for assessment, readiness, reporting, and portfolio visibility.",
   "dhda-service-journeys": "MVP demonstrated to senior government executives",
@@ -378,6 +402,11 @@ const heroImpactByProject: Record<string, string> = {
 };
 
 const productModelDescriptionsByProject: Record<string, string[]> = {
+  "strategy-dot-zero-kpi-management-module": [
+    "Four baselined registers: strategic, delivery assurance, client and commercial, portfolio.",
+    "Context, alignment, measure, and evidence, completed against a live pending-field count.",
+    "Each interval arrives as an action: actual, computed status, comment, and evidence.",
+  ],
   "strategy-dot-zero-change-impact": [
     "Define the change, linked deliverables, impact level, and expected period.",
     "Plan stakeholder readiness, then track actions through recurring updates.",
@@ -401,6 +430,14 @@ const productModelDescriptionsByProject: Record<string, string[]> = {
 };
 
 const researchMethodsByProject: Record<string, string[]> = {
+  "strategy-dot-zero-kpi-management-module": [
+    "KPI practice audit",
+    "Taxonomy baselining",
+    "Persona and licence mapping",
+    "Measure and threshold modelling",
+    "Reporting cycle mapping",
+    "Interaction prototyping",
+  ],
   "strategy-dot-zero-change-impact": [
     "Existing workflow audit",
     "PRD synthesis",
@@ -436,6 +473,15 @@ const researchMethodsByProject: Record<string, string[]> = {
 };
 
 const iaModelByProject: Record<string, string[]> = {
+  "strategy-dot-zero-kpi-management-module": [
+    "KPI registers (four baselined types)",
+    "KPI profile — Context",
+    "Alignment to projects, programs, portfolios, and objectives",
+    "Measure definition and thresholds",
+    "Related links and evidence",
+    "Interval tracking and performance breakdown",
+    "Portfolio manager email bridge",
+  ],
   "strategy-dot-zero-change-impact": [
     "Project deliverable",
     "Named organisational change",
@@ -472,6 +518,32 @@ const iaModelByProject: Record<string, string[]> = {
 };
 
 const impactMetricsByProject: Record<string, ImpactMetricCard[]> = {
+  "strategy-dot-zero-kpi-management-module": [
+    {
+      value: "4",
+      label:
+        "baselined KPI registers covering strategic, delivery, commercial, and portfolio performance",
+      category: "business",
+    },
+    {
+      value: "0",
+      label:
+        "approval round trips — the persona who defines a KPI is the persona who reports it",
+      category: "team",
+    },
+    {
+      value: "1 measure",
+      label:
+        "per KPI, so on track carries the same meaning across the whole register",
+      category: "user",
+    },
+    {
+      value: "3 surfaces",
+      label:
+        "notification, my actions, and calendar carry every reporting interval",
+      category: "user",
+    },
+  ],
   "strategy-dot-zero-change-impact": [
     {
       value: "1 week",
@@ -560,6 +632,12 @@ const reflectionDetailsByProject: Record<
     "whatIdImprove" | "howApproachChanged"
   >
 > = {
+  "strategy-dot-zero-kpi-management-module": {
+    whatIdImprove:
+      "I would test the four baselined registers against organisations whose KPI language does not map neatly onto them. Four types is a bet on how most organisations think, and when the bet is wrong the translation cost lands on whoever configures the platform rather than on us.",
+    howApproachChanged:
+      "I now treat licensing and permissions as material rather than a setting applied once the flow is drawn. Knowing which personas would never hold this module changed the state model, removed an approval cycle, and reshaped the entire portfolio path — all of which was far better to know first than to discover at handoff.",
+  },
   "strategy-dot-zero-change-impact": {
     whatIdImprove:
       "I would test the impact and action timelines with a larger set of portfolio managers using denser, real-world project data. That is where overlap, filtering, and exception handling become most demanding.",
@@ -587,6 +665,50 @@ const reflectionDetailsByProject: Record<
 };
 
 const personasByProject: Record<string, PersonaCard[]> = {
+  "strategy-dot-zero-kpi-management-module": [
+    {
+      personaName: "PMO leads and performance teams",
+      type: "primary",
+      goals: [
+        "Define KPIs that hold up under executive scrutiny",
+        "Report every interval without letting the series break",
+      ],
+      painPoints: [
+        "A long definition form is easy to start and easy to abandon",
+        "A recurring obligation is forgotten unless something prompts it",
+      ],
+      designImplication:
+        "The profile had to be a completable sequence with a visible pending count, and each interval had to arrive as a prompted action rather than a date to remember.",
+    },
+    {
+      personaName: "Portfolio managers outside the licence",
+      type: "secondary",
+      goals: [
+        "Get portfolio KPIs defined by the person closest to the numbers",
+        "See how their own performance is trending",
+      ],
+      painPoints: [
+        "No seat in the module that holds their KPIs",
+        "Reporting arrives as a request rather than a workflow they control",
+      ],
+      designImplication:
+        "The email bridge had to carry enough context to complete a profile and an update unaided, with trend and status readable in their own application afterwards.",
+    },
+    {
+      personaName: "Executive and strategy owners",
+      type: "executive",
+      goals: [
+        "See whether strategic objectives are actually moving",
+        "Trace a number back to the delivery behind it",
+      ],
+      painPoints: [
+        "Statuses that mean different things on different KPIs cannot be compared",
+        "Performance reporting disconnected from the projects driving it",
+      ],
+      designImplication:
+        "Status had to be computed from a defined measure, and alignment had to link each KPI to the projects, programs, and portfolios beneath it.",
+    },
+  ],
   "strategy-dot-zero-change-impact": [
     {
       personaName: "Project and program managers",
@@ -905,11 +1027,20 @@ export function CaseStudyPage({ caseStudy, locked = false }: CaseStudyPageProps)
 
             {locked ? (
               <CaseStudyLock
+                hasScreens={Boolean(caseStudy.heroMedia)}
                 sections={sectionSpecs.slice(2).map((spec) => spec.name)}
                 tone={tone}
               />
             ) : (
               <>
+                {caseStudy.heroMedia ? (
+                  <GatedProductScreen
+                    caseStudy={caseStudy}
+                    media={caseStudy.heroMedia}
+                    structured={structured}
+                    tone={tone}
+                  />
+                ) : null}
                 <ProblemSection structured={structured} tone={tone} />
                 <UsersSection structured={structured} tone={tone} />
                 <ApproachSection structured={structured} tone={tone} />
@@ -1242,17 +1373,6 @@ function HeroVisual({
   const { project } = caseStudy;
   const hasImpact = Boolean(structured.hero.impact);
 
-  if (caseStudy.heroMedia) {
-    return (
-      <ProductScreenHero
-        caseStudy={caseStudy}
-        media={caseStudy.heroMedia}
-        structured={structured}
-        tone={tone}
-      />
-    );
-  }
-
   return (
     <div className={`${caseCardChrome} relative isolate overflow-hidden`}>
       <div className="grid gap-0 lg:grid-cols-[0.35fr_0.65fr]">
@@ -1378,7 +1498,7 @@ function HeroVisual({
   );
 }
 
-function ProductScreenHero({
+function GatedProductScreen({
   caseStudy,
   media,
   structured,
@@ -1390,92 +1510,95 @@ function ProductScreenHero({
   tone: ProjectToneStyle;
 }) {
   return (
-    <article className={`${caseCardChrome} overflow-hidden`}>
-      <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-4 sm:px-6">
-        <div className="flex items-center gap-3">
+    <section
+      className="case-study-snap-section scroll-mt-24 pt-12 sm:pt-14"
+      id="product-screen"
+    >
+      <div className="grid gap-6">
+        <header>
           <span
-            className={`grid h-8 w-8 place-items-center rounded-[6px] border ${tone.softFill} ${tone.accentText} ${tone.border}`}
-          >
-            <Route aria-hidden="true" className="h-4 w-4" strokeWidth={2.35} />
-          </span>
-          <div>
-            <p className={caseEyebrow}>Product workspace</p>
-            <p className="mt-1 text-sm font-medium text-[var(--case-ink)]">
-              {media.label ?? caseStudy.project.title}
+            aria-hidden="true"
+            className="mb-5 block h-[3px] w-10 rounded-full bg-[var(--case-line)]"
+          />
+          <div className="grid gap-3 lg:grid-cols-[minmax(0,0.72fr)_minmax(18rem,0.28fr)] lg:items-end">
+            <h2 className="max-w-2xl text-2xl font-medium leading-[1.2] tracking-normal text-[var(--case-ink)] sm:text-3xl">
+              The approved product screen
+            </h2>
+            <p className="max-w-md text-sm font-light leading-7 text-[var(--case-ink-soft)]">
+              The direction that shipped inside the project plan. It sits behind
+              the password because the workspace is under NDA.
             </p>
           </div>
-        </div>
-        <p className="text-xs font-light text-[var(--case-muted)]">
-          Final approved direction
-        </p>
-      </div>
+        </header>
 
-      <div className={`border-y border-[var(--case-line)] p-2 sm:p-4 ${tone.canvas}`}>
-        <div className="overflow-hidden rounded-[7px] border border-[rgb(255_255_255_/_0.78)] bg-[var(--case-surface)] shadow-[0_20px_50px_rgb(24_32_43_/_0.14)]">
-          <a
-            aria-label={`Open ${media.label ?? "product screen"} at full size`}
-            className="group relative block focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--blue)] focus-visible:ring-offset-2"
-            href={media.src}
-            rel="noreferrer"
-            target="_blank"
-            title="Open full-size screen"
-          >
-            <Image
-              alt={media.alt}
-              className="block h-auto w-full"
-              height={media.height}
-              priority
-              sizes="(min-width: 1440px) 1240px, (min-width: 768px) 92vw, 96vw"
-              src={media.src}
-              width={media.width}
-            />
-            <span className="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-[7px] border border-[rgb(223_227_232_/_0.9)] bg-[rgb(253_253_255_/_0.9)] text-[var(--case-ink)] opacity-100 shadow-[0_10px_26px_rgb(24_32_43_/_0.12)] backdrop-blur-sm transition duration-300 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-visible:opacity-100">
-              <Maximize2 aria-hidden="true" className="h-4 w-4" strokeWidth={2.2} />
-            </span>
-          </a>
-        </div>
-      </div>
-
-      <div className="grid lg:grid-cols-[1.12fr_0.88fr]">
-        <div className="bg-[var(--case-surface-muted)] p-5 sm:p-6">
-          <p className={caseEyebrow}>Connected product model</p>
-          <ol className="mt-5 grid gap-3 sm:grid-cols-3">
-            {structured.context.modules.map((module, index) => (
-              <li
-                className="grid grid-cols-[2rem_minmax(0,1fr)] items-center gap-3"
-                key={module}
+        <article className={`${caseCardChrome} overflow-hidden`}>
+          <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-4 sm:px-6">
+            <div className="flex items-center gap-3">
+              <span
+                className={`grid h-8 w-8 place-items-center rounded-[6px] border ${tone.softFill} ${tone.accentText} ${tone.border}`}
               >
-                <span
-                  className={`grid h-8 w-8 place-items-center rounded-full border text-xs font-medium ${
-                    index === 0
-                      ? `${tone.softFill} ${tone.accentText} ${tone.border}`
-                      : "border-[var(--case-line)] bg-[var(--case-surface-muted)] text-[var(--case-muted)]"
-                  }`}
-                >
-                  {index + 1}
-                </span>
-                <span className="text-sm font-medium leading-5 text-[var(--case-ink)]">
-                  {module}
-                </span>
-              </li>
-            ))}
-          </ol>
-        </div>
+                <Route aria-hidden="true" className="h-4 w-4" strokeWidth={2.35} />
+              </span>
+              <div>
+                <p className={caseEyebrow}>Product workspace</p>
+                <p className="mt-1 text-sm font-medium text-[var(--case-ink)]">
+                  {media.label ?? caseStudy.project.title}
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-wrap items-center gap-2.5">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[var(--case-surface-muted)] px-2.5 py-1 text-[0.7rem] font-medium leading-5 text-[var(--case-ink-soft)]">
+                <Lock aria-hidden="true" className="h-3 w-3" strokeWidth={2.35} />
+                Shared under NDA
+              </span>
+              <p className="text-xs font-light text-[var(--case-muted)]">
+                Final approved direction
+              </p>
+            </div>
+          </div>
 
-        <div className="p-5 sm:p-6">
-          <p className={`text-[0.68rem] font-medium uppercase tracking-normal ${tone.accentText}`}>
-            What changed
-          </p>
-          <p className="mt-3 text-sm font-light leading-7 text-[var(--case-ink-soft)]">
-            {structured.hero.impact}
-          </p>
-        </div>
+          <div className={`border-y border-[var(--case-line)] p-2 sm:p-4 ${tone.canvas}`}>
+            <div className="overflow-hidden rounded-[7px] border border-[rgb(255_255_255_/_0.78)] bg-[var(--case-surface)] shadow-[0_20px_50px_rgb(24_32_43_/_0.14)]">
+              <a
+                aria-label={`Open ${media.label ?? "product screen"} at full size`}
+                className="group relative block focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--blue)] focus-visible:ring-offset-2"
+                href={media.src}
+                rel="noreferrer"
+                target="_blank"
+                title="Open full-size screen"
+              >
+                <Image
+                  alt={media.alt}
+                  className="block h-auto w-full"
+                  height={media.height}
+                  sizes="(min-width: 1440px) 1240px, (min-width: 768px) 92vw, 96vw"
+                  src={media.src}
+                  width={media.width}
+                />
+                <span className="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-[7px] border border-[rgb(223_227_232_/_0.9)] bg-[rgb(253_253_255_/_0.9)] text-[var(--case-ink)] opacity-100 shadow-[0_10px_26px_rgb(24_32_43_/_0.12)] backdrop-blur-sm transition duration-300 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-visible:opacity-100">
+                  <Maximize2 aria-hidden="true" className="h-4 w-4" strokeWidth={2.2} />
+                </span>
+              </a>
+            </div>
+          </div>
+
+          {structured.hero.impact ? (
+            <div className="bg-[var(--case-surface-muted)] p-5 sm:p-6">
+              <p
+                className={`text-[0.68rem] font-medium uppercase tracking-normal ${tone.accentText}`}
+              >
+                What changed
+              </p>
+              <p className="mt-3 max-w-3xl text-sm font-light leading-7 text-[var(--case-ink-soft)]">
+                {structured.hero.impact}
+              </p>
+            </div>
+          ) : null}
+        </article>
       </div>
-    </article>
+    </section>
   );
 }
-
-
 
 function ContextSection({ structured }: { structured: StructuredCaseStudy }) {
   return (
