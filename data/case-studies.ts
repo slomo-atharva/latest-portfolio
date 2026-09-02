@@ -29,6 +29,27 @@ export type CaseStudyMedia = {
   width: number;
   height: number;
   label?: string;
+  /** One sentence shown under the image in a gallery chapter. */
+  caption?: string;
+  /** True while the artefact is still to be exported. Renders a slot, not a broken image. */
+  pending?: boolean;
+};
+
+/**
+ * A chapter is one beat of the story. Unlike the templated sections, chapters
+ * differ per project: the headings, the order, and the number of them are all
+ * written for the case study they belong to.
+ */
+export type CaseStudyChapter = {
+  id: string;
+  /** Short label for the side navigator. */
+  name: string;
+  title: string;
+  body?: string[];
+  pull?: string;
+  media?: CaseStudyMedia[];
+  /** "figure" is one artefact under the copy; "gallery" is captioned screens. */
+  layout?: "figure" | "gallery";
 };
 
 type FinalMoment = StoryCard & {
@@ -44,6 +65,12 @@ type ImpactPoint = {
 export type CaseStudy = {
   project: SelectedProject;
   heroMedia?: CaseStudyMedia;
+  /**
+   * When present, the case study renders as a written narrative instead of the
+   * templated section engine. The fields below stay populated because the hero
+   * and context blocks still read from them.
+   */
+  chapters?: CaseStudyChapter[];
   headline: string;
   deck: string;
   problem: string;
@@ -90,10 +117,184 @@ export const caseStudies: CaseStudy[] = [
       height: 1304,
       label: "Project plan entry point",
     },
+    chapters: [
+      {
+        id: "where-it-lived",
+        name: "Where it lived",
+        title: "It lived in a document people stop opening",
+        body: [
+          "Change Impact was the eighth item in the project plan's left nav, sitting between Issues and Related Links. To reach it you opened a project, opened its plan, and scrolled.",
+          "That placement was the whole problem, and it took listening to project managers to understand why. They draft the plan, get it baselined, and then largely stop opening it. After baseline the work moves to the registers, the WBS, and the status report. So change impact was a thing you filled in once, inside a document you were about to stop using.",
+          "The form itself was competent — category, stakeholder impacted, level of impact, a thousand characters of comment, and change strategies underneath it with a review date and a responsible person. So it was never that people couldn't describe a change. It was that nothing ever asked about it again. No status on a strategy. No reporting period. No register listing changes across projects.",
+        ],
+        pull: "Easy to fill. Easy to forget.",
+        layout: "figure",
+        media: [
+          {
+            src: "/case-studies/strategy-dot-zero-change-impact/process-current-state.webp",
+            alt: "Current state audit board: the legacy change impact screens, the current flow, and the reported user issues",
+            width: 2800,
+            height: 2366,
+            label: "The current-state audit — screens, flow, and everything users had reported",
+          },
+        ],
+      },
+      {
+        id: "the-only-view",
+        name: "The only view",
+        title: "The only way to see any of it was Power BI",
+        body: [
+          "PMO and executives did have a view. Twenty-one projects with impacts, broken down by stakeholder and by category, plotted across nearly two years. It just wasn't in the product. It was a Power BI dashboard sitting alongside it.",
+          "That is a reasonable thing to build when a feature has no register of its own. It is a bad thing to leave standing, because the people who most needed to act on organisational change were reading about it somewhere they could not act.",
+        ],
+      },
+      {
+        id: "the-anchor",
+        name: "The anchor",
+        title: "The one question the design turned on: what is a change impact anchored to?",
+        body: [
+          "The business had a suggestion — anchor it to the business unit. Pick who is affected, then describe what is happening to them. It is a defensible idea. It matches how the Power BI dashboard already sliced the data, and business unit is genuinely how PMO thinks.",
+          "I wasn't sure it would survive contact with a real project, so before drawing a single screen I wrote out both journeys against the same scenario: one project manager, one change — “ways of working changes” — affecting five business units.",
+          "Anchored to the business unit, he opens the drawer, picks Finance, and describes the change. Then he does it again for HR. Then Operations, IT, Procurement. One record per unit. At the end he is looking at a register showing a row for each one, and no way to track them as the single change they actually are.",
+          "Anchored to the change, he names it once, links every affected unit, sets the impact dates, and adds the change strategy in the same drawer. One record. One status.",
+          "Both journeys are identical until the drawer opens. Everything after that point is a consequence of what the drawer asks for first.",
+          "We anchored it to the change.",
+        ],
+        layout: "figure",
+        media: [
+          {
+            src: "/case-studies/strategy-dot-zero-change-impact/process-approach.webp",
+            alt: "Approach board: the anchor question, both written journeys, the journey map, and the two data models",
+            width: 1882,
+            height: 2800,
+            label: "Both journeys, written out before anything was drawn",
+          },
+        ],
+      },
+      {
+        id: "the-model",
+        name: "The model",
+        title: "The picture I worked from",
+        body: [
+          "Once the change is the object, everything else has somewhere to attach: the impact profile, the affected stakeholders and their timing, the change actions, the reporting. And because there is now one record per change rather than one per business unit, those records roll up into a PMO view without anyone reconciling anything first.",
+          "The other move is placement. Change impact still lives in the project plan, because that is where a change gets identified. But it also lives in a register of its own — which is where a project manager actually works once the plan is baselined.",
+          "Status had the same problem as placement: it needed to come from somewhere real. Rather than ask a project manager to set an overall status by feel, the change's status is derived by business rule from the status of its actions. What the person writes each reporting period is the overall comment — the one part a rule cannot compute.",
+        ],
+        layout: "figure",
+        media: [
+          {
+            src: "/case-studies/strategy-dot-zero-change-impact/process-entire-picture.webp",
+            alt: "The object model showing what attaches to the change and rolls up to PMO, with the status tracking model underneath",
+            width: 2199,
+            height: 2800,
+            label: "What hangs off the change, and where its status comes from",
+          },
+        ],
+      },
+      {
+        id: "what-changes",
+        name: "What changes",
+        title: "What changes",
+        body: [
+          "Before: business unit, description, impact level. Change strategies and owners did exist — status, reporting and any view outside the plan did not.",
+          "After: plan or register, then the change, then stakeholders, actions and reporting hanging off it, all of it rolling into the PMO impact map.",
+        ],
+        layout: "figure",
+        media: [
+          {
+            src: "/case-studies/strategy-dot-zero-change-impact/process-what-changes.webp",
+            alt: "Handwritten before and after pages comparing the old table with the new model",
+            width: 2800,
+            height: 2309,
+            label: "The before and after, worked out on paper",
+          },
+        ],
+      },
+      {
+        id: "the-work",
+        name: "The work",
+        title: "The screens",
+        layout: "gallery",
+        media: [
+          {
+            src: "/case-studies/strategy-dot-zero-change-impact/change-profile-form.png",
+            alt: "Change impact form for naming and assessing an organisational change",
+            width: 1600,
+            height: 1736,
+            label: "Impact profile",
+            caption:
+              "The change gets named first. Category, impact level, linked deliverables, and the period it is expected to run.",
+          },
+          {
+            src: "/case-studies/strategy-dot-zero-change-impact/stakeholder-timing.webp",
+            alt: "Stakeholders and timing screen listing impacted business units and impact levels",
+            width: 1440,
+            height: 900,
+            label: "Stakeholders and timing",
+            caption:
+              "Every affected business unit on one record, each with its own impact description and its own start, peak and end.",
+          },
+          {
+            src: "/case-studies/strategy-dot-zero-change-impact/change-actions.webp",
+            alt: "Change actions screen showing preparedness actions and their status",
+            width: 1440,
+            height: 900,
+            label: "Change strategy",
+            caption:
+              "Change strategy kept next to the change it belongs to, with a target group, an owner and a date.",
+          },
+          {
+            src: "/case-studies/strategy-dot-zero-change-impact/action-tracking.png",
+            alt: "Change impact tracking screen with On track, Alert, and Off track action states",
+            width: 2880,
+            height: 1800,
+            label: "Tracking",
+            caption:
+              "Action states roll into the change's overall status by rule, so nobody sets it by feel.",
+          },
+          {
+            src: "/case-studies/strategy-dot-zero-change-impact/action-reporting.png",
+            alt: "Reporting modal for updating change action status by reporting period",
+            width: 1600,
+            height: 1736,
+            label: "Reporting period",
+            caption:
+              "Each reporting period asks for the one thing a rule cannot compute: the overall comment.",
+          },
+          {
+            src: "/case-studies/strategy-dot-zero-change-impact/impact-map.png",
+            alt: "Organisation-wide change impact map by business unit and month",
+            width: 2880,
+            height: 1800,
+            label: "PMO impact map",
+            caption:
+              "The view that replaces the Power BI tab. Business unit down, month across, projects stacked where they overlap.",
+          },
+          {
+            src: "/case-studies/strategy-dot-zero-change-impact/change-register.png",
+            alt: "PMO change impact register with project, business unit, timing, impact, and status fields",
+            width: 2880,
+            height: 1800,
+            label: "Change register",
+            caption:
+              "And the register underneath it, for when someone needs the row rather than the pattern.",
+          },
+        ],
+      },
+      {
+        id: "looking-back",
+        name: "Looking back",
+        title: "What I'd change",
+        body: [
+          "The business-unit anchor was not a bad idea, it was a bad anchor — and the only reason I could say so was that I wrote the journey out before I drew a screen. Taste would not have won that argument. Two journeys did.",
+          "The thing I would genuinely test properly is the impact map with a real portfolio behind it. Twenty-one projects looked fine in Power BI. I have no idea what two hundred looks like in mine.",
+        ],
+      },
+    ],
     headline:
-      "Turning a forgotten register into an active workflow for organisational change.",
+      "It lived in the project plan, and project managers stop opening the project plan.",
     deck:
-      "The module sits inside Strategy Dot Zero's project planning workflow. It helps project and program managers describe the change created by a project, while PMO teams can see readiness and overlapping impact across the organisation.",
+      "Change impact is where a project records who in the organisation the work will actually land on. It sat as one tab inside the project plan. It now also has a register of its own, and rolls up into a view PMO can act on without leaving the product.",
     problem:
       "The previous feature was little more than a standalone table. A project manager could record a change, but there was no useful relationship between that change, the people affected, preparation actions, reporting periods, or the wider portfolio. Records were easy to create and just as easy to forget.",
     outcome:
@@ -102,20 +303,23 @@ export const caseStudies: CaseStudy[] = [
       "The brief looked small, but the model touched two very different levels of the product. Project teams needed a practical way to define and manage one change. PMO teams needed those records to combine into a trustworthy view of pressure across the portfolio. I treated the work as a relationship-design problem, not a screen refresh.",
     snapshot: [
       {
-        label: "Delivery",
-        value: "One week from first draft through iteration and final approval.",
+        label: "Placement",
+        value:
+          "Out of a single tab in the project plan, into a register of its own.",
       },
       {
-        label: "Core model",
-        value: "The change itself became the organising object.",
+        label: "Anchor",
+        value: "The change became the record, not the business unit.",
       },
       {
-        label: "Connected flow",
-        value: "Assessment, timing, actions, reporting, and PMO visibility.",
+        label: "Status",
+        value:
+          "Change health is derived from action status by business rule, not set by feel.",
       },
       {
-        label: "Enterprise view",
-        value: "A cross-project map of impact by business unit and month.",
+        label: "Visibility",
+        value:
+          "The PMO view moved out of a Power BI dashboard and into the product.",
       },
     ],
     frictions: [
@@ -240,7 +444,7 @@ export const caseStudies: CaseStudy[] = [
         tags: ["Project manager", "Assessment"],
         media: [
           {
-            src: "/case-studies/strategy-dot-zero-change-impact/change-profile-form.webp",
+            src: "/case-studies/strategy-dot-zero-change-impact/change-profile-form.png",
             alt: "Change impact form for naming and assessing an organisational change",
             width: 1600,
             height: 1736,
@@ -285,14 +489,14 @@ export const caseStudies: CaseStudy[] = [
         tags: ["Reporting", "Status model"],
         media: [
           {
-            src: "/case-studies/strategy-dot-zero-change-impact/action-tracking.webp",
+            src: "/case-studies/strategy-dot-zero-change-impact/action-tracking.png",
             alt: "Change impact tracking screen with On track, Alert, and Off track action states",
-            width: 1440,
-            height: 900,
+            width: 2880,
+            height: 1800,
             label: "Tracking overview",
           },
           {
-            src: "/case-studies/strategy-dot-zero-change-impact/action-reporting.webp",
+            src: "/case-studies/strategy-dot-zero-change-impact/action-reporting.png",
             alt: "Reporting modal for updating change action status by reporting period",
             width: 1600,
             height: 1736,
@@ -307,10 +511,10 @@ export const caseStudies: CaseStudy[] = [
         tags: ["PMO", "Portfolio view"],
         media: [
           {
-            src: "/case-studies/strategy-dot-zero-change-impact/impact-map.webp",
+            src: "/case-studies/strategy-dot-zero-change-impact/impact-map.png",
             alt: "Organisation-wide change impact map by business unit and month",
-            width: 1440,
-            height: 900,
+            width: 2880,
+            height: 1800,
             label: "Impact timeline",
           },
         ],
@@ -322,10 +526,10 @@ export const caseStudies: CaseStudy[] = [
         tags: ["Register", "Governance"],
         media: [
           {
-            src: "/case-studies/strategy-dot-zero-change-impact/change-register.webp",
+            src: "/case-studies/strategy-dot-zero-change-impact/change-register.png",
             alt: "PMO change impact register with project, business unit, timing, impact, and status fields",
-            width: 1440,
-            height: 900,
+            width: 2880,
+            height: 1800,
             label: "Change impact register",
           },
         ],

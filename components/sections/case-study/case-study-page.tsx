@@ -30,6 +30,12 @@ import {
 } from "@/lib/project-tones";
 import { CaseStudyNavigator } from "./case-study-navigator";
 import { CaseStudyLock } from "./case-study-lock";
+import { CaseStudyChapters } from "./case-study-chapters";
+import {
+  caseCardChrome,
+  caseEyebrow,
+  caseInsetChrome,
+} from "./case-study-chrome";
 
 type CaseStudyPageProps = {
   caseStudy: CaseStudy;
@@ -393,7 +399,7 @@ const heroImpactByProject: Record<string, string> = {
   "strategy-dot-zero-kpi-management-module":
     "KPI definition, computed status, and interval reporting owned end to end by one persona, with alignment linking each KPI to the work behind it.",
   "strategy-dot-zero-change-impact":
-    "A static register became a connected workflow for assessment, readiness, reporting, and portfolio visibility.",
+    "An approved model that moves change impact out of a document nobody reopens, and gives its status somewhere real to come from.",
   "dhda-service-journeys": "MVP demonstrated to senior government executives",
   "strategy-dot-zero-ai-project-extraction":
     "Manual back-end migration became a reviewed product flow, with nothing reaching the register unverified.",
@@ -517,6 +523,11 @@ const iaModelByProject: Record<string, string[]> = {
   ],
 };
 
+/**
+ * Only projects with numbers that were actually measured appear here. A design
+ * sprint that ended at an approved model has none, and inventing them to fill
+ * the hero tiles is worse than leaving the row out.
+ */
 const impactMetricsByProject: Record<string, ImpactMetricCard[]> = {
   "strategy-dot-zero-kpi-management-module": [
     {
@@ -541,23 +552,6 @@ const impactMetricsByProject: Record<string, ImpactMetricCard[]> = {
       value: "3 surfaces",
       label:
         "notification, my actions, and calendar carry every reporting interval",
-      category: "user",
-    },
-  ],
-  "strategy-dot-zero-change-impact": [
-    {
-      value: "1 week",
-      label: "from initial framing through iteration and final approval",
-      category: "team",
-    },
-    {
-      value: "4",
-      label: "connected views from change assessment to enterprise oversight",
-      category: "business",
-    },
-    {
-      value: "3",
-      label: "clear reporting states for action and overall change health",
       category: "user",
     },
   ],
@@ -1000,16 +994,28 @@ const fieldLabelText: Record<string, string> = {
   how_approach_changed: "How the approach changed",
 };
 
-const caseCardChrome =
-  "rounded-[10px] bg-[var(--case-surface)] shadow-[0_1px_2px_rgb(24_32_43_/_0.05),0_10px_30px_rgb(24_32_43_/_0.06)]";
-const caseInsetChrome = "rounded-[10px] bg-[var(--case-surface-muted)]";
-const caseEyebrow =
-  "text-[0.68rem] font-medium uppercase tracking-normal text-[var(--case-muted)]";
-
 export function CaseStudyPage({ caseStudy, locked = false }: CaseStudyPageProps) {
   const structured = buildStructuredCaseStudy(caseStudy);
-  const { project } = caseStudy;
+  const { chapters, project } = caseStudy;
   const tone = projectToneStyles[project.tone];
+
+  // A chapter-based case study keeps the hero and context blocks, then replaces
+  // the templated sections with its own written beats.
+  const navSections = chapters
+    ? [
+        ...sectionSpecs
+          .slice(0, 2)
+          .map((spec) => ({ id: spec.id, name: spec.name })),
+        ...chapters.map((chapter) => ({
+          id: chapter.id,
+          name: chapter.name,
+        })),
+      ]
+    : sectionSpecs.map((spec) => ({ id: spec.id, name: spec.name }));
+
+  const gatedSectionNames = chapters
+    ? chapters.map((chapter) => chapter.name)
+    : sectionSpecs.slice(2).map((spec) => spec.name);
 
   return (
     <main className="case-study-scroll-experience bg-[var(--case-paper)] text-[var(--case-ink)]">
@@ -1019,7 +1025,7 @@ export function CaseStudyPage({ caseStudy, locked = false }: CaseStudyPageProps)
       <div className="px-5 pb-16 sm:px-8 sm:pb-20 xl:px-8 2xl:px-10">
         <div className="mx-auto grid max-w-[92rem] gap-10 xl:grid-cols-[13rem_minmax(0,1fr)] xl:gap-0 2xl:grid-cols-[15rem_minmax(0,1fr)]">
           <CaseStudyNavigator
-            sectionSpecs={locked ? sectionSpecs.slice(0, 2) : sectionSpecs}
+            sectionSpecs={locked ? navSections.slice(0, 2) : navSections}
           />
 
           <div className="min-w-0 xl:px-8 2xl:px-10">
@@ -1028,28 +1034,34 @@ export function CaseStudyPage({ caseStudy, locked = false }: CaseStudyPageProps)
             {locked ? (
               <CaseStudyLock
                 hasScreens={Boolean(caseStudy.heroMedia)}
-                sections={sectionSpecs.slice(2).map((spec) => spec.name)}
+                sections={gatedSectionNames}
                 tone={tone}
               />
             ) : (
               <>
-                {caseStudy.heroMedia ? (
-                  <GatedProductScreen
-                    caseStudy={caseStudy}
-                    media={caseStudy.heroMedia}
-                    structured={structured}
-                    tone={tone}
-                  />
-                ) : null}
-                <ProblemSection structured={structured} tone={tone} />
-                <UsersSection structured={structured} tone={tone} />
-                <ApproachSection structured={structured} tone={tone} />
-                <ResearchSection structured={structured} tone={tone} />
-                <InformationArchitectureSection structured={structured} tone={tone} />
-                <DecisionSection structured={structured} tone={tone} />
-                <SolutionSection structured={structured} tone={tone} />
-                <ImpactSection structured={structured} tone={tone} />
-                <ReflectionSection structured={structured} tone={tone} />
+                {chapters ? (
+                  <CaseStudyChapters chapters={chapters} tone={tone} />
+                ) : (
+                  <>
+                    {caseStudy.heroMedia ? (
+                      <GatedProductScreen
+                        caseStudy={caseStudy}
+                        media={caseStudy.heroMedia}
+                        structured={structured}
+                        tone={tone}
+                      />
+                    ) : null}
+                    <ProblemSection structured={structured} tone={tone} />
+                    <UsersSection structured={structured} tone={tone} />
+                    <ApproachSection structured={structured} tone={tone} />
+                    <ResearchSection structured={structured} tone={tone} />
+                    <InformationArchitectureSection structured={structured} tone={tone} />
+                    <DecisionSection structured={structured} tone={tone} />
+                    <SolutionSection structured={structured} tone={tone} />
+                    <ImpactSection structured={structured} tone={tone} />
+                    <ReflectionSection structured={structured} tone={tone} />
+                  </>
+                )}
                 <CaseStudyClose />
               </>
             )}
