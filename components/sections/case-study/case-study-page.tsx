@@ -360,14 +360,13 @@ const domainByProject: Record<string, string> = {
     "Portfolio governance, delivery planning, cross-project dependencies",
 };
 
+/**
+ * A duration, not a stage. Anything phrased as "concept through approved X"
+ * was describing where the work stopped, which belongs in the outcome, so
+ * those fall back to the project year until a real duration is known.
+ */
 const timelineByProject: Record<string, string> = {
-  "strategy-dot-zero-kpi-management-module":
-    "Concept through approved module design",
   "strategy-dot-zero-change-impact": "One-week design sprint",
-  "dhda-service-journeys": "Concept pitch to MVP roadmap",
-  "strategy-dot-zero-ai-project-extraction": "Concept through approved MVP flow",
-  "strategy-dot-zero-dependency-module":
-    "Concept through approved module design",
 };
 
 const visualRoleByProject: Record<string, string> = {
@@ -1101,7 +1100,7 @@ function buildStructuredCaseStudy(caseStudy: CaseStudy): StructuredCaseStudy {
       personas,
     },
     approach: {
-      owned: project.role.split(", ").slice(0, 6),
+      owned: project.scope.slice(0, 6),
       collaboratedOn: collaborationByProject[project.id] ?? [],
       constraints: constraintsByProject[project.id] ?? [],
       processSteps,
@@ -1312,7 +1311,6 @@ function HeroSection({
               <HeroBriefRow label="Role" value={structured.hero.role} />
               <HeroBriefRow label="Timeline" value={structured.hero.timeline} />
               <HeroBriefRow label="Platform" value={structured.hero.platform} />
-              <HeroBriefRow label="Client" value={structured.hero.client} />
               <HeroBriefRow label="Domain" value={structured.hero.domain} />
             </div>
 

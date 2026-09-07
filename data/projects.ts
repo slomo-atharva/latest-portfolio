@@ -43,7 +43,7 @@ export const selectedProjects: SelectedProject[] = [
     year: "1-week sprint",
     summary:
       "A connected workflow for defining organisational change, preparing affected groups, tracking actions, and seeing impact across a portfolio.",
-    role: "Product design, workflow architecture, interaction design",
+    role: "Product Designer",
     scope: ["Impact profile", "Action tracking", "PMO impact map"],
     highlights: ["Change-centred model", "Cross-project visibility"],
     tone: "mint",
@@ -62,7 +62,7 @@ export const selectedProjects: SelectedProject[] = [
     year: "2026",
     summary:
       "An agent that turns the documents a new client already keeps into structured, reviewable projects inside the platform.",
-    role: "Product design, AI workflow design, information architecture",
+    role: "Product Designer",
     scope: ["Guided extraction", "Review and readiness", "Register handoff"],
     highlights: ["Human-in-the-loop by design", "Migration at portfolio scale"],
     tone: "violet",
@@ -81,7 +81,7 @@ export const selectedProjects: SelectedProject[] = [
     year: "2026",
     summary:
       "A two-sided workflow for requesting, agreeing, and tracking what one project needs from another.",
-    role: "Product design, workflow architecture, interaction design",
+    role: "Product Designer",
     scope: ["Get and Give registers", "Approval workflow", "Live dependency status"],
     highlights: ["Two-sided agreement", "Status from real reporting"],
     tone: "rose",
@@ -100,7 +100,7 @@ export const selectedProjects: SelectedProject[] = [
     year: "2026",
     summary:
       "A governed workflow for defining a KPI, computing its status from a baselined measure, and reporting it every interval — owned end to end by the PMO.",
-    role: "Product design, workflow architecture, information architecture",
+    role: "Product Designer",
     scope: ["KPI registers", "KPI profile", "Interval tracking"],
     highlights: ["Single-owner model", "Alignment spine"],
     tone: "rose",
@@ -119,7 +119,7 @@ export const selectedProjects: SelectedProject[] = [
     year: "2025",
     summary:
       "A two-sided platform for exploring a national health ecosystem and governing the data that powers the visual landscape.",
-    role: "Lead Product Designer, UX strategy, information architecture",
+    role: "Lead Product Designer",
     scope: ["Explore Landscape", "PMO Management Hub", "AI Trust Layer"],
     highlights: ["Ontology-led UX", "Governed AI publishing"],
     tone: "blue",
@@ -138,7 +138,7 @@ export const selectedProjects: SelectedProject[] = [
     year: "2025",
     summary:
       "A polished operating layer for complex destination moments, helping teams see journeys, priorities, and handoffs with less noise.",
-    role: "Product strategy, service UX, interface direction",
+    role: "Product Designer",
     scope: ["Journey mapping", "Dashboard UX", "Design system"],
     highlights: ["Multi-team workflows", "Guest experience signals"],
     tone: "violet",
@@ -157,7 +157,7 @@ export const selectedProjects: SelectedProject[] = [
     year: "2024",
     summary:
       "A composed decision surface for initiative tracking, designed to make progress, ownership, and next actions easier to scan.",
-    role: "Information architecture, visual systems, prototyping",
+    role: "Product Designer",
     scope: ["Command view", "Status models", "Executive UI"],
     highlights: ["Portfolio visibility", "Calm escalation paths"],
     tone: "rose",
@@ -176,7 +176,7 @@ export const selectedProjects: SelectedProject[] = [
     year: "2023",
     summary:
       "A modular workflow experience for service teams, balancing operational density with clean, low-friction interaction patterns.",
-    role: "Product UX, component patterns, motion polish",
+    role: "Product Designer",
     scope: ["Workflow design", "Component library", "Interaction states"],
     highlights: ["Repeatable patterns", "Dense operational views"],
     tone: "mint",
