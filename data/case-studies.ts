@@ -125,7 +125,7 @@ export const caseStudies: CaseStudy[] = [
         body: [
           "Change Impact was the eighth item in the project plan's left nav, sitting between Issues and Related Links. To reach it you opened a project, opened its plan, and scrolled.",
           "That placement was the whole problem, and it took listening to project managers to understand why. They draft the plan, get it baselined, and then largely stop opening it. After baseline the work moves to the registers, the WBS, and the status report. So change impact was a thing you filled in once, inside a document you were about to stop using.",
-          "The form itself was competent — category, stakeholder impacted, level of impact, a thousand characters of comment, and change strategies underneath it with a review date and a responsible person. So it was never that people couldn't describe a change. It was that nothing ever asked about it again. No status on a strategy. No reporting period. No register listing changes across projects.",
+          "The form itself was competent. Category, stakeholder impacted, level of impact, a thousand characters of comment, and change strategies underneath it with a review date and a responsible person. So it was never that people couldn't describe a change. It was that nothing ever asked about it again. No status on a strategy. No reporting period. No register listing changes across projects.",
         ],
         pull: "Easy to fill. Easy to forget.",
         layout: "figure",
@@ -135,7 +135,7 @@ export const caseStudies: CaseStudy[] = [
             alt: "Current state audit board: the legacy change impact screens, the current flow, and the reported user issues",
             width: 2800,
             height: 2366,
-            label: "The current-state audit — screens, flow, and everything users had reported",
+            label: "The current-state audit: screens, flow, and everything users had reported",
           },
         ],
       },
@@ -153,8 +153,8 @@ export const caseStudies: CaseStudy[] = [
         name: "The anchor",
         title: "The one question the design turned on: what is a change impact anchored to?",
         body: [
-          "The business had a suggestion — anchor it to the business unit. Pick who is affected, then describe what is happening to them. It is a defensible idea. It matches how the Power BI dashboard already sliced the data, and business unit is genuinely how PMO thinks.",
-          "I wasn't sure it would survive contact with a real project, so before drawing a single screen I wrote out both journeys against the same scenario: one project manager, one change — “ways of working changes” — affecting five business units.",
+          "The business had a suggestion: anchor it to the business unit. Pick who is affected, then describe what is happening to them. It is a defensible idea. It matches how the Power BI dashboard already sliced the data, and business unit is genuinely how PMO thinks.",
+          "I wasn't sure it would survive contact with a real project, so before drawing a single screen I wrote out both journeys against the same scenario: one project manager, one change called “ways of working changes”, affecting five business units.",
           "Anchored to the business unit, he opens the drawer, picks Finance, and describes the change. Then he does it again for HR. Then Operations, IT, Procurement. One record per unit. At the end he is looking at a register showing a row for each one, and no way to track them as the single change they actually are.",
           "Anchored to the change, he names it once, links every affected unit, sets the impact dates, and adds the change strategy in the same drawer. One record. One status.",
           "Both journeys are identical until the drawer opens. Everything after that point is a consequence of what the drawer asks for first.",
@@ -177,8 +177,8 @@ export const caseStudies: CaseStudy[] = [
         title: "The picture I worked from",
         body: [
           "Once the change is the object, everything else has somewhere to attach: the impact profile, the affected stakeholders and their timing, the change actions, the reporting. And because there is now one record per change rather than one per business unit, those records roll up into a PMO view without anyone reconciling anything first.",
-          "The other move is placement. Change impact still lives in the project plan, because that is where a change gets identified. But it also lives in a register of its own — which is where a project manager actually works once the plan is baselined.",
-          "Status had the same problem as placement: it needed to come from somewhere real. Rather than ask a project manager to set an overall status by feel, the change's status is derived by business rule from the status of its actions. What the person writes each reporting period is the overall comment — the one part a rule cannot compute.",
+          "The other move is placement. Change impact still lives in the project plan, because that is where a change gets identified. But it also lives in a register of its own, which is where a project manager actually works once the plan is baselined.",
+          "Status had the same problem as placement: it needed to come from somewhere real. Rather than ask a project manager to set an overall status by feel, the change's status is derived by business rule from the status of its actions. What the person writes each reporting period is the overall comment, the one part a rule cannot compute.",
         ],
         layout: "figure",
         media: [
@@ -196,7 +196,7 @@ export const caseStudies: CaseStudy[] = [
         name: "What changes",
         title: "What changes",
         body: [
-          "Before: business unit, description, impact level. Change strategies and owners did exist — status, reporting and any view outside the plan did not.",
+          "Before: business unit, description, impact level. Change strategies and owners did exist. Status, reporting and any view outside the plan did not.",
           "After: plan or register, then the change, then stakeholders, actions and reporting hanging off it, all of it rolling into the PMO impact map.",
         ],
         layout: "figure",
@@ -286,7 +286,7 @@ export const caseStudies: CaseStudy[] = [
         name: "Looking back",
         title: "What I'd change",
         body: [
-          "The business-unit anchor was not a bad idea, it was a bad anchor — and the only reason I could say so was that I wrote the journey out before I drew a screen. Taste would not have won that argument. Two journeys did.",
+          "The business-unit anchor was not a bad idea, it was a bad anchor, and the only reason I could say so was that I wrote the journey out before I drew a screen. Taste would not have won that argument. Two journeys did.",
           "The thing I would genuinely test properly is the impact map with a real portfolio behind it. Twenty-one projects looked fine in Power BI. I have no idea what two hundred looks like in mine.",
         ],
       },
@@ -800,10 +800,226 @@ export const caseStudies: CaseStudy[] = [
   }),
   bindProject({
     projectId: "strategy-dot-zero-dependency-module",
+    chapters: [
+      {
+        id: "where-it-lived",
+        name: "Where it lived",
+        title: "Detailed record, nowhere to go",
+        body: [
+          "Dependency was the eleventh item in the project plan's left nav, sitting between Resource and Miscellaneous. The same place change impact sat, with the same consequence: project managers draft the plan, get it baselined, and from then on work out of the registers and the status report.",
+          "There was no dependency register anywhere else in the product. Every dependency in the portfolio lived inside the individual plan of the project that had recorded it.",
+          "Inside were two tables. Predecessor Project, for what this project is waiting on. Successor Project, for what is waiting on it. The form behind both was thorough: the other project, baseline start and end, its project manager, the impact of the dependency, the dependent product, and free text for the nature of it.",
+          "So the record was never thin. It just had nowhere to go and nobody else to reach.",
+        ],
+        pull: "Once PMs are done with the project plan, the chances of coming back here are very rare.",
+        layout: "figure",
+        media: [
+          {
+            src: "/case-studies/strategy-dot-zero-dependency-module/process-current-state.webp",
+            alt: "Current state board showing the legacy dependency screens inside the project plan, the predecessor and successor forms, the current flow, and the reported user issues",
+            width: 1600,
+            height: 1100,
+            label: "The current-state audit: the screens, the flow, and what users reported",
+            pending: true,
+          },
+        ],
+      },
+      {
+        id: "note-or-agreement",
+        name: "Note or agreement",
+        title: "The question I had to settle first: is a dependency a note, or an agreement?",
+        body: [
+          "Today it is a note. A project manager opens the register, picks the other project as a predecessor, fills in the impact and the nature of it, and saves. That is the entire interaction, and nothing leaves his own plan.",
+          "Before drawing anything I wrote out both journeys against the same scenario: Project A needs an end product from Project B before its own milestone can start.",
+          "Recorded the way it works today, he adds Project B as a predecessor and the entry sits in his plan. Project B's manager is never told, never asked, and never agrees. Weeks pass and nothing in the record changes, because nothing in it was ever capable of changing. He finds out Project B has slipped when the delivery does not arrive.",
+          "Requested and accepted, he names the end product he needs, the date he needs it by, and what happens to his project if he does not get it. The request lands in Project B's Give register and their manager accepts it, or rejects it with a reason. Both sides end up looking at the same record.",
+          "The interesting part is the shape of the first journey. It does not get gradually worse. He feels fine the whole way through, because nothing ever contradicts him, and then it collapses at the end. That is why this was never reported as a usability problem. It does not annoy anyone. It just quietly stops being true.",
+        ],
+        layout: "figure",
+        media: [
+          {
+            src: "/case-studies/strategy-dot-zero-dependency-module/process-approach.webp",
+            alt: "Approach board with both written journeys and a journey map comparing the private ledger against the two-sided agreement",
+            width: 1600,
+            height: 1500,
+            label: "Both journeys, written out before anything was drawn",
+            pending: true,
+          },
+          {
+            src: "/case-studies/strategy-dot-zero-dependency-module/process-one-author.webp",
+            alt: "Diagram comparing a dependency record with one author against one record with a Get register and a Give register either side of it",
+            width: 1600,
+            height: 900,
+            label: "The same argument as a model: one author, or two",
+            pending: true,
+          },
+        ],
+      },
+      {
+        id: "the-states",
+        name: "The states",
+        title: "The states, and who owns each move",
+        body: [
+          "Once a dependency is a request rather than a note it needs states, and every move has to belong to somebody.",
+          "The provider accepts, which makes it active, and delivers, which completes it. The provider also rejects, and a rejection carries a reason that stays on the record so the requester knows what to change rather than resubmitting the same ask. The requester revokes, but only while the request is still pending.",
+          "That leaves two ways to end a pending request, owned by opposite sides. Keeping them visually separate mattered more than it sounds. A revoke that looks like a reject reads as the other project turning you down.",
+          "Once a dependency is active it follows the progress of the provider's project, and when that work completes the dependency is marked delivered.",
+        ],
+        layout: "figure",
+        media: [
+          {
+            src: "/case-studies/strategy-dot-zero-dependency-module/process-states.webp",
+            alt: "State diagram showing requested moving to active and complete via the provider, to rejected via the provider with a required reason, and to revoked via the requester while pending",
+            width: 1600,
+            height: 950,
+            label: "Five states, and the side that owns each transition",
+            pending: true,
+          },
+        ],
+      },
+      {
+        id: "status-source",
+        name: "Where status comes from",
+        title: "Status nobody has to maintain",
+        body: [
+          "A status that has to be kept up separately does not get kept up. So once a dependency is accepted, its status comes from the provider's project status report, which they are already filing every period. The requester watches it from his own register because his project is waiting on it, and nobody updates a second place.",
+          "Where the report lags reality, the provider can set the status by hand from the dependency register and leave a comment with it. The requester sees both, so an override never arrives without an explanation.",
+        ],
+        layout: "figure",
+        media: [
+          {
+            src: "/case-studies/strategy-dot-zero-dependency-module/process-status-source.webp",
+            alt: "Diagram showing the provider's project status report feeding the dependency status in the requester's register, with a manual override and comment beneath it",
+            width: 1600,
+            height: 950,
+            label: "One source, plus an override that has to explain itself",
+            pending: true,
+          },
+        ],
+      },
+      {
+        id: "what-it-points-at",
+        name: "What it points at",
+        title: "What a dependency actually points at",
+        body: [
+          "A whole project is rarely the thing anyone is waiting on. They are waiting on one deliverable inside it.",
+          "A request can target either. The whole project stays available because sometimes that genuinely is the dependency. But the end product is the level teams reach for most of the time, so the design treats it as the expected target rather than as an optional field on a project-shaped form.",
+        ],
+        layout: "figure",
+        media: [
+          {
+            src: "/case-studies/strategy-dot-zero-dependency-module/process-what-it-points-at.webp",
+            alt: "Diagram showing a request able to target either the whole of a project or one specific end product inside it",
+            width: 1600,
+            height: 950,
+            label: "Two levels, with the end product as the one teams actually use",
+            pending: true,
+          },
+        ],
+      },
+      {
+        id: "what-changes",
+        name: "What changes",
+        title: "What changes",
+        body: [
+          "Before: a predecessor table and a successor table inside one project's plan. Detailed fields, no agreement, no status, and nobody outside that plan able to see any of it.",
+          "After: a Get register and a Give register that are two views of one accepted dependency, status flowing from the provider's own report, and a combined dependency register so the portfolio can finally see what is blocking what.",
+        ],
+        layout: "figure",
+        media: [
+          {
+            src: "/case-studies/strategy-dot-zero-dependency-module/process-what-changes.webp",
+            alt: "Before and after comparison of the legacy predecessor and successor table against the two-sided register model feeding a combined dependency register",
+            width: 1600,
+            height: 950,
+            label: "The before and after",
+            pending: true,
+          },
+        ],
+      },
+      {
+        id: "the-work",
+        name: "The work",
+        title: "The screens",
+        layout: "gallery",
+        media: [
+          {
+            src: "/case-studies/strategy-dot-zero-dependency-module/get-register.webp",
+            alt: "Get register listing everything this project is waiting on from other projects",
+            width: 1440,
+            height: 900,
+            label: "Get register",
+            caption:
+              "Everything this project is waiting on, with provider, owner, required date and current status in the row itself.",
+            pending: true,
+          },
+          {
+            src: "/case-studies/strategy-dot-zero-dependency-module/give-register.webp",
+            alt: "Give register listing every commitment other projects are counting on from this one",
+            width: 1440,
+            height: 900,
+            label: "Give register",
+            caption:
+              "The same records from the other side, so a manager can see what other projects are counting on them for.",
+            pending: true,
+          },
+          {
+            src: "/case-studies/strategy-dot-zero-dependency-module/request-drawer.webp",
+            alt: "Request drawer for creating a dependency request",
+            width: 1440,
+            height: 900,
+            label: "The request",
+            caption:
+              "The end product being waited on, the date it is needed, and what happens to the project if it does not arrive.",
+            pending: true,
+          },
+          {
+            src: "/case-studies/strategy-dot-zero-dependency-module/approval-drawer.webp",
+            alt: "Approval drawer showing both projects and the detail behind the request",
+            width: 1440,
+            height: 900,
+            label: "The decision",
+            caption:
+              "Both projects, the direction of the ask, and the detail behind it, so accepting is a judgement rather than a guess.",
+            pending: true,
+          },
+          {
+            src: "/case-studies/strategy-dot-zero-dependency-module/rejection-reason.webp",
+            alt: "Rejection flow capturing the reason and keeping it on the record",
+            width: 1440,
+            height: 900,
+            label: "Saying why, not just no",
+            caption:
+              "A rejection keeps its reason on the record, so the requester knows what to change instead of resubmitting.",
+            pending: true,
+          },
+          {
+            src: "/case-studies/strategy-dot-zero-dependency-module/revoke.webp",
+            alt: "Revoke action available to the requester while a request is still pending",
+            width: 1440,
+            height: 900,
+            label: "Withdrawing cleanly",
+            caption:
+              "Revoke sits only on the requester's view and stays visually apart from reject, so the two are never confused.",
+            pending: true,
+          },
+        ],
+      },
+      {
+        id: "looking-back",
+        name: "Looking back",
+        title: "What I'd change",
+        body: [
+          "The register was not failing because it looked dated. It was failing because it only ever had one author. Once the same record had two sides, an explicit acceptance, and a status drawn from work someone was already doing, most of the confusion went away without much new interface.",
+          "The harder discipline was resisting the urge to model every possible predecessor and successor relationship, and instead making one relationship genuinely trustworthy.",
+          "What I would test properly is a portfolio carrying hundreds of live dependencies. Filtering, bulk triage, and chains where one dependency sits behind another are where this design will strain, and a short demo register flatters it.",
+        ],
+      },
+    ],
     headline:
-      "Turning a private list of predecessors into a two-sided agreement, so the project you depend on actually knows you depend on it.",
+      "One project wrote the dependency down. The other one was never told it existed.",
     deck:
-      "The module sits inside the Strategy Dot Zero project plan and the wider portfolio register. A project manager requests what they need from another project, that project's owner reviews and accepts, and the requesting side then stays updated from the provider's own status reporting.",
+      "A dependency is where a project records what it is waiting on from somewhere else. It sat as two tables inside one project's plan, visible to nobody but the person who typed it. It is now a request the other project has to accept, with a status that comes from reporting they already do.",
     problem:
       "Dependencies were recorded, not managed. A project manager could open a register and note that their work depended on another project, but the entry never left their own screen. The manager who owned that other project was never told, never asked, and never agreed. There was no status, no stage, no progress, so there was no way to see whether the thing being waited on was on track or already slipping. A dependency could also only point at an entire project, even when what was actually needed was a single deliverable inside it. When the record drifted from reality, a delay could be traced everywhere except back to the dependency that caused it.",
     outcome:
@@ -812,22 +1028,24 @@ export const caseStudies: CaseStudy[] = [
       "The existing feature looked like a table problem. It was a relationship problem. One side had written something down and the other side had never been asked, so the register quietly aged into a list of assumptions. Most of the design work went into turning a note into an agreement, and then keeping that agreement honest as plans moved.",
     snapshot: [
       {
-        label: "Core shift",
+        label: "Authorship",
         value:
-          "A dependency stopped being a note and became an agreement between two projects.",
+          "A dependency stopped being a note one person wrote and became an agreement two projects hold.",
       },
       {
-        label: "Two registers",
-        value: "Get for what a project needs, Give for what it owes.",
+        label: "Placement",
+        value:
+          "Out of a single tab in one project's plan, into a combined register the portfolio can read.",
+      },
+      {
+        label: "Status",
+        value:
+          "It follows the provider's own status report, so nobody updates a second place.",
       },
       {
         label: "Granularity",
-        value: "Depend on a whole project, or on one end product inside it.",
-      },
-      {
-        label: "Live status",
         value:
-          "Progress follows the provider's status report, with manual override.",
+          "A request points at the end product being waited on, not just the project around it.",
       },
     ],
     frictions: [

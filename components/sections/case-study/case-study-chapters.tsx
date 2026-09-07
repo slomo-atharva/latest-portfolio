@@ -232,7 +232,7 @@ function PendingMedia({ item }: { item: CaseStudyMedia }) {
       style={{ aspectRatio: `${item.width} / ${item.height}` }}
     >
       <p className="max-w-sm text-center text-sm font-light leading-7 text-[var(--case-muted)]">
-        {item.label ?? "Artefact"} — image to come.
+        {item.label ?? "Artefact"}: image to come.
       </p>
     </div>
   );

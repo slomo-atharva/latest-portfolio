@@ -404,7 +404,7 @@ const heroImpactByProject: Record<string, string> = {
   "strategy-dot-zero-ai-project-extraction":
     "Manual back-end migration became a reviewed product flow, with nothing reaching the register unverified.",
   "strategy-dot-zero-dependency-module":
-    "A one-sided ledger became a two-sided agreement, with live status flowing from the provider's own reporting.",
+    "An approved model that gives a dependency a second author, and a status that comes from work the provider is already doing.",
 };
 
 const productModelDescriptionsByProject: Record<string, string[]> = {
@@ -595,26 +595,6 @@ const impactMetricsByProject: Record<string, ImpactMetricCard[]> = {
       label:
         "projects reach the live register without an explicit human save",
       category: "business",
-    },
-  ],
-  "strategy-dot-zero-dependency-module": [
-    {
-      value: "Two-sided",
-      label:
-        "every dependency is accepted by the providing project, not logged by one side",
-      category: "business",
-    },
-    {
-      value: "2 levels",
-      label:
-        "a dependency can point at a whole project or a single end product",
-      category: "user",
-    },
-    {
-      value: "0",
-      label:
-        "second places to update — status follows the provider's existing report",
-      category: "team",
     },
   ],
 };
