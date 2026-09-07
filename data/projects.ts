@@ -209,7 +209,7 @@ export const showcaseProjects: ShowcaseProject[] = [
     availability: "active",
   },
   {
-    ...getSelectedProject("dhda-service-journeys"),
+    ...getSelectedProject("strategy-dot-zero-dependency-module"),
     availability: "active",
   },
   {
@@ -217,7 +217,7 @@ export const showcaseProjects: ShowcaseProject[] = [
     availability: "active",
   },
   {
-    ...getSelectedProject("strategy-dot-zero-dependency-module"),
+    ...getSelectedProject("strategy-dot-zero-kpi-management-module"),
     availability: "active",
   },
   {
@@ -230,10 +230,6 @@ export const showcaseProjects: ShowcaseProject[] = [
     scope: ["Project planning", "Proposal generation", "AI agents"],
     tone: "blue",
     availability: "comingSoon",
-  },
-  {
-    ...getSelectedProject("strategy-dot-zero-kpi-management-module"),
-    availability: "active",
   },
   {
     id: "strategy-dot-zero-risk-benefits-modules",
@@ -256,5 +252,9 @@ export const showcaseProjects: ShowcaseProject[] = [
     scope: ["Budget tracking", "Project controls", "Delivery status"],
     tone: "blue",
     availability: "comingSoon",
+  },
+  {
+    ...getSelectedProject("dhda-service-journeys"),
+    availability: "active",
   },
 ];
