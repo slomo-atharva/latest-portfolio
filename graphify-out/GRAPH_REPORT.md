@@ -1,11 +1,11 @@
-# Graph Report - .  (2026-09-01)
+# Graph Report - .  (2026-09-07)
 
 ## Corpus Check
-- 39 files · ~85,342 words
+- 42 files · ~1,244,715 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 274 nodes · 252 edges · 68 communities detected
+- 278 nodes · 253 edges · 71 communities detected
 - Extraction: 85% EXTRACTED · 15% INFERRED · 1% AMBIGUOUS · INFERRED: 37 edges (avg confidence: 0.74)
 - Token cost: 0 input · 0 output
 
@@ -78,6 +78,9 @@
 - [[_COMMUNITY_Community 65|Community 65]]
 - [[_COMMUNITY_Community 66|Community 66]]
 - [[_COMMUNITY_Community 67|Community 67]]
+- [[_COMMUNITY_Community 68|Community 68]]
+- [[_COMMUNITY_Community 69|Community 69]]
+- [[_COMMUNITY_Community 70|Community 70]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `Manage Module` - 10 edges
@@ -264,27 +267,27 @@ Nodes (0):
 
 ### Community 38 - "Community 38"
 Cohesion: 1.0
-Nodes (2): Content Tone, Writing Style
+Nodes (0): 
 
 ### Community 39 - "Community 39"
 Cohesion: 1.0
-Nodes (2): Avoid, Final Quality Bar
+Nodes (2): Content Tone, Writing Style
 
 ### Community 40 - "Community 40"
 Cohesion: 1.0
-Nodes (2): Quality Checks, Sanitization And Security
+Nodes (2): Avoid, Final Quality Bar
 
 ### Community 41 - "Community 41"
 Cohesion: 1.0
-Nodes (2): Strategy Dot Zero Logo (SVG), Tasama Business Services Logo
+Nodes (2): Quality Checks, Sanitization And Security
 
 ### Community 42 - "Community 42"
 Cohesion: 1.0
-Nodes (2): Tasama Business Services, Tasama Business Services Logo
+Nodes (2): Strategy Dot Zero Logo (SVG), Tasama Business Services Logo
 
 ### Community 43 - "Community 43"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (2): Tasama Business Services, Tasama Business Services Logo
 
 ### Community 44 - "Community 44"
 Cohesion: 1.0
@@ -340,45 +343,57 @@ Nodes (0):
 
 ### Community 57 - "Community 57"
 Cohesion: 1.0
-Nodes (1): Accent Colors
+Nodes (0): 
 
 ### Community 58 - "Community 58"
 Cohesion: 1.0
-Nodes (1): Typographic Feel
+Nodes (0): 
 
 ### Community 59 - "Community 59"
 Cohesion: 1.0
-Nodes (1): Type Roles
+Nodes (0): 
 
 ### Community 60 - "Community 60"
 Cohesion: 1.0
-Nodes (1): Layout Principles
+Nodes (1): Accent Colors
 
 ### Community 61 - "Community 61"
 Cohesion: 1.0
-Nodes (1): Visual Rules For New Screens
+Nodes (1): Typographic Feel
 
 ### Community 62 - "Community 62"
 Cohesion: 1.0
-Nodes (1): Performance
+Nodes (1): Type Roles
 
 ### Community 63 - "Community 63"
 Cohesion: 1.0
-Nodes (1): Content And Naming
+Nodes (1): Layout Principles
 
 ### Community 64 - "Community 64"
 Cohesion: 1.0
-Nodes (1): Agent Conduct
+Nodes (1): Visual Rules For New Screens
 
 ### Community 65 - "Community 65"
 Cohesion: 1.0
-Nodes (1): Presidential Court – National Projects Office (Client Logo)
+Nodes (1): Performance
 
 ### Community 66 - "Community 66"
 Cohesion: 1.0
-Nodes (1): Abu Dhabi Executive Office (Client Logo)
+Nodes (1): Content And Naming
 
 ### Community 67 - "Community 67"
+Cohesion: 1.0
+Nodes (1): Agent Conduct
+
+### Community 68 - "Community 68"
+Cohesion: 1.0
+Nodes (1): Presidential Court – National Projects Office (Client Logo)
+
+### Community 69 - "Community 69"
+Cohesion: 1.0
+Nodes (1): Abu Dhabi Executive Office (Client Logo)
+
+### Community 70 - "Community 70"
 Cohesion: 1.0
 Nodes (1): Australian Government DHDA Logo
 
@@ -413,69 +428,75 @@ Nodes (1): Australian Government DHDA Logo
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 35`** (2 nodes): `handleSubmit()`, `case-study-lock.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 36`** (2 nodes): `CaseStudyNavigator()`, `case-study-navigator.tsx`
+- **Thin community `Community 36`** (2 nodes): `onKeyDown()`, `case-study-lightbox.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 37`** (2 nodes): `projects.ts`, `getSelectedProject()`
+- **Thin community `Community 37`** (2 nodes): `CaseStudyNavigator()`, `case-study-navigator.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 38`** (2 nodes): `Content Tone`, `Writing Style`
+- **Thin community `Community 38`** (2 nodes): `projects.ts`, `getSelectedProject()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 39`** (2 nodes): `Avoid`, `Final Quality Bar`
+- **Thin community `Community 39`** (2 nodes): `Content Tone`, `Writing Style`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 40`** (2 nodes): `Quality Checks`, `Sanitization And Security`
+- **Thin community `Community 40`** (2 nodes): `Avoid`, `Final Quality Bar`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 41`** (2 nodes): `Strategy Dot Zero Logo (SVG)`, `Tasama Business Services Logo`
+- **Thin community `Community 41`** (2 nodes): `Quality Checks`, `Sanitization And Security`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 42`** (2 nodes): `Tasama Business Services`, `Tasama Business Services Logo`
+- **Thin community `Community 42`** (2 nodes): `Strategy Dot Zero Logo (SVG)`, `Tasama Business Services Logo`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 43`** (1 nodes): `next-env.d.ts`
+- **Thin community `Community 43`** (2 nodes): `Tasama Business Services`, `Tasama Business Services Logo`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 44`** (1 nodes): `next.config.ts`
+- **Thin community `Community 44`** (1 nodes): `next-env.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 45`** (1 nodes): `page.tsx`
+- **Thin community `Community 45`** (1 nodes): `next.config.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 46`** (1 nodes): `selected-projects-section.tsx`
+- **Thin community `Community 46`** (1 nodes): `page.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 47`** (1 nodes): `about-me-section.tsx`
+- **Thin community `Community 47`** (1 nodes): `selected-projects-section.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 48`** (1 nodes): `testimonials-section.tsx`
+- **Thin community `Community 48`** (1 nodes): `about-me-section.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 49`** (1 nodes): `blog-preview-section.tsx`
+- **Thin community `Community 49`** (1 nodes): `testimonials-section.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 50`** (1 nodes): `client-logos-section.tsx`
+- **Thin community `Community 50`** (1 nodes): `blog-preview-section.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 51`** (1 nodes): `hero-headline.tsx`
+- **Thin community `Community 51`** (1 nodes): `client-logos-section.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 52`** (1 nodes): `project-tones.ts`
+- **Thin community `Community 52`** (1 nodes): `case-study-chapters.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 53`** (1 nodes): `hero.ts`
+- **Thin community `Community 53`** (1 nodes): `case-study-chrome.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 54`** (1 nodes): `footer.ts`
+- **Thin community `Community 54`** (1 nodes): `hero-headline.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 55`** (1 nodes): `about.ts`
+- **Thin community `Community 55`** (1 nodes): `project-tones.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 56`** (1 nodes): `testimonials.ts`
+- **Thin community `Community 56`** (1 nodes): `hero.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 57`** (1 nodes): `Accent Colors`
+- **Thin community `Community 57`** (1 nodes): `footer.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 58`** (1 nodes): `Typographic Feel`
+- **Thin community `Community 58`** (1 nodes): `about.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 59`** (1 nodes): `Type Roles`
+- **Thin community `Community 59`** (1 nodes): `testimonials.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 60`** (1 nodes): `Layout Principles`
+- **Thin community `Community 60`** (1 nodes): `Accent Colors`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 61`** (1 nodes): `Visual Rules For New Screens`
+- **Thin community `Community 61`** (1 nodes): `Typographic Feel`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 62`** (1 nodes): `Performance`
+- **Thin community `Community 62`** (1 nodes): `Type Roles`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 63`** (1 nodes): `Content And Naming`
+- **Thin community `Community 63`** (1 nodes): `Layout Principles`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 64`** (1 nodes): `Agent Conduct`
+- **Thin community `Community 64`** (1 nodes): `Visual Rules For New Screens`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 65`** (1 nodes): `Presidential Court – National Projects Office (Client Logo)`
+- **Thin community `Community 65`** (1 nodes): `Performance`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 66`** (1 nodes): `Abu Dhabi Executive Office (Client Logo)`
+- **Thin community `Community 66`** (1 nodes): `Content And Naming`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 67`** (1 nodes): `Australian Government DHDA Logo`
+- **Thin community `Community 67`** (1 nodes): `Agent Conduct`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 68`** (1 nodes): `Presidential Court – National Projects Office (Client Logo)`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 69`** (1 nodes): `Abu Dhabi Executive Office (Client Logo)`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 70`** (1 nodes): `Australian Government DHDA Logo`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 
 ## Suggested Questions

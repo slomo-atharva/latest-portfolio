@@ -37,8 +37,15 @@ html {
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  /*
+   * Proximity, not mandatory. The sections are not uniform panels: the work
+   * section runs to roughly three viewports, and under mandatory snap the
+   * browser has to land on a snap point, so scrolling through it gets pulled
+   * back toward the section start the whole way down. Proximity keeps the
+   * magnetism near a section edge and leaves long sections alone.
+   */
   .landing-scroll-experience {
-    scroll-snap-type: y mandatory;
+    scroll-snap-type: y proximity;
   }
 
   .landing-snap-panel {

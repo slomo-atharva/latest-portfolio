@@ -8,7 +8,7 @@ export function SelectedProjectsSection() {
   return (
     <section
       aria-labelledby="selected-projects-title"
-      className="landing-snap-panel relative isolate overflow-hidden bg-[var(--paper)] px-5 py-12 text-[var(--ink)] sm:px-8 sm:py-14 lg:px-12"
+      className="relative isolate overflow-hidden bg-[var(--paper)] px-5 py-12 text-[var(--ink)] sm:px-8 sm:py-14 lg:px-12"
       id="work"
     >
       <div className="hero-dot-grid absolute inset-x-0 top-0 -z-10 h-full opacity-35" />
