@@ -10,7 +10,6 @@ import {
   Layers3,
   ListChecks,
   Lock,
-  Maximize2,
   Network,
   Route,
   Search,
@@ -31,6 +30,7 @@ import {
 import { CaseStudyNavigator } from "./case-study-navigator";
 import { CaseStudyLock } from "./case-study-lock";
 import { CaseStudyChapters } from "./case-study-chapters";
+import { ExpandableMedia } from "./case-study-lightbox";
 import {
   caseCardChrome,
   caseEyebrow,
@@ -1550,28 +1550,11 @@ function GatedProductScreen({
           </div>
 
           <div className={`border-y border-[var(--case-line)] p-2 sm:p-4 ${tone.canvas}`}>
-            <div className="overflow-hidden rounded-[7px] border border-[rgb(255_255_255_/_0.78)] bg-[var(--case-surface)] shadow-[0_20px_50px_rgb(24_32_43_/_0.14)]">
-              <a
-                aria-label={`Open ${media.label ?? "product screen"} at full size`}
-                className="group relative block focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--blue)] focus-visible:ring-offset-2"
-                href={media.src}
-                rel="noreferrer"
-                target="_blank"
-                title="Open full-size screen"
-              >
-                <Image
-                  alt={media.alt}
-                  className="block h-auto w-full"
-                  height={media.height}
-                  sizes="(min-width: 1440px) 1240px, (min-width: 768px) 92vw, 96vw"
-                  src={media.src}
-                  width={media.width}
-                />
-                <span className="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-[7px] border border-[rgb(223_227_232_/_0.9)] bg-[rgb(253_253_255_/_0.9)] text-[var(--case-ink)] opacity-100 shadow-[0_10px_26px_rgb(24_32_43_/_0.12)] backdrop-blur-sm transition duration-300 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-visible:opacity-100">
-                  <Maximize2 aria-hidden="true" className="h-4 w-4" strokeWidth={2.2} />
-                </span>
-              </a>
-            </div>
+            <ExpandableMedia
+              frameClassName="overflow-hidden rounded-[7px] border border-[rgb(255_255_255_/_0.78)] bg-[var(--case-surface)] shadow-[0_20px_50px_rgb(24_32_43_/_0.14)]"
+              item={media}
+              sizes="(min-width: 1440px) 1240px, (min-width: 768px) 92vw, 96vw"
+            />
           </div>
 
           {structured.hero.impact ? (
@@ -2458,37 +2441,14 @@ function SolutionMediaGallery({
               }
               key={item.src}
             >
-              <div className="overflow-hidden rounded-[7px] border border-[rgb(255_255_255_/_0.82)] bg-[var(--case-surface)] shadow-[0_18px_44px_rgb(24_32_43_/_0.13)]">
-                <a
-                  aria-label={`Open ${item.label ?? "product screen"} at full size`}
-                  className="group relative block focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--blue)] focus-visible:ring-offset-2"
-                  href={item.src}
-                  rel="noreferrer"
-                  target="_blank"
-                  title="Open full-size screen"
-                >
-                  <Image
-                    alt={item.alt}
-                    className="block h-auto w-full"
-                    height={item.height}
-                    loading="lazy"
-                    sizes={
-                      isPair
-                        ? "(min-width: 1280px) 520px, (min-width: 768px) 86vw, 94vw"
-                        : "(min-width: 1280px) 980px, (min-width: 768px) 86vw, 94vw"
-                    }
-                    src={item.src}
-                    width={item.width}
-                  />
-                  <span className="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-[7px] border border-[rgb(223_227_232_/_0.9)] bg-[rgb(253_253_255_/_0.9)] text-[var(--case-ink)] opacity-100 shadow-[0_10px_26px_rgb(24_32_43_/_0.12)] backdrop-blur-sm transition duration-300 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-visible:opacity-100">
-                    <Maximize2
-                      aria-hidden="true"
-                      className="h-4 w-4"
-                      strokeWidth={2.2}
-                    />
-                  </span>
-                </a>
-              </div>
+              <ExpandableMedia
+                item={item}
+                sizes={
+                  isPair
+                    ? "(min-width: 1280px) 520px, (min-width: 768px) 86vw, 94vw"
+                    : "(min-width: 1280px) 980px, (min-width: 768px) 86vw, 94vw"
+                }
+              />
               {item.label ? (
                 <figcaption className="mt-2 px-1 text-xs font-light text-[var(--case-muted)]">
                   {item.label}

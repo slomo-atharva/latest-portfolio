@@ -1,10 +1,8 @@
-import Image from "next/image";
-import { Maximize2 } from "lucide-react";
-
 import type { CaseStudyChapter, CaseStudyMedia } from "@/data/case-studies";
 import type { ProjectToneStyle } from "@/lib/project-tones";
 
 import { caseCardChrome, caseEyebrow } from "./case-study-chrome";
+import { ExpandableMedia } from "./case-study-lightbox";
 
 /**
  * Renders a case study written as chapters rather than assembled from the
@@ -194,31 +192,7 @@ function MediaFrame({ item, sizes }: { item: CaseStudyMedia; sizes: string }) {
     return <PendingMedia item={item} />;
   }
 
-  return (
-    <div className="overflow-hidden rounded-[7px] border border-[rgb(255_255_255_/_0.82)] bg-[var(--case-surface)] shadow-[0_18px_44px_rgb(24_32_43_/_0.13)]">
-      <a
-        aria-label={`Open ${item.label ?? "artefact"} at full size`}
-        className="group relative block focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--blue)] focus-visible:ring-offset-2"
-        href={item.src}
-        rel="noreferrer"
-        target="_blank"
-        title="Open full size"
-      >
-        <Image
-          alt={item.alt}
-          className="block h-auto w-full"
-          height={item.height}
-          loading="lazy"
-          sizes={sizes}
-          src={item.src}
-          width={item.width}
-        />
-        <span className="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-[7px] border border-[rgb(223_227_232_/_0.9)] bg-[rgb(253_253_255_/_0.9)] text-[var(--case-ink)] opacity-100 shadow-[0_10px_26px_rgb(24_32_43_/_0.12)] backdrop-blur-sm transition duration-300 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-visible:opacity-100">
-          <Maximize2 aria-hidden="true" className="h-4 w-4" strokeWidth={2.2} />
-        </span>
-      </a>
-    </div>
-  );
+  return <ExpandableMedia item={item} sizes={sizes} />;
 }
 
 /**
