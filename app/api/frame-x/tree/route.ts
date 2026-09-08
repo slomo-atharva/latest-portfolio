@@ -2,8 +2,10 @@ import { requestIsAuthorised, unauthorised } from "@/lib/frame-x/access";
 import {
   FOLDER_MARKER,
   NOT_CONFIGURED,
+  ORDER_MANIFEST,
   ROOT,
   getStore,
+  readOrder,
   storeIsReady,
 } from "@/lib/frame-x/store";
 
@@ -18,10 +20,12 @@ export async function GET(request: Request) {
   }
 
   let items;
+  let order = {};
 
   try {
     const store = await getStore();
     items = await store.list(`${ROOT}/`);
+    order = await readOrder(store);
   } catch (error) {
     return Response.json(
       { error: error instanceof Error ? error.message : NOT_CONFIGURED },
@@ -29,7 +33,9 @@ export async function GET(request: Request) {
     );
   }
 
-  const entries = items.map((item) => {
+  const entries = items
+    .filter((item) => item.path !== ORDER_MANIFEST)
+    .map((item) => {
     const segments = item.path.slice(ROOT.length + 1).split("/");
     const name = segments[segments.length - 1];
 
@@ -43,5 +49,5 @@ export async function GET(request: Request) {
     };
   });
 
-  return Response.json({ entries });
+  return Response.json({ entries, order });
 }

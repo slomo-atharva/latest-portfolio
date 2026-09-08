@@ -130,6 +130,9 @@ function Browser({ onLock, token }: { onLock: () => void; token: string }) {
   const [confirming, setConfirming] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [blocked, setBlocked] = useState<string | null>(null);
+  const [order, setOrder] = useState<Record<string, string[]>>({});
+  const [dragFrom, setDragFrom] = useState<number | null>(null);
+  const [dragOver, setDragOver] = useState<number | null>(null);
   const [slideIndex, setSlideIndex] = useState<number | null>(null);
   const [dragging, setDragging] = useState(false);
   const fileInput = useRef<HTMLInputElement>(null);
@@ -162,6 +165,7 @@ function Browser({ onLock, token }: { onLock: () => void; token: string }) {
 
       setBlocked(null);
       setEntries(data.entries ?? []);
+      setOrder(data.order ?? {});
     } finally {
       setLoading(false);
     }
@@ -187,13 +191,27 @@ function Browser({ onLock, token }: { onLock: () => void; token: string }) {
     return [...names].sort((a, b) => a.localeCompare(b));
   }, [entries, here, path.length]);
 
-  const files = useMemo(
-    () =>
-      entries
-        .filter((entry) => !entry.isMarker && entry.folder.join("/") === here)
-        .sort((a, b) => a.name.localeCompare(b.name)),
-    [entries, here],
-  );
+  /**
+   * Saved order first, in the order it was saved. Anything not in the manifest
+   * is a new upload and lands at the end, alphabetically, rather than jumping
+   * into the middle of a sequence that was arranged on purpose.
+   */
+  const files = useMemo(() => {
+    const rank = new Map((order[here] ?? []).map((name, i) => [name, i]));
+
+    return entries
+      .filter((entry) => !entry.isMarker && entry.folder.join("/") === here)
+      .sort((a, b) => {
+        const left = rank.get(a.name);
+        const right = rank.get(b.name);
+
+        if (left !== undefined && right !== undefined) return left - right;
+        if (left !== undefined) return -1;
+        if (right !== undefined) return 1;
+
+        return a.name.localeCompare(b.name);
+      });
+  }, [entries, here, order]);
 
   const slides: PresenterSlide[] = useMemo(
     () =>
@@ -259,6 +277,27 @@ function Browser({ onLock, token }: { onLock: () => void; token: string }) {
       }
     },
     [authed, here, onLock, refresh],
+  );
+
+  const reorder = useCallback(
+    (from: number, to: number) => {
+      if (from === to) {
+        return;
+      }
+
+      const names = files.map((file) => file.name);
+      const [moved] = names.splice(from, 1);
+      names.splice(to, 0, moved);
+
+      // Optimistic: the grid should follow the drop, not the round trip.
+      setOrder((previous) => ({ ...previous, [here]: names }));
+
+      void call("/api/frame-x/order", "PUT", { folder: path, names }).catch(
+        (caught: unknown) =>
+          setError(caught instanceof Error ? caught.message : null),
+      );
+    },
+    [call, files, here, path],
   );
 
   return (
@@ -359,7 +398,7 @@ function Browser({ onLock, token }: { onLock: () => void; token: string }) {
           }`}
           onDragLeave={() => setDragging(false)}
           onDragOver={(event) => {
-            if (path.length === 0) {
+            if (path.length === 0 || !event.dataTransfer.types.includes("Files")) {
               return;
             }
 
@@ -550,19 +589,61 @@ function Browser({ onLock, token }: { onLock: () => void; token: string }) {
             </ul>
           ) : null}
 
+          {files.length > 1 ? (
+            <p className="mb-3 mt-6 text-xs text-[var(--muted)]">
+              Drag a screen to change where it falls in the presentation.
+            </p>
+          ) : null}
+
           {files.length > 0 ? (
             <ul
               className={`grid gap-4 sm:grid-cols-3 lg:grid-cols-4 ${
-                folders.length ? "mt-6" : ""
+                folders.length && files.length < 2 ? "mt-6" : ""
               }`}
             >
               {files.map((file, index) => (
                 <li
-                  className={`${surface} group overflow-hidden`}
+                  className={`${surface} group overflow-hidden transition ${
+                    dragFrom === index ? "opacity-40" : ""
+                  } ${
+                    dragOver === index && dragFrom !== index
+                      ? "ring-2 ring-[var(--blue)]"
+                      : ""
+                  }`}
+                  draggable
                   key={file.path}
+                  onDragEnd={() => {
+                    setDragFrom(null);
+                    setDragOver(null);
+                  }}
+                  onDragOver={(event) => {
+                    if (dragFrom === null) {
+                      return;
+                    }
+
+                    // Stop the upload zone from claiming an internal drag.
+                    event.preventDefault();
+                    event.stopPropagation();
+                    setDragOver(index);
+                  }}
+                  onDragStart={(event) => {
+                    event.dataTransfer.effectAllowed = "move";
+                    setDragFrom(index);
+                  }}
+                  onDrop={(event) => {
+                    if (dragFrom === null) {
+                      return;
+                    }
+
+                    event.preventDefault();
+                    event.stopPropagation();
+                    reorder(dragFrom, index);
+                    setDragFrom(null);
+                    setDragOver(null);
+                  }}
                 >
                   <button
-                    className="block aspect-[4/3] w-full overflow-hidden bg-[var(--line)]"
+                    className="block aspect-[4/3] w-full cursor-grab overflow-hidden bg-[var(--line)] active:cursor-grabbing"
                     onClick={() => setSlideIndex(index)}
                     type="button"
                   >
@@ -574,8 +655,13 @@ function Browser({ onLock, token }: { onLock: () => void; token: string }) {
                     />
                   </button>
                   <div className="flex items-center justify-between gap-2 px-3 py-2.5">
-                    <span className="truncate text-xs text-[var(--ink-soft)]">
-                      {file.name}
+                    <span className="flex min-w-0 items-center gap-2">
+                      <span className="flex-none text-[0.65rem] tabular-nums text-[var(--muted)]">
+                        {index + 1}
+                      </span>
+                      <span className="truncate text-xs text-[var(--ink-soft)]">
+                        {file.name}
+                      </span>
                     </span>
                     {confirming === `file:${file.name}` ? (
                       <span className="flex flex-none items-center gap-2 text-[0.7rem]">

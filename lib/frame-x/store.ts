@@ -15,6 +15,46 @@ import "server-only";
 export const ROOT = "frame-x";
 export const FOLDER_MARKER = ".folder";
 
+/**
+ * Presentation order, keyed by folder path. One manifest for the whole tree
+ * rather than one per folder, so listing costs a single extra read. Dot files
+ * are written by the server directly; safeSegment rejects them from input.
+ */
+export const ORDER_MANIFEST = `${ROOT}/.order.json`;
+
+export type OrderManifest = Record<string, string[]>;
+
+export async function readOrder(store: FrameXStore): Promise<OrderManifest> {
+  const file = await store.get(ORDER_MANIFEST);
+
+  if (!file) {
+    return {};
+  }
+
+  try {
+    const bytes =
+      file.body instanceof Uint8Array
+        ? file.body
+        : new Uint8Array(await new Response(file.body).arrayBuffer());
+    const parsed = JSON.parse(new TextDecoder().decode(bytes)) as unknown;
+
+    return parsed && typeof parsed === "object" ? (parsed as OrderManifest) : {};
+  } catch {
+    return {};
+  }
+}
+
+export async function writeOrder(
+  store: FrameXStore,
+  manifest: OrderManifest,
+): Promise<void> {
+  await store.put(
+    ORDER_MANIFEST,
+    new TextEncoder().encode(JSON.stringify(manifest)),
+    "application/json",
+  );
+}
+
 export type StoredItem = {
   path: string;
   size: number;
