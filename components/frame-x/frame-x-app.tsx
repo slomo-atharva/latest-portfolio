@@ -247,33 +247,70 @@ function Browser({ onLock, token }: { onLock: () => void; token: string }) {
     [authed, onLock],
   );
 
+  /**
+   * One request per file, in order.
+   *
+   * Sending the whole selection as a single multipart body meant a handful of
+   * screenshots blew past the 4.5MB request limit, and because the response
+   * was never checked the failure looked like nothing happening at all.
+   */
   const upload = useCallback(
     async (list: FileList | File[]) => {
-      const form = new FormData();
-      form.append("folder", here);
+      const queue = Array.from(list);
+      const skipped: string[] = [];
+      let done = 0;
 
-      for (const file of Array.from(list)) {
-        form.append("files", file);
-      }
-
-      setBusy("Uploading");
+      setError(null);
 
       try {
-        const response = await fetch("/api/frame-x/upload", {
-          body: form,
-          headers: authed,
-          method: "POST",
-        });
+        for (const file of queue) {
+          setBusy(`Uploading ${done + 1} of ${queue.length}`);
 
-        if (response.status === 401) {
-          onLock();
+          const form = new FormData();
+          form.append("folder", here);
+          form.append("files", file);
 
-          return;
+          const response = await fetch("/api/frame-x/upload", {
+            body: form,
+            headers: authed,
+            method: "POST",
+          });
+
+          if (response.status === 401) {
+            onLock();
+
+            return;
+          }
+
+          if (response.status === 413) {
+            skipped.push(`${file.name} (too large to send)`);
+            done += 1;
+            continue;
+          }
+
+          const data = await response.json().catch(() => null);
+
+          if (!response.ok) {
+            throw new Error(data?.error ?? `Could not upload ${file.name}`);
+          }
+
+          for (const item of data?.skipped ?? []) {
+            skipped.push(`${item.name} (${item.reason})`);
+          }
+
+          done += 1;
         }
-
-        await refresh();
+      } catch (caught) {
+        setError(
+          caught instanceof Error ? caught.message : "Upload failed",
+        );
       } finally {
         setBusy(null);
+        await refresh();
+
+        if (skipped.length) {
+          setError(`Skipped ${skipped.length}: ${skipped.join(", ")}`);
+        }
       }
     },
     [authed, here, onLock, refresh],
