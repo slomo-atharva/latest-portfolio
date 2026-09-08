@@ -401,7 +401,7 @@ const heroImpactByProject: Record<string, string> = {
     "An approved model that moves change impact out of a document nobody reopens, and gives its status somewhere real to come from.",
   "dhda-service-journeys": "MVP demonstrated to senior government executives",
   "strategy-dot-zero-ai-project-extraction":
-    "Manual back-end migration became a reviewed product flow, with nothing reaching the register unverified.",
+    "An approved flow that reads whatever a client already keeps, and puts a person between the agent and the register of record.",
   "strategy-dot-zero-dependency-module":
     "An approved model that gives a dependency a second author, and a status that comes from work the provider is already doing.",
 };
@@ -573,26 +573,6 @@ const impactMetricsByProject: Record<string, ImpactMetricCard[]> = {
     {
       value: "MVP",
       label: "demonstrated to senior government executives",
-      category: "business",
-    },
-  ],
-  "strategy-dot-zero-ai-project-extraction": [
-    {
-      value: "Any format",
-      label:
-        "plans, spreadsheets, and status reports mapped onto one project model",
-      category: "user",
-    },
-    {
-      value: "2",
-      label:
-        "operating altitudes served by one engine: PMO migration and PM refinement",
-      category: "business",
-    },
-    {
-      value: "0",
-      label:
-        "projects reach the live register without an explicit human save",
       category: "business",
     },
   ],

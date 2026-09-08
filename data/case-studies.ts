@@ -562,10 +562,226 @@ export const caseStudies: CaseStudy[] = [
   }),
   bindProject({
     projectId: "strategy-dot-zero-ai-project-extraction",
+    chapters: [
+      {
+        id: "no-surface",
+        name: "No surface",
+        title: "Migration had no product surface at all",
+        body: [
+          "Strategy Dot Zero can only align work to strategy once the work is actually inside it. A new government client arrives with hundreds of projects already running across divisions, branches and units, tracked in plans, spreadsheets and status decks that follow no shared template.",
+          "Onboarding already ran for months of consulting to model how the organisation works. The backlog they arrived with was treated as data entry afterwards, which meant it fell to our own delivery team or quietly never happened.",
+          "There were two options and neither held. Ask the client to skip migration and start fresh, which no project manager accepts because it means running their work in two places. Or have our team key every project in from the back end, which works exactly once and does not survive the second client.",
+        ],
+      },
+      {
+        id: "how-it-gets-in",
+        name: "How it gets in",
+        title: "How a portfolio gets in today, and how it could",
+        body: [
+          "Before drawing anything I wrote out both routes for the same client: a PMO lead with hundreds of live projects and no way to bring them.",
+          "Today he hands the documents over, our delivery team types every project in from the back end, and the projects appear in the register keyed by someone who has never run any of them. He has no way to tell a complete record from a thin one, so he checks all of them by hand or checks none. And none of the effort repeats. The next client starts the same process from zero.",
+          "With the agent he uploads the documents exactly as he keeps them. The agent pauses to ask a short numbered set of questions and he skips the ones he does not care about. A draft batch comes back, each project scored for readiness, weak fields marked, and anything resembling a project already in the register flagged. He spends his review time on the thin ones and saves only what he has verified.",
+          "The failure in the first route is not that it is slow. It is that it does not repeat, which is the difference between a service and a product.",
+        ],
+        pull: "Extraction is easy to demo and hard to trust.",
+        layout: "figure",
+        media: [
+          {
+            src: "/case-studies/strategy-dot-zero-ai-project-extraction/process-approach.png",
+            alt: "Approach board with both written journeys and a journey map comparing the manual back-end migration against the client extracting their own portfolio",
+            width: 1600,
+            height: 1500,
+            label: "Both routes, written out before anything was drawn",
+            pending: true,
+          },
+        ],
+      },
+      {
+        id: "the-line",
+        name: "The line",
+        title: "The line between the draft and the register",
+        body: [
+          "This data was going to become the operating record for a government portfolio, so the rule came before the interface. Everything the agent produces lives in a draft that sits outside the register and can be thrown away without consequence. Nothing crosses into the live plan, charter and registers except by an explicit human save.",
+          "Not a high readiness score, not a confident field, not a batch action. On the draft side a person can reject, edit and verify at field level, and that is the whole point of keeping the draft reversible.",
+          "This is the decision that made the feature approvable. Everything after it exists to make crossing that line a judgement rather than a formality.",
+        ],
+        layout: "figure",
+        media: [
+          {
+            src: "/case-studies/strategy-dot-zero-ai-project-extraction/process-draft-line.png",
+            alt: "Diagram showing client documents feeding the agent into a reversible draft holding extracted projects, readiness scores, duplicate flags and proposals, separated from the live register by an explicit human save",
+            width: 1600,
+            height: 950,
+            label: "One hard boundary, crossed only on purpose",
+            pending: true,
+          },
+        ],
+      },
+      {
+        id: "admits-doubt",
+        name: "Where it doubts",
+        title: "The four places it admits doubt",
+        body: [
+          "An extraction agent always returns something. The design problem is not what it can pull out of a document, it is where it tells you not to trust what it pulled.",
+          "There are four such places. While parsing, it raises a short numbered set of clarifying questions, every one skippable. On each project card, a data readiness score. Inside the detail view, confidence per field. And against the live register, a suspected duplicate stated with its match strength, linked to the existing record, and never merged on your behalf.",
+          "The readiness score is built on the preset mandatory fields the agent managed to extract. Each entity carries its own required fields, and identifying those correctly is the most important part of the job. Optional fields count for less because they only add information.",
+          "Together they do one thing: send review effort to the projects that actually need it, instead of spreading it evenly across a batch of two hundred.",
+        ],
+        layout: "figure",
+        media: [
+          {
+            src: "/case-studies/strategy-dot-zero-ai-project-extraction/process-admits-doubt.png",
+            alt: "Four surfaces where the agent admits uncertainty: clarifying questions while parsing, a data readiness score on the card, per-field confidence in the detail view, and a duplicate flagged with match strength",
+            width: 1600,
+            height: 1000,
+            label: "Four surfaces, each answering a different question",
+            pending: true,
+          },
+        ],
+      },
+      {
+        id: "two-altitudes",
+        name: "Two altitudes",
+        title: "One engine, two altitudes",
+        body: [
+          "A PMO lead can migrate a hundred projects and vouch for none of them. The project manager who could vouch for one was standing outside the flow entirely.",
+          "So the same engine runs at two altitudes. The PMO extracts a whole portfolio in one pass and assigns each project to an owner. The project manager then refines the two or three they actually run, correcting what a bulk pass could never get right.",
+          "AI access is licensed per seat, so most clients begin with PMO-only extraction. That turned out to be useful rather than limiting: the visible quality gap between a bulk import and a plan a project manager has been through became the clearest argument for extending seats.",
+        ],
+        layout: "figure",
+        media: [
+          {
+            src: "/case-studies/strategy-dot-zero-ai-project-extraction/process-two-altitudes.png",
+            alt: "One extraction engine serving a PMO lead doing bulk migration and a project manager refining the projects they own, with the per-seat licensing constraint noted underneath",
+            width: 1600,
+            height: 800,
+            label: "The same flow, run by two different people for two different reasons",
+            pending: true,
+          },
+        ],
+      },
+      {
+        id: "what-changes",
+        name: "What changes",
+        title: "What changes",
+        body: [
+          "Before: nothing inside the product. The client abandoned their history or our team keyed it in by hand, and neither route repeated.",
+          "After: upload in any format, the agent asks and then parses, a scored draft comes back, a person verifies and commits, and only then does anything reach the live register.",
+        ],
+        layout: "figure",
+        media: [
+          {
+            src: "/case-studies/strategy-dot-zero-ai-project-extraction/process-what-changes.png",
+            alt: "Before and after comparison of migration happening outside the product against the reviewed extraction flow inside the project register",
+            width: 1600,
+            height: 900,
+            label: "The before and after",
+            pending: true,
+          },
+        ],
+      },
+      {
+        id: "the-work",
+        name: "The work",
+        title: "The screens",
+        layout: "gallery",
+        media: [
+          {
+            src: "/case-studies/strategy-dot-zero-ai-project-extraction/register-entry.png",
+            alt: "The project register with the extraction entry point",
+            width: 1440,
+            height: 900,
+            label: "Entry point",
+            caption:
+              "The flow starts inside the project register, so migration reads as a register action rather than a separate tool.",
+            pending: true,
+          },
+          {
+            src: "/case-studies/strategy-dot-zero-ai-project-extraction/upload.png",
+            alt: "Upload surface accepting documents in any format with an optional prompt",
+            width: 1440,
+            height: 900,
+            label: "Upload",
+            caption:
+              "Documents in whatever shape the client keeps them, with an optional prompt for narrowing what to look for.",
+            pending: true,
+          },
+          {
+            src: "/case-studies/strategy-dot-zero-ai-project-extraction/clarifying-questions.png",
+            alt: "The agent asking a short numbered set of clarifying questions mid-extraction",
+            width: 1440,
+            height: 900,
+            label: "Clarifying questions",
+            caption:
+              "The agent asks before it guesses. Short, numbered, and every one of them skippable.",
+            pending: true,
+          },
+          {
+            src: "/case-studies/strategy-dot-zero-ai-project-extraction/review-queue.png",
+            alt: "Extracted projects as cards carrying readiness, ownership and stage",
+            width: 1440,
+            height: 900,
+            label: "The review queue",
+            caption:
+              "Cards carry readiness, owner and stage, so a batch can be triaged before anyone opens a detail view.",
+            pending: true,
+          },
+          {
+            src: "/case-studies/strategy-dot-zero-ai-project-extraction/duplicate-resolution.png",
+            alt: "A suspected duplicate stated with match strength and linked to the existing record",
+            width: 1440,
+            height: 900,
+            label: "Duplicates",
+            caption:
+              "The match strength is stated and the existing record is one click away. The judgement stays with the person.",
+            pending: true,
+          },
+          {
+            src: "/case-studies/strategy-dot-zero-ai-project-extraction/project-detail.png",
+            alt: "Project detail view mirroring the charter, plan, manage, report and govern structure",
+            width: 1440,
+            height: 900,
+            label: "Verification",
+            caption:
+              "The detail view mirrors the real structure, so verification happens in the same shape the work continues in.",
+            pending: true,
+          },
+          {
+            src: "/case-studies/strategy-dot-zero-ai-project-extraction/extraction-summary.png",
+            alt: "Extraction summary separating mandatory from optional fields with section coverage and average confidence",
+            width: 1440,
+            height: 900,
+            label: "What was found",
+            caption:
+              "Mandatory separated from optional, with section coverage and average confidence, before anything is committed.",
+            pending: true,
+          },
+          {
+            src: "/case-studies/strategy-dot-zero-ai-project-extraction/proposals.png",
+            alt: "Suggested proposals held in their own tab, separate from the migration",
+            width: 1440,
+            height: 900,
+            label: "Proposals",
+            caption:
+              "Suggestions sit in their own tab, so an expansion idea never quietly contaminates the migration the client asked for.",
+            pending: true,
+          },
+        ],
+      },
+      {
+        id: "looking-back",
+        name: "Looking back",
+        title: "What I'd change",
+        body: [
+          "The instinct with an extraction agent is to make it look certain. The more useful move was designing where it admits doubt: the questions it asks, the fields it marks low confidence, the duplicate it refuses to merge on your behalf. Certainty is cheap to render and expensive to be wrong about. Visible doubt is what let a government client point this at their own register.",
+          "What I would test properly is the review queue against a real migration batch, a hundred or more projects with genuine duplicates and inconsistent stage names. Triage, filtering and bulk action are where this design will come under the most pressure, and a clean demo batch flatters it.",
+        ],
+      },
+    ],
     headline:
-      "An agent that turns whatever a new client already has — plans, spreadsheets, status reports — into structured projects a person can check before they go live.",
+      "Extraction is easy to demo and hard to trust, and this was going to become a government register.",
     deck:
-      "The module sits at the first mile of Strategy Dot Zero onboarding. It lets PMO teams move an organisation's existing portfolio into the platform by uploading the documents they already keep, then reviewing what the agent found before anything reaches the live register.",
+      "The module sits at the first mile of Strategy Dot Zero onboarding. A new client's existing portfolio arrives as plans, spreadsheets and status decks that follow no template. The agent reads them. The design decides where a person gets to disagree with it before anything reaches the live register.",
     problem:
       "Strategy Dot Zero can only align work to strategy once the work is actually in it. But a new government client arrives with hundreds of projects already running across divisions, branches, and units, tracked in plans, spreadsheets, and status decks that follow no shared template. Until now there were two options and neither held. Ask the client to skip migration and start fresh, which no project manager accepts because it means running their work in two places. Or have our own team key every project in from the back end, which does not survive the second client.",
     outcome:
@@ -576,20 +792,22 @@ export const caseStudies: CaseStudy[] = [
       {
         label: "Where it sits",
         value:
-          "The first mile of client onboarding, before a single project exists in the platform.",
+          "The first mile of onboarding, before a single project exists in the platform.",
       },
       {
         label: "Core rule",
-        value: "Extraction produces a draft. Only a person sends it to the register.",
-      },
-      {
-        label: "Readiness",
         value:
-          "A data readiness score tied to how much of the mandatory model was actually found.",
+          "Extraction produces a draft. Only an explicit human save reaches the register.",
       },
       {
-        label: "Two altitudes",
-        value: "One engine serving PMO bulk migration and PM-level refinement.",
+        label: "Doubt",
+        value:
+          "Four surfaces where the agent says it is not sure, so review effort can be aimed.",
+      },
+      {
+        label: "Altitudes",
+        value:
+          "One engine serving PMO bulk migration and project-manager refinement.",
       },
     ],
     frictions: [
