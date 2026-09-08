@@ -135,7 +135,14 @@ export function SiteFooter({ homeAnchors = false }: SiteFooterProps) {
           </nav>
 
           <p className="text-sm font-light leading-6 text-[rgb(255_255_255_/_0.58)] sm:text-right">
-            &copy; {year} Akshay. {footerCopy.signature}
+            &copy; {year} Akshay. {footerCopy.signature}{" "}
+            {/* Quiet on purpose. It is a locked door, not a menu item. */}
+            <Link
+              className="text-[rgb(255_255_255_/_0.3)] transition duration-300 hover:text-[rgb(255_255_255_/_0.72)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--note-blue)] focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--navy)]"
+              href="/frame-x"
+            >
+              Frame X
+            </Link>
           </p>
         </div>
       </div>
