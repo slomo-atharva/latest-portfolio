@@ -126,6 +126,9 @@ function Browser({ onLock, token }: { onLock: () => void; token: string }) {
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState<string | null>(null);
   const [renaming, setRenaming] = useState<string | null>(null);
+  const [creating, setCreating] = useState(false);
+  const [confirming, setConfirming] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [slideIndex, setSlideIndex] = useState<number | null>(null);
   const [dragging, setDragging] = useState(false);
   const fileInput = useRef<HTMLInputElement>(null);
@@ -301,17 +304,9 @@ function Browser({ onLock, token }: { onLock: () => void; token: string }) {
             ) : null}
             <button
               className="inline-flex h-9 items-center gap-1.5 rounded-full border border-[var(--line)] bg-[var(--paper-bright)] px-3.5 text-xs font-medium text-[var(--ink)] transition hover:bg-[var(--line)]"
-              onClick={async () => {
-                const name = window.prompt("Folder name");
-
-                if (!name) {
-                  return;
-                }
-
-                await call("/api/frame-x/folder", "POST", {
-                  path: [...path, name],
-                });
-                await refresh();
+              onClick={() => {
+                setError(null);
+                setCreating(true);
               }}
               type="button"
             >
@@ -374,7 +369,7 @@ function Browser({ onLock, token }: { onLock: () => void; token: string }) {
             </p>
           ) : null}
 
-          {!loading && folders.length === 0 && files.length === 0 ? (
+          {!loading && !creating && folders.length === 0 && files.length === 0 ? (
             <p className="py-16 text-center text-sm text-[var(--muted)]">
               {path.length === 0
                 ? "No folders yet. Make one for a project."
@@ -382,8 +377,50 @@ function Browser({ onLock, token }: { onLock: () => void; token: string }) {
             </p>
           ) : null}
 
-          {folders.length > 0 ? (
+          {folders.length > 0 || creating ? (
             <ul className="grid gap-3 sm:grid-cols-3 lg:grid-cols-4">
+              {creating ? (
+                <li className={`${surface} p-4`}>
+                  <input
+                    autoFocus
+                    className="w-full rounded-[6px] border border-[var(--line)] px-2 py-1 text-sm outline-none focus:border-[var(--blue)]"
+                    onBlur={() => setCreating(false)}
+                    onKeyDown={async (event) => {
+                      if (event.key === "Escape") {
+                        setCreating(false);
+
+                        return;
+                      }
+
+                      if (event.key !== "Enter") {
+                        return;
+                      }
+
+                      const name = event.currentTarget.value.trim();
+                      setCreating(false);
+
+                      if (!name) {
+                        return;
+                      }
+
+                      try {
+                        await call("/api/frame-x/folder", "POST", {
+                          path: [...path, name],
+                        });
+                        await refresh();
+                      } catch (caught) {
+                        setError(
+                          caught instanceof Error ? caught.message : null,
+                        );
+                      }
+                    }}
+                    placeholder="Folder name"
+                  />
+                  <p className="mt-2 text-[0.7rem] text-[var(--muted)]">
+                    Enter to create, Escape to cancel
+                  </p>
+                </li>
+              ) : null}
               {folders.map((name) => (
                 <li className={`${surface} group p-4`} key={name}>
                   {renaming === name ? (
@@ -402,11 +439,17 @@ function Browser({ onLock, token }: { onLock: () => void; token: string }) {
                           setRenaming(null);
 
                           if (next && next !== name) {
-                            await call("/api/frame-x/folder", "PATCH", {
-                              name: next,
-                              path: [...path, name],
-                            });
-                            await refresh();
+                            try {
+                              await call("/api/frame-x/folder", "PATCH", {
+                                name: next,
+                                path: [...path, name],
+                              });
+                              await refresh();
+                            } catch (caught) {
+                              setError(
+                                caught instanceof Error ? caught.message : null,
+                              );
+                            }
                           }
                         }
                       }}
@@ -427,7 +470,11 @@ function Browser({ onLock, token }: { onLock: () => void; token: string }) {
                     </button>
                   )}
 
-                  <div className="mt-3 flex gap-3 text-[0.7rem] text-[var(--muted)] opacity-0 transition group-hover:opacity-100">
+                  <div
+                    className={`mt-3 flex flex-wrap gap-3 text-[0.7rem] text-[var(--muted)] transition group-hover:opacity-100 ${
+                      confirming === `folder:${name}` ? "opacity-100" : "opacity-0"
+                    }`}
+                  >
                     <button
                       className="hover:text-[var(--ink)]"
                       onClick={() => setRenaming(name)}
@@ -435,26 +482,45 @@ function Browser({ onLock, token }: { onLock: () => void; token: string }) {
                     >
                       Rename
                     </button>
-                    <button
-                      className="hover:text-[#a8392a]"
-                      onClick={async () => {
-                        if (
-                          !window.confirm(
-                            `Delete "${name}" and everything inside it?`,
-                          )
-                        ) {
-                          return;
-                        }
+                    {confirming === `folder:${name}` ? (
+                      <>
+                        <button
+                          className="font-medium text-[#a8392a]"
+                          onClick={async () => {
+                            setConfirming(null);
 
-                        await call("/api/frame-x/folder", "DELETE", {
-                          path: [...path, name],
-                        });
-                        await refresh();
-                      }}
-                      type="button"
-                    >
-                      Delete
-                    </button>
+                            try {
+                              await call("/api/frame-x/folder", "DELETE", {
+                                path: [...path, name],
+                              });
+                              await refresh();
+                            } catch (caught) {
+                              setError(
+                                caught instanceof Error ? caught.message : null,
+                              );
+                            }
+                          }}
+                          type="button"
+                        >
+                          Delete it and everything inside
+                        </button>
+                        <button
+                          className="hover:text-[var(--ink)]"
+                          onClick={() => setConfirming(null)}
+                          type="button"
+                        >
+                          Keep
+                        </button>
+                      </>
+                    ) : (
+                      <button
+                        className="hover:text-[#a8392a]"
+                        onClick={() => setConfirming(`folder:${name}`)}
+                        type="button"
+                      >
+                        Delete
+                      </button>
+                    )}
                   </div>
                 </li>
               ))}
@@ -488,23 +554,46 @@ function Browser({ onLock, token }: { onLock: () => void; token: string }) {
                     <span className="truncate text-xs text-[var(--ink-soft)]">
                       {file.name}
                     </span>
-                    <button
-                      aria-label={`Delete ${file.name}`}
-                      className="flex-none text-[var(--muted)] opacity-0 transition hover:text-[#a8392a] group-hover:opacity-100"
-                      onClick={async () => {
-                        if (!window.confirm(`Delete "${file.name}"?`)) {
-                          return;
-                        }
+                    {confirming === `file:${file.name}` ? (
+                      <span className="flex flex-none items-center gap-2 text-[0.7rem]">
+                        <button
+                          className="font-medium text-[#a8392a]"
+                          onClick={async () => {
+                            setConfirming(null);
 
-                        await call("/api/frame-x/file", "DELETE", {
-                          path: [...path, file.name],
-                        });
-                        await refresh();
-                      }}
-                      type="button"
-                    >
-                      <Trash2 aria-hidden="true" className="h-3.5 w-3.5" />
-                    </button>
+                            try {
+                              await call("/api/frame-x/file", "DELETE", {
+                                path: [...path, file.name],
+                              });
+                              await refresh();
+                            } catch (caught) {
+                              setError(
+                                caught instanceof Error ? caught.message : null,
+                              );
+                            }
+                          }}
+                          type="button"
+                        >
+                          Delete
+                        </button>
+                        <button
+                          className="text-[var(--muted)] hover:text-[var(--ink)]"
+                          onClick={() => setConfirming(null)}
+                          type="button"
+                        >
+                          Keep
+                        </button>
+                      </span>
+                    ) : (
+                      <button
+                        aria-label={`Delete ${file.name}`}
+                        className="flex-none text-[var(--muted)] opacity-0 transition hover:text-[#a8392a] group-hover:opacity-100"
+                        onClick={() => setConfirming(`file:${file.name}`)}
+                        type="button"
+                      >
+                        <Trash2 aria-hidden="true" className="h-3.5 w-3.5" />
+                      </button>
+                    )}
                   </div>
                 </li>
               ))}
@@ -514,6 +603,19 @@ function Browser({ onLock, token }: { onLock: () => void; token: string }) {
 
         {busy ? (
           <p className="mt-4 text-center text-xs text-[var(--muted)]">{busy}</p>
+        ) : null}
+
+        {error ? (
+          <p className="mt-4 text-center text-xs text-[#a8392a]">
+            {error}{" "}
+            <button
+              className="underline"
+              onClick={() => setError(null)}
+              type="button"
+            >
+              Dismiss
+            </button>
+          </p>
         ) : null}
       </div>
 
