@@ -324,6 +324,58 @@ a {
   will-change: transform, opacity;
 }
 
+/*
+ * The notes look draggable and are not. Trying to drag one tugs it a few
+ * pixels toward the cursor, springs it back on release, and the note says
+ * something. Its own wrapper, because the landing frame and the note surface
+ * are both already animating transforms of their own.
+ */
+.sticky-note-tug {
+  transition: transform 460ms cubic-bezier(0.22, 1.4, 0.4, 1);
+  will-change: transform;
+}
+
+.sticky-note-quip {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  z-index: 3;
+  margin-top: 0.55rem;
+  width: max-content;
+  max-width: 13rem;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: rgb(20 20 22 / 0.9);
+  padding: 0.36rem 0.75rem;
+  color: rgb(253 253 255 / 0.94);
+  font-family: var(--note-hand-font);
+  font-size: 0.8rem;
+  line-height: 1.35;
+  text-align: center;
+  white-space: normal;
+  box-shadow: 0 10px 26px rgb(24 32 43 / 0.22);
+  animation: sticky-note-quip 2.6s ease-out both;
+}
+
+@keyframes sticky-note-quip {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(6px) scale(0.94);
+  }
+  9% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+  82% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-4px) scale(0.98);
+  }
+}
+
 .sticky-note-stick {
   z-index: 1;
   animation: sticky-note-stick-surface var(--land-duration)
@@ -434,5 +486,14 @@ a {
 
   .sticky-note-stick {
     animation: none !important;
+  }
+
+  .sticky-note-tug {
+    transition: none;
+    transform: none !important;
+  }
+
+  .sticky-note-quip {
+    animation: none;
   }
 }
