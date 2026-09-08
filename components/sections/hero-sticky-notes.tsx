@@ -168,9 +168,13 @@ export function HeroStickyNotes() {
   }, []);
 
   return (
+    // Above the hero content column, which is also z-20 and comes later in
+    // the DOM, so notes overlapping it were unreachable. Still below the
+    // z-30 ticker. The container stays pointer-events-none, so only the
+    // notes themselves sit in front of anything.
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 z-20 overflow-hidden"
+      className="pointer-events-none absolute inset-0 z-[25] overflow-hidden"
     >
       {heroNotes.map((note) => {
         const landing = landingProfiles[note.id];
