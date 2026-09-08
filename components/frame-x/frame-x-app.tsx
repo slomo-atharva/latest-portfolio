@@ -129,6 +129,7 @@ function Browser({ onLock, token }: { onLock: () => void; token: string }) {
   const [creating, setCreating] = useState(false);
   const [confirming, setConfirming] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [blocked, setBlocked] = useState<string | null>(null);
   const [slideIndex, setSlideIndex] = useState<number | null>(null);
   const [dragging, setDragging] = useState(false);
   const fileInput = useRef<HTMLInputElement>(null);
@@ -151,6 +152,15 @@ function Browser({ onLock, token }: { onLock: () => void; token: string }) {
       }
 
       const data = await response.json();
+
+      if (!response.ok) {
+        setBlocked(data.error ?? "Storage is unavailable.");
+        setEntries([]);
+
+        return;
+      }
+
+      setBlocked(null);
       setEntries(data.entries ?? []);
     } finally {
       setLoading(false);
@@ -281,7 +291,7 @@ function Browser({ onLock, token }: { onLock: () => void; token: string }) {
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
-            {path.length > 0 ? (
+            {path.length > 0 && !blocked ? (
               <>
                 <button
                   className="inline-flex h-9 items-center gap-1.5 rounded-full border border-[var(--line)] bg-[var(--paper-bright)] px-3.5 text-xs font-medium text-[var(--ink)] transition hover:bg-[var(--line)]"
@@ -302,17 +312,19 @@ function Browser({ onLock, token }: { onLock: () => void; token: string }) {
                 </button>
               </>
             ) : null}
-            <button
-              className="inline-flex h-9 items-center gap-1.5 rounded-full border border-[var(--line)] bg-[var(--paper-bright)] px-3.5 text-xs font-medium text-[var(--ink)] transition hover:bg-[var(--line)]"
-              onClick={() => {
-                setError(null);
-                setCreating(true);
-              }}
-              type="button"
-            >
-              <FolderPlus aria-hidden="true" className="h-3.5 w-3.5" />
-              New folder
-            </button>
+            {blocked ? null : (
+              <button
+                className="inline-flex h-9 items-center gap-1.5 rounded-full border border-[var(--line)] bg-[var(--paper-bright)] px-3.5 text-xs font-medium text-[var(--ink)] transition hover:bg-[var(--line)]"
+                onClick={() => {
+                  setError(null);
+                  setCreating(true);
+                }}
+                type="button"
+              >
+                <FolderPlus aria-hidden="true" className="h-3.5 w-3.5" />
+                New folder
+              </button>
+            )}
             <button
               className="inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-xs text-[var(--muted)] transition hover:text-[var(--ink)]"
               onClick={onLock}
@@ -363,13 +375,24 @@ function Browser({ onLock, token }: { onLock: () => void; token: string }) {
             }
           }}
         >
-          {loading ? (
+          {blocked ? (
+            <div className={`${surface} mx-auto max-w-lg p-6 text-center`}>
+              <p className="text-sm font-medium text-[var(--ink)]">
+                Nowhere to put things yet
+              </p>
+              <p className="mt-2 text-sm leading-6 text-[var(--muted)]">
+                {blocked}
+              </p>
+            </div>
+          ) : null}
+
+          {loading && !blocked ? (
             <p className="py-16 text-center text-sm text-[var(--muted)]">
               Opening
             </p>
           ) : null}
 
-          {!loading && !creating && folders.length === 0 && files.length === 0 ? (
+          {!loading && !blocked && !creating && folders.length === 0 && files.length === 0 ? (
             <p className="py-16 text-center text-sm text-[var(--muted)]">
               {path.length === 0
                 ? "No folders yet. Make one for a project."

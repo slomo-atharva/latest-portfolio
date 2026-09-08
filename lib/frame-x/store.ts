@@ -66,6 +66,17 @@ export function joinPath(segments: string[]): string {
   return [ROOT, ...segments.map(safeSegment)].join("/");
 }
 
+export const NOT_CONFIGURED =
+  "Frame X storage is not connected. Create a Blob store in Vercel with " +
+  "Private access, connect it to this project, then redeploy.";
+
+export function storeIsReady(): boolean {
+  return (
+    Boolean(process.env.BLOB_READ_WRITE_TOKEN ?? process.env.BLOB_STORE_ID) ||
+    !process.env.VERCEL
+  );
+}
+
 let cached: FrameXStore | null = null;
 
 export async function getStore(): Promise<FrameXStore> {
@@ -76,6 +87,13 @@ export async function getStore(): Promise<FrameXStore> {
   const hasBlob = Boolean(
     process.env.BLOB_READ_WRITE_TOKEN ?? process.env.BLOB_STORE_ID,
   );
+
+  // The filesystem adapter is a development convenience. On Vercel the runtime
+  // filesystem is read only, so falling back to it produced an ENOENT on mkdir
+  // rather than saying the store was never connected.
+  if (!hasBlob && process.env.VERCEL) {
+    throw new Error(NOT_CONFIGURED);
+  }
 
   cached = hasBlob
     ? (await import("./store-blob")).blobStore
