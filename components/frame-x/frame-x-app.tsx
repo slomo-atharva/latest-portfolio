@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 
 import { AuthedImage } from "./authed-image";
+import { prepareForUpload } from "./prepare-upload";
 import { Presenter, type PresenterSlide } from "./presenter";
 
 type Entry = {
@@ -41,6 +42,7 @@ export function FrameXApp() {
 function Lockscreen({ onUnlock }: { onUnlock: (token: string) => void }) {
   const [value, setValue] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
   return (
@@ -129,6 +131,7 @@ function Browser({ onLock, token }: { onLock: () => void; token: string }) {
   const [creating, setCreating] = useState(false);
   const [confirming, setConfirming] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
   const [blocked, setBlocked] = useState<string | null>(null);
   const [order, setOrder] = useState<Record<string, string[]>>({});
   const [dragFrom, setDragFrom] = useState<number | null>(null);
@@ -259,12 +262,22 @@ function Browser({ onLock, token }: { onLock: () => void; token: string }) {
       const queue = Array.from(list);
       const skipped: string[] = [];
       let done = 0;
+      let resizedCount = 0;
 
       setError(null);
+      setNotice(null);
 
       try {
-        for (const file of queue) {
+        for (const original of queue) {
           setBusy(`Uploading ${done + 1} of ${queue.length}`);
+
+          // Shrink oversized exports here rather than letting the platform
+          // reject the request before it reaches the route.
+          const { file, resized } = await prepareForUpload(original);
+
+          if (resized) {
+            resizedCount += 1;
+          }
 
           const form = new FormData();
           form.append("folder", here);
@@ -283,7 +296,7 @@ function Browser({ onLock, token }: { onLock: () => void; token: string }) {
           }
 
           if (response.status === 413) {
-            skipped.push(`${file.name} (too large to send)`);
+            skipped.push(`${original.name} (too large even after resizing)`);
             done += 1;
             continue;
           }
@@ -291,7 +304,7 @@ function Browser({ onLock, token }: { onLock: () => void; token: string }) {
           const data = await response.json().catch(() => null);
 
           if (!response.ok) {
-            throw new Error(data?.error ?? `Could not upload ${file.name}`);
+            throw new Error(data?.error ?? `Could not upload ${original.name}`);
           }
 
           for (const item of data?.skipped ?? []) {
@@ -310,6 +323,12 @@ function Browser({ onLock, token }: { onLock: () => void; token: string }) {
 
         if (skipped.length) {
           setError(`Skipped ${skipped.length}: ${skipped.join(", ")}`);
+        } else if (resizedCount) {
+          setNotice(
+            `${resizedCount} oversized ${
+              resizedCount === 1 ? "screen was" : "screens were"
+            } resized to fit. They are still full width for a presentation.`,
+          );
         }
       }
     },
@@ -749,6 +768,19 @@ function Browser({ onLock, token }: { onLock: () => void; token: string }) {
 
         {busy ? (
           <p className="mt-4 text-center text-xs text-[var(--muted)]">{busy}</p>
+        ) : null}
+
+        {notice ? (
+          <p className="mt-4 text-center text-xs text-[var(--muted)]">
+            {notice}{" "}
+            <button
+              className="underline"
+              onClick={() => setNotice(null)}
+              type="button"
+            >
+              Dismiss
+            </button>
+          </p>
         ) : null}
 
         {error ? (
